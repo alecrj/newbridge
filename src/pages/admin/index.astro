@@ -1,97 +1,78 @@
 ---
-// src/pages/admin/index.astro - Secure Admin Dashboard
+// src/pages/admin/index.astro - Fixed version
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-// Get actual data from CMS
-const facilities = await getCollection('facilities').catch(() => []);
+// Get CRM data (would come from real database in production)
 const residents = await getCollection('residents').catch(() => []);
-const staff = await getCollection('staff').catch(() => []);
 const leads = await getCollection('leads').catch(() => []);
+const staff = await getCollection('staff').catch(() => []);
+const facilities = await getCollection('facilities').catch(() => []);
 
-// Calculate real stats
-const totalFacilities = facilities.length;
+// Calculate key metrics for dashboard
 const totalResidents = residents.length;
-const activeStaff = staff.length;
-const newLeads = leads.filter(lead => lead.data.status === 'new').length;
-const occupancyRate = Math.round((totalResidents / (facilities.reduce((acc, f) => acc + f.data.capacity, 0) || 1)) * 100);
+const totalBeds = facilities.reduce((sum, facility) => sum + (facility.data?.capacity || 0), 0);
+const occupancyRate = totalBeds > 0 ? Math.round((totalResidents / totalBeds) * 100) : 0;
 
-// Get current date for professional display
-const currentDate = new Date().toLocaleDateString('en-US', { 
-  weekday: 'long', 
-  year: 'numeric', 
-  month: 'long', 
-  day: 'numeric' 
-});
+// Fixed: Use lowercase status values to match schema
+const newLeads = leads.filter(lead => lead.data?.status === 'new').length;
+const activeStaff = staff.filter(member => member.data?.active === true).length;
+
+// Revenue calculation (mock data for now)
+const monthlyRevenue = residents.reduce((sum, resident) => sum + (resident.data?.monthlyRent || 0), 0);
 ---
 
-<BaseLayout title="CRM Dashboard | NewBridge Living">
-  <!-- Import Authentication Guard -->
-  <div id="admin-auth-required">
-    <!-- This will be replaced by the auth component -->
-    <div class="fixed inset-0 bg-emerald-900 z-50 flex items-center justify-center">
-      <div class="text-center">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-        <h2 class="text-xl font-semibold text-white mb-2">🔒 Verifying Access</h2>
-        <p class="text-emerald-200">Checking credentials for NewBridge Living CRM...</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Professional CRM Header -->
-  <section class="bg-gradient-to-r from-emerald-900 to-emerald-800 py-8">
+<BaseLayout title="Admin Dashboard | NewBridge Living CRM">
+  <!-- CRM Header -->
+  <section class="bg-gradient-to-r from-emerald-900 to-emerald-800 py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-3xl font-bold text-white">NewBridge Living CRM</h1>
-          <p class="text-emerald-200 mt-2">{currentDate}</p>
+          <h1 class="text-4xl font-bold text-white mb-2">NewBridge Living CRM</h1>
+          <p class="text-emerald-200 text-lg">Complete management system for sober living operations</p>
         </div>
-        <div class="flex items-center space-x-4">
-          <button 
-            id="logout-btn"
-            class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 flex items-center text-sm"
-          >
-            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
-            </svg>
-            Logout
-          </button>
+        <div class="hidden md:block">
+          <div class="bg-emerald-600 rounded-2xl p-6 text-center">
+            <div class="text-3xl font-bold text-white">{occupancyRate}%</div>
+            <div class="text-emerald-100 text-sm">Occupancy Rate</div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Real-Time Dashboard Stats -->
-  <section class="bg-white py-8 border-b">
+  <!-- Key Metrics Dashboard -->
+  <section class="bg-white py-12 border-b">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <!-- Total Facilities -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        
+        <!-- Total Residents -->
         <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 border border-blue-200/50">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-blue-600 font-semibold text-sm uppercase tracking-wide">Facilities</p>
-              <p class="text-3xl font-bold text-blue-700">{totalFacilities}</p>
-              <p class="text-blue-600 text-sm">Active locations</p>
+              <p class="text-blue-600 font-semibold text-sm uppercase tracking-wide">Current Residents</p>
+              <p class="text-3xl font-bold text-blue-700">{totalResidents}</p>
+              <p class="text-blue-600 text-sm">Active placements</p>
             </div>
             <div class="bg-blue-500 rounded-full p-3">
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
               </svg>
             </div>
           </div>
         </div>
 
-        <!-- Current Residents -->
+        <!-- Monthly Revenue -->
         <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-6 border border-green-200/50">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-green-600 font-semibold text-sm uppercase tracking-wide">Residents</p>
-              <p class="text-3xl font-bold text-green-700">{totalResidents}</p>
-              <p class="text-green-600 text-sm">{occupancyRate}% occupancy</p>
+              <p class="text-green-600 font-semibold text-sm uppercase tracking-wide">Monthly Revenue</p>
+              <p class="text-3xl font-bold text-green-700">${monthlyRevenue.toLocaleString()}</p>
+              <p class="text-green-600 text-sm">Projected income</p>
             </div>
             <div class="bg-green-500 rounded-full p-3">
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
               </svg>
             </div>
           </div>
@@ -108,6 +89,22 @@ const currentDate = new Date().toLocaleDateString('en-US', {
             <div class="bg-purple-500 rounded-full p-3">
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Available Beds -->
+        <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-6 border border-orange-200/50">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-orange-600 font-semibold text-sm uppercase tracking-wide">Available Beds</p>
+              <p class="text-3xl font-bold text-orange-700">{totalBeds - totalResidents}</p>
+              <p class="text-orange-600 text-sm">Open capacity</p>
+            </div>
+            <div class="bg-orange-500 rounded-full p-3">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m2 0h3M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
               </svg>
             </div>
           </div>
@@ -141,70 +138,89 @@ const currentDate = new Date().toLocaleDateString('en-US', {
           <h2 class="text-2xl font-bold text-gray-900 mb-6">CRM Functions</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
-            <!-- Leads Management -->
-            <a href="/admin/leads" class="group bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300">
+            <!-- Residents Management -->
+            <a href="/admin/residents" class="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 border border-gray-100">
               <div class="flex items-center justify-between mb-4">
-                <div class="bg-blue-500 rounded-lg p-3">
-                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-emerald-100 rounded-full p-3 group-hover:bg-emerald-200 transition-colors duration-300">
+                  <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                  </svg>
+                </div>
+                <span class="text-2xl font-bold text-gray-900">{totalResidents}</span>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">Residents</h3>
+              <p class="text-gray-600 text-sm">Drug tests, compliance, case notes, progress tracking</p>
+            </a>
+
+            <!-- Leads Management -->
+            <a href="/admin/leads" class="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 border border-gray-100">
+              <div class="flex items-center justify-between mb-4">
+                <div class="bg-blue-100 rounded-full p-3 group-hover:bg-blue-200 transition-colors duration-300">
+                  <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                   </svg>
                 </div>
-                <svg class="w-5 h-5 text-gray-400 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
+                <span class="text-2xl font-bold text-gray-900">{newLeads}</span>
               </div>
-              <h3 class="text-lg font-semibold text-gray-900 mb-2">Leads Management</h3>
-              <p class="text-gray-600 text-sm">Track inquiries, schedule assessments, manage admissions pipeline</p>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">Leads</h3>
+              <p class="text-gray-600 text-sm">Inquiries, admissions, follow-ups, conversion tracking</p>
             </a>
 
-            <!-- Residents Dashboard -->
-            <a href="/admin/residents" class="group bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300">
+            <!-- Staff Management -->
+            <a href="/admin/staff" class="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 border border-gray-100">
               <div class="flex items-center justify-between mb-4">
-                <div class="bg-green-500 rounded-lg p-3">
-                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-purple-100 rounded-full p-3 group-hover:bg-purple-200 transition-colors duration-300">
+                  <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
                   </svg>
                 </div>
-                <svg class="w-5 h-5 text-gray-400 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
+                <span class="text-2xl font-bold text-gray-900">{activeStaff}</span>
               </div>
-              <h3 class="text-lg font-semibold text-gray-900 mb-2">Residents</h3>
-              <p class="text-gray-600 text-sm">Daily check-ins, drug tests, compliance tracking, case notes</p>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">Staff</h3>
+              <p class="text-gray-600 text-sm">Roles, permissions, scheduling, performance tracking</p>
             </a>
 
             <!-- Financial Management -->
-            <a href="/admin/financial" class="group bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300">
+            <a href="/admin/financial" class="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 border border-gray-100">
               <div class="flex items-center justify-between mb-4">
-                <div class="bg-yellow-500 rounded-lg p-3">
-                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-green-100 rounded-full p-3 group-hover:bg-green-200 transition-colors duration-300">
+                  <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
                   </svg>
                 </div>
-                <svg class="w-5 h-5 text-gray-400 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
+                <span class="text-2xl font-bold text-gray-900">${Math.round(monthlyRevenue/1000)}K</span>
               </div>
               <h3 class="text-lg font-semibold text-gray-900 mb-2">Financial</h3>
               <p class="text-gray-600 text-sm">Rent tracking, payments, billing, financial reports</p>
             </a>
 
             <!-- Facilities Management -->
-            <a href="/admin/facilities" class="group bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300">
+            <a href="/admin/facilities" class="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 border border-gray-100">
               <div class="flex items-center justify-between mb-4">
-                <div class="bg-purple-500 rounded-lg p-3">
-                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                <div class="bg-orange-100 rounded-full p-3 group-hover:bg-orange-200 transition-colors duration-300">
+                  <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m2 0h3M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                   </svg>
                 </div>
-                <svg class="w-5 h-5 text-gray-400 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
+                <span class="text-2xl font-bold text-gray-900">{facilities.length}</span>
               </div>
               <h3 class="text-lg font-semibold text-gray-900 mb-2">Facilities</h3>
               <p class="text-gray-600 text-sm">Bed assignments, capacity, maintenance, compliance</p>
             </a>
 
+            <!-- Compliance & Reporting -->
+            <a href="/admin/compliance" class="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 border border-gray-100">
+              <div class="flex items-center justify-between mb-4">
+                <div class="bg-red-100 rounded-full p-3 group-hover:bg-red-200 transition-colors duration-300">
+                  <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                  </svg>
+                </div>
+                <span class="text-2xl font-bold text-gray-900">✓</span>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">Compliance</h3>
+              <p class="text-gray-600 text-sm">Audit reports, licensing, regulatory compliance</p>
+            </a>
           </div>
         </div>
 
@@ -253,71 +269,23 @@ const currentDate = new Date().toLocaleDateString('en-US', {
               </div>
             </button>
 
+            <!-- Emergency Contacts -->
+            <div class="bg-red-50 border border-red-200 rounded-xl p-4">
+              <h4 class="font-semibold text-red-800 mb-2">🚨 Emergency Contacts</h4>
+              <div class="space-y-2 text-sm">
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Crisis Line:</span>
+                  <a href="tel:988" class="text-red-600 font-semibold">988</a>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Main Office:</span>
+                  <a href="tel:+1-850-555-0123" class="text-red-600 font-semibold">(850) 555-0123</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 </BaseLayout>
-
-<script>
-// Authentication and security implementation
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize authentication
-  initializeAuth();
-  
-  // Setup logout functionality
-  document.getElementById('logout-btn')?.addEventListener('click', function() {
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.logout();
-    }
-  });
-});
-
-function initializeAuth() {
-  // Load Netlify Identity if not already loaded
-  if (typeof window.netlifyIdentity === 'undefined') {
-    const script = document.createElement('script');
-    script.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
-    script.onload = checkAuth;
-    document.head.appendChild(script);
-  } else {
-    checkAuth();
-  }
-}
-
-function checkAuth() {
-  // Check if user is authenticated
-  const user = window.netlifyIdentity?.currentUser();
-  
-  if (!user) {
-    // Redirect to login
-    window.location.href = '/admin';
-    return;
-  }
-  
-  // Hide auth guard
-  document.getElementById('admin-auth-required')?.remove();
-  
-  // Log access for compliance
-  console.log(`Admin access: ${user.email} at ${new Date().toISOString()}`);
-}
-</script>
-
-<style>
-/* Ensure professional appearance */
-.group:hover {
-  transform: translateY(-2px);
-}
-
-/* Mobile optimizations */
-@media (max-width: 768px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .text-3xl {
-    font-size: 1.875rem;
-  }
-}
-</style>

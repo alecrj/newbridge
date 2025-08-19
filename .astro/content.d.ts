@@ -162,11 +162,37 @@ declare module 'astro:content' {
 	};
 
 	type DataEntryMap = {
-		"caseNotes": Record<string, {
+		"blog": Record<string, {
+  id: string;
+  render(): Render[".md"];
+  slug: string;
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
+"case-notes": Record<string, {
+  id: string;
+  body?: string;
+  collection: "case-notes";
+  data: InferEntrySchema<"case-notes">;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
+"caseNotes": Record<string, {
   id: string;
   body?: string;
   collection: "caseNotes";
-  data: InferEntrySchema<"caseNotes">;
+  data: any;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
+"drug-tests": Record<string, {
+  id: string;
+  body?: string;
+  collection: "drug-tests";
+  data: InferEntrySchema<"drug-tests">;
   rendered?: RenderedContent;
   filePath?: string;
 }>;
@@ -174,7 +200,7 @@ declare module 'astro:content' {
   id: string;
   body?: string;
   collection: "drugTests";
-  data: InferEntrySchema<"drugTests">;
+  data: any;
   rendered?: RenderedContent;
   filePath?: string;
 }>;
@@ -206,7 +232,17 @@ declare module 'astro:content' {
   id: string;
   body?: string;
   collection: "outcomes";
-  data: InferEntrySchema<"outcomes">;
+  data: any;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
+"pages": Record<string, {
+  id: string;
+  render(): Render[".md"];
+  slug: string;
+  body: string;
+  collection: "pages";
+  data: InferEntrySchema<"pages">;
   rendered?: RenderedContent;
   filePath?: string;
 }>;
@@ -223,6 +259,14 @@ declare module 'astro:content' {
   body?: string;
   collection: "residents";
   data: InferEntrySchema<"residents">;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
+"settings": Record<string, {
+  id: string;
+  body?: string;
+  collection: "settings";
+  data: InferEntrySchema<"settings">;
   rendered?: RenderedContent;
   filePath?: string;
 }>;

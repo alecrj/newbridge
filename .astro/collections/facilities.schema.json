@@ -10,38 +10,76 @@
         "slug": {
           "type": "string"
         },
-        "monthlyRent": {
+        "address": {
+          "type": "object",
+          "properties": {
+            "street": {
+              "type": "string"
+            },
+            "city": {
+              "type": "string"
+            },
+            "state": {
+              "type": "string"
+            },
+            "zip": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "street",
+            "city",
+            "state",
+            "zip"
+          ],
+          "additionalProperties": false
+        },
+        "location": {
           "type": "string"
         },
         "capacity": {
           "type": "number"
         },
-        "location": {
+        "currentOccupancy": {
+          "type": "number"
+        },
+        "rentRange": {
           "type": "string"
         },
-        "address": {
-          "type": "string"
+        "monthlyRent": {
+          "type": "number"
         },
         "programs": {
           "type": "array",
           "items": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "Detox",
+              "Residential Treatment",
+              "IOP",
+              "PHP",
+              "MAT",
+              "Counseling",
+              "Life Skills"
+            ]
           }
         },
         "amenities": {
           "type": "array",
           "items": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "Private Rooms",
+              "Shared Rooms",
+              "Kitchen",
+              "Laundry",
+              "Transportation",
+              "Gym",
+              "Pool",
+              "WiFi",
+              "Parking"
+            ]
           }
-        },
-        "images": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "description": {
-          "type": "string"
         },
         "availability": {
           "type": "string",
@@ -55,8 +93,14 @@
           "type": "boolean",
           "default": false
         },
-        "createdAt": {
+        "description": {
           "type": "string"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "metaTitle": {
           "type": "string"
@@ -71,16 +115,17 @@
       "required": [
         "facilityName",
         "slug",
-        "monthlyRent",
-        "capacity",
-        "location",
         "address",
+        "location",
+        "capacity",
+        "currentOccupancy",
+        "rentRange",
+        "monthlyRent",
         "programs",
         "amenities",
-        "images",
-        "description",
         "availability",
-        "createdAt"
+        "description",
+        "images"
       ],
       "additionalProperties": false
     }

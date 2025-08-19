@@ -4,125 +4,74 @@
     "staff": {
       "type": "object",
       "properties": {
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
+        "fullName": {
           "type": "string"
         },
         "email": {
-          "type": "string"
+          "type": "string",
+          "format": "email"
         },
         "phone": {
-          "type": "string"
-        },
-        "address": {
-          "type": "string"
-        },
-        "employeeId": {
           "type": "string"
         },
         "role": {
           "type": "string",
           "enum": [
-            "house-manager",
-            "case-manager",
-            "admin",
-            "clinical",
-            "maintenance",
-            "director"
+            "Administrator",
+            "House Manager",
+            "Case Manager",
+            "Counselor",
+            "Support Staff",
+            "Security"
           ]
         },
-        "department": {
-          "type": "string"
-        },
-        "hireDate": {
-          "type": "string"
-        },
-        "terminationDate": {
-          "type": "string"
-        },
-        "status": {
+        "facilityAssignment": {
           "type": "string",
           "enum": [
-            "active",
-            "inactive",
-            "terminated",
-            "on-leave"
-          ],
-          "default": "active"
+            "All Facilities",
+            "Haven House",
+            "Recovery Villa",
+            "Serenity Manor"
+          ]
         },
-        "facilities": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": []
+        "hireDate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ]
+        },
+        "active": {
+          "type": "boolean",
+          "default": true
         },
         "permissions": {
           "type": "array",
           "items": {
-            "type": "string"
-          },
-          "default": []
+            "type": "string",
+            "enum": [
+              "Resident Management",
+              "Lead Management",
+              "Financial Reports",
+              "Clinical Notes",
+              "User Management",
+              "System Settings"
+            ]
+          }
         },
-        "accessLevel": {
-          "type": "string",
-          "enum": [
-            "basic",
-            "standard",
-            "advanced",
-            "admin"
-          ],
-          "default": "basic"
-        },
-        "shiftType": {
-          "type": "string",
-          "enum": [
-            "day",
-            "evening",
-            "night",
-            "rotating",
-            "on-call"
-          ]
-        },
-        "hoursPerWeek": {
-          "type": "number"
-        },
-        "certifications": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": []
-        },
-        "licenseNumbers": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": []
-        },
-        "backgroundCheckDate": {
+        "profilePhoto": {
           "type": "string"
         },
-        "performanceRating": {
-          "type": "number",
-          "default": 0
-        },
-        "lastReviewDate": {
-          "type": "string"
-        },
-        "nextReviewDate": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "string"
-        },
-        "updatedAt": {
-          "type": "string"
-        },
-        "notes": {
+        "bio": {
           "type": "string"
         },
         "$schema": {
@@ -130,16 +79,13 @@
         }
       },
       "required": [
-        "firstName",
-        "lastName",
+        "fullName",
         "email",
         "phone",
-        "employeeId",
         "role",
-        "department",
+        "facilityAssignment",
         "hireDate",
-        "createdAt",
-        "updatedAt"
+        "permissions"
       ],
       "additionalProperties": false
     }

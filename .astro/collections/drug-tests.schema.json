@@ -1,13 +1,13 @@
 {
-  "$ref": "#/definitions/payments",
+  "$ref": "#/definitions/drug-tests",
   "definitions": {
-    "payments": {
+    "drug-tests": {
       "type": "object",
       "properties": {
         "resident": {
           "type": "string"
         },
-        "paymentDate": {
+        "testDate": {
           "anyOf": [
             {
               "type": "string",
@@ -23,40 +23,41 @@
             }
           ]
         },
-        "amount": {
-          "type": "number"
-        },
-        "paymentMethod": {
+        "testType": {
           "type": "string",
           "enum": [
-            "Cash",
-            "Check",
-            "Credit Card",
-            "ACH/Bank Transfer",
-            "Money Order",
-            "Insurance"
+            "Urine",
+            "Breathalyzer",
+            "Saliva",
+            "Hair"
           ]
         },
-        "paymentType": {
+        "result": {
           "type": "string",
           "enum": [
-            "Rent",
-            "Deposit",
-            "Late Fee",
-            "Damages",
-            "Other"
+            "Pass",
+            "Fail",
+            "Inconclusive",
+            "Refused"
           ]
         },
-        "status": {
-          "type": "string",
-          "enum": [
-            "Completed",
-            "Pending",
-            "Failed",
-            "Refunded"
-          ]
+        "substancesDetected": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "None",
+              "Alcohol",
+              "Marijuana",
+              "Cocaine",
+              "Opiates",
+              "Amphetamines",
+              "Benzodiazepines",
+              "Other"
+            ]
+          }
         },
-        "referenceNumber": {
+        "administeredBy": {
           "type": "string"
         },
         "notes": {
@@ -68,11 +69,10 @@
       },
       "required": [
         "resident",
-        "paymentDate",
-        "amount",
-        "paymentMethod",
-        "paymentType",
-        "status"
+        "testDate",
+        "testType",
+        "result",
+        "administeredBy"
       ],
       "additionalProperties": false
     }

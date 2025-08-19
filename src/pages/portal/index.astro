@@ -1,0 +1,356 @@
+---
+// src/pages/portal/index.astro
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// This would normally check authentication and get user data
+// For demo purposes, we'll use mock data
+const currentResident = {
+  fullName: "Alex Johnson",
+  facility: "Haven House",
+  roomNumber: "204",
+  moveInDate: "2024-10-15",
+  programPhase: "Phase 2 - Stabilization", 
+  sobrietyDate: "2024-09-01",
+  monthlyRent: 850,
+  nextPaymentDue: "2024-12-01",
+  currentBalance: 0,
+  profilePhoto: "/images/default-avatar.jpg"
+};
+
+const upcomingEvents = [
+  { date: "2024-11-25", time: "10:00 AM", event: "Group Therapy Session", location: "Main Hall" },
+  { date: "2024-11-26", time: "2:00 PM", event: "Life Skills Workshop", location: "Conference Room" },
+  { date: "2024-11-27", time: "6:00 PM", event: "House Meeting", location: "Living Room" },
+];
+
+const recentTests = [
+  { date: "2024-11-20", type: "Urine", result: "Pass", administeredBy: "Sarah Williams" },
+  { date: "2024-11-15", type: "Breathalyzer", result: "Pass", administeredBy: "Mike Thompson" },
+  { date: "2024-11-10", type: "Urine", result: "Pass", administeredBy: "Sarah Williams" },
+];
+
+const chores = [
+  { task: "Kitchen Cleanup", assigned: "Mon, Wed, Fri", status: "completed", nextDue: "2024-11-25" },
+  { task: "Bathroom Maintenance", assigned: "Saturday", status: "pending", nextDue: "2024-11-23" },
+  { task: "Common Area Vacuum", assigned: "Tuesday", status: "completed", nextDue: "2024-11-26" },
+];
+---
+
+<BaseLayout title="Resident Portal | NewBridge Living">
+  <!-- Portal Navigation -->
+  <nav class="bg-emerald-800 text-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center">
+          <h1 class="text-xl font-bold">Resident Portal</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <span class="text-emerald-200">Welcome, {currentResident.fullName}</span>
+          <button class="bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-lg transition-colors duration-200">
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Dashboard Content -->
+  <div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Welcome Banner -->
+      <div class="bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-2xl p-8 text-white mb-8">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-3xl font-bold mb-2">Welcome back, {currentResident.fullName}!</h1>
+            <p class="text-emerald-100 text-lg">
+              {currentResident.facility} • Room {currentResident.roomNumber} • {currentResident.programPhase}
+            </p>
+            <p class="text-emerald-200 mt-2">
+              Sober since: {new Date(currentResident.sobrietyDate).toLocaleDateString()} 
+              ({Math.floor((Date.now() - new Date(currentResident.sobrietyDate).getTime()) / (1000 * 60 * 60 * 24))} days)
+            </p>
+          </div>
+          <div class="hidden md:block">
+            <img 
+              src={currentResident.profilePhoto} 
+              alt="Profile" 
+              class="w-24 h-24 rounded-full border-4 border-white/20"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <button class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 text-left">
+          <div class="flex items-center justify-between mb-4">
+            <div class="bg-green-100 rounded-full p-3">
+              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+              </svg>
+            </div>
+            <span class="text-2xl font-bold text-gray-900">${currentResident.currentBalance}</span>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-1">Account Balance</h3>
+          <p class="text-gray-600 text-sm">Next payment due: {new Date(currentResident.nextPaymentDue).toLocaleDateString()}</p>
+        </button>
+
+        <button class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 text-left">
+          <div class="flex items-center justify-between mb-4">
+            <div class="bg-blue-100 rounded-full p-3">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <span class="text-2xl font-bold text-gray-900">{upcomingEvents.length}</span>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-1">Upcoming Events</h3>
+          <p class="text-gray-600 text-sm">Next: {upcomingEvents[0]?.event}</p>
+        </button>
+
+        <button class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 text-left">
+          <div class="flex items-center justify-between mb-4">
+            <div class="bg-purple-100 rounded-full p-3">
+              <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <span class="text-2xl font-bold text-gray-900">{chores.filter(c => c.status === 'completed').length}/{chores.length}</span>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-1">Chores Complete</h3>
+          <p class="text-gray-600 text-sm">This week</p>
+        </button>
+
+        <button class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 text-left">
+          <div class="flex items-center justify-between mb-4">
+            <div class="bg-yellow-100 rounded-full p-3">
+              <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+              </svg>
+            </div>
+            <span class="text-2xl font-bold text-gray-900">2</span>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-1">New Messages</h3>
+          <p class="text-gray-600 text-sm">From staff</p>
+        </button>
+      </div>
+
+      <!-- Main Content Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Left Column -->
+        <div class="lg:col-span-2 space-y-8">
+          
+          <!-- Upcoming Events -->
+          <div class="bg-white rounded-2xl shadow-lg p-8">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-2xl font-bold text-gray-900">Upcoming Events</h2>
+              <a href="/portal/schedule" class="text-emerald-600 hover:text-emerald-700 font-semibold">View All</a>
+            </div>
+            <div class="space-y-4">
+              {upcomingEvents.map((event) => (
+                <div class="flex items-center p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors duration-200">
+                  <div class="bg-emerald-100 rounded-full p-2 mr-4">
+                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                  </div>
+                  <div class="flex-1">
+                    <h3 class="font-semibold text-gray-900">{event.event}</h3>
+                    <p class="text-gray-600 text-sm">{event.location}</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="font-semibold text-gray-900">{new Date(event.date).toLocaleDateString()}</p>
+                    <p class="text-gray-600 text-sm">{event.time}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Recent Drug Tests -->
+          <div class="bg-white rounded-2xl shadow-lg p-8">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-2xl font-bold text-gray-900">Recent Test Results</h2>
+              <a href="/portal/tests" class="text-emerald-600 hover:text-emerald-700 font-semibold">View History</a>
+            </div>
+            <div class="space-y-4">
+              {recentTests.map((test) => (
+                <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl">
+                  <div class="flex items-center">
+                    <div class={`rounded-full p-2 mr-4 ${test.result === 'Pass' ? 'bg-green-100' : 'bg-red-100'}`}>
+                      <svg class={`w-5 h-5 ${test.result === 'Pass' ? 'text-green-600' : 'text-red-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={test.result === 'Pass' ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"}/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 class="font-semibold text-gray-900">{test.type} Test</h3>
+                      <p class="text-gray-600 text-sm">Administered by {test.administeredBy}</p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <span class={`px-3 py-1 rounded-full text-sm font-semibold ${
+                      test.result === 'Pass' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                    }`}>
+                      {test.result}
+                    </span>
+                    <p class="text-gray-600 text-sm mt-1">{new Date(test.date).toLocaleDateString()}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="space-y-8">
+          
+          <!-- Payment Portal -->
+          <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Payment Center</h2>
+            
+            <div class="bg-emerald-50 rounded-xl p-6 mb-6">
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-gray-700 font-semibold">Monthly Rent</span>
+                <span class="text-2xl font-bold text-gray-900">${currentResident.monthlyRent}</span>
+              </div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-gray-700">Current Balance</span>
+                <span class="text-lg font-semibold text-green-600">${currentResident.currentBalance}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-gray-700">Next Due Date</span>
+                <span class="text-gray-900 font-semibold">{new Date(currentResident.nextPaymentDue).toLocaleDateString()}</span>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <button class="w-full bg-emerald-600 text-white py-3 px-4 rounded-xl font-semibold hover:bg-emerald-700 transition-colors duration-200">
+                Pay Rent Online
+              </button>
+              <button class="w-full border border-gray-300 text-gray-700 py-3 px-4 rounded-xl font-semibold hover:bg-gray-50 transition-colors duration-200">
+                View Payment History
+              </button>
+              <button class="w-full border border-gray-300 text-gray-700 py-3 px-4 rounded-xl font-semibold hover:bg-gray-50 transition-colors duration-200">
+                Set Up Autopay
+              </button>
+            </div>
+          </div>
+
+          <!-- Chore Assignments -->
+          <div class="bg-white rounded-2xl shadow-lg p-8">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-2xl font-bold text-gray-900">Chore Assignments</h2>
+              <a href="/portal/chores" class="text-emerald-600 hover:text-emerald-700 font-semibold">View All</a>
+            </div>
+            
+            <div class="space-y-4">
+              {chores.map((chore) => (
+                <div class={`p-4 rounded-xl border-2 ${
+                  chore.status === 'completed' ? 'border-green-200 bg-green-50' : 
+                  'border-yellow-200 bg-yellow-50'
+                }`}>
+                  <div class="flex items-center justify-between mb-2">
+                    <h3 class="font-semibold text-gray-900">{chore.task}</h3>
+                    <span class={`px-2 py-1 rounded-full text-xs font-semibold ${
+                      chore.status === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {chore.status}
+                    </span>
+                  </div>
+                  <p class="text-gray-600 text-sm mb-2">{chore.assigned}</p>
+                  <p class="text-gray-600 text-xs">Next due: {new Date(chore.nextDue).toLocaleDateString()}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Quick Contact -->
+          <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Need Help?</h2>
+            
+            <div class="space-y-4">
+              <button class="w-full flex items-center justify-center bg-emerald-600 text-white py-3 px-4 rounded-xl font-semibold hover:bg-emerald-700 transition-colors duration-200">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                </svg>
+                Message Staff
+              </button>
+              
+              <button class="w-full flex items-center justify-center border border-gray-300 text-gray-700 py-3 px-4 rounded-xl font-semibold hover:bg-gray-50 transition-colors duration-200">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                </svg>
+                Emergency Contact
+              </button>
+              
+              <button class="w-full flex items-center justify-center border border-gray-300 text-gray-700 py-3 px-4 rounded-xl font-semibold hover:bg-gray-50 transition-colors duration-200">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                Request Form
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+// Fixed JavaScript for portal/index.astro - replace the script section
+<script>
+  // Add interactivity for portal features with proper typing
+  document.addEventListener('DOMContentLoaded', function() {
+    // Quick action cards click handlers
+    const quickActionCards = document.querySelectorAll('button[class*="bg-white rounded-xl"]') as NodeListOf<HTMLButtonElement>;
+    
+    quickActionCards.forEach((card: HTMLButtonElement) => {
+      card.addEventListener('click', function(this: HTMLButtonElement) {
+        // Add visual feedback
+        this.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+          this.style.transform = '';
+        }, 150);
+      });
+    });
+
+    // Payment button handlers with proper typing
+    const paymentButtons = document.querySelectorAll('button[class*="bg-emerald-600"], button[class*="border border-gray-300"]') as NodeListOf<HTMLButtonElement>;
+    
+    paymentButtons.forEach((button: HTMLButtonElement) => {
+      button.addEventListener('click', function(this: HTMLButtonElement) {
+        const action = this.textContent?.trim() || '';
+        
+        // Mock different actions
+        switch(action) {
+          case 'Pay Rent Online':
+            alert('Redirecting to secure payment portal...');
+            break;
+          case 'View Payment History':
+            alert('Loading payment history...');
+            break;
+          case 'Set Up Autopay':
+            alert('Opening autopay setup form...');
+            break;
+          case 'Message Staff':
+            alert('Opening messaging interface...');
+            break;
+          case 'Emergency Contact':
+            alert('Calling emergency line...');
+            break;
+          case 'Request Form':
+            alert('Opening request form...');
+            break;
+        }
+      });
+    });
+
+    // Auto-refresh data every 5 minutes (for real-time updates)
+    setInterval(() => {
+      console.log('Auto-refreshing portal data...');
+      // In a real app, this would fetch updated data
+    }, 300000);
+  });
+</script>

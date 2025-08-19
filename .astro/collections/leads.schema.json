@@ -4,125 +4,44 @@
     "leads": {
       "type": "object",
       "properties": {
-        "firstName": {
+        "fullName": {
           "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "dateOfBirth": {
-          "type": "string"
-        },
-        "gender": {
-          "type": "string",
-          "enum": [
-            "male",
-            "female",
-            "non-binary",
-            "prefer-not-to-say"
-          ]
         },
         "phone": {
           "type": "string"
         },
         "email": {
-          "type": "string"
+          "type": "string",
+          "format": "email"
         },
-        "address": {
-          "type": "string"
+        "source": {
+          "type": "string",
+          "enum": [
+            "Website",
+            "Google Ads",
+            "Facebook",
+            "Referral",
+            "Walk-in",
+            "Phone Call",
+            "SEO"
+          ]
         },
-        "city": {
-          "type": "string"
-        },
-        "state": {
-          "type": "string"
-        },
-        "zipCode": {
-          "type": "string"
-        },
-        "emergencyContactName": {
-          "type": "string"
-        },
-        "emergencyContactPhone": {
-          "type": "string"
-        },
-        "emergencyContactRelationship": {
-          "type": "string"
+        "preferredFacility": {
+          "type": "string",
+          "enum": [
+            "Haven House",
+            "Recovery Villa",
+            "Serenity Manor",
+            "Any Available"
+          ]
         },
         "insuranceProvider": {
           "type": "string"
         },
-        "insuranceID": {
-          "type": "string"
-        },
-        "paymentMethod": {
-          "type": "string",
-          "enum": [
-            "insurance",
-            "self-pay",
-            "family",
-            "other"
-          ]
-        },
         "previousTreatment": {
           "type": "string"
         },
-        "currentSobrietyDate": {
-          "type": "string"
-        },
-        "substancesUsed": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": []
-        },
-        "lastUseDate": {
-          "type": "string"
-        },
-        "detoxCompleted": {
-          "type": "boolean",
-          "default": false
-        },
-        "detoxLocation": {
-          "type": "string"
-        },
         "message": {
-          "type": "string"
-        },
-        "currentLiving": {
-          "type": "string"
-        },
-        "transportation": {
-          "type": "boolean",
-          "default": false
-        },
-        "employment": {
-          "type": "string"
-        },
-        "legalIssues": {
-          "type": "boolean",
-          "default": false
-        },
-        "medicalIssues": {
-          "type": "string"
-        },
-        "preferredFacility": {
-          "type": "string"
-        },
-        "preferredProgram": {
-          "type": "string"
-        },
-        "moveInDate": {
-          "type": "string"
-        },
-        "lengthOfStay": {
-          "type": "string"
-        },
-        "source": {
-          "type": "string"
-        },
-        "referredBy": {
           "type": "string"
         },
         "status": {
@@ -131,12 +50,10 @@
             "new",
             "contacted",
             "scheduled",
-            "qualified",
             "admitted",
             "declined",
             "lost"
-          ],
-          "default": "new"
+          ]
         },
         "priority": {
           "type": "string",
@@ -144,53 +61,56 @@
             "high",
             "medium",
             "low"
-          ],
-          "default": "medium"
+          ]
+        },
+        "followUpDate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ]
+        },
+        "assignedStaff": {
+          "type": "string"
         },
         "createdAt": {
-          "type": "string"
-        },
-        "lastContactDate": {
-          "type": "string"
-        },
-        "nextFollowUp": {
-          "type": "string"
-        },
-        "staffAssigned": {
-          "type": "string"
-        },
-        "notes": {
-          "type": "string"
-        },
-        "privateNotes": {
-          "type": "string"
-        },
-        "leadScore": {
-          "type": "number",
-          "default": 0
-        },
-        "conversionProbability": {
-          "type": "number",
-          "default": 50
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ],
+          "default": "2025-08-19T20:55:45.424Z"
         },
         "$schema": {
           "type": "string"
         }
       },
       "required": [
-        "firstName",
-        "lastName",
-        "dateOfBirth",
-        "gender",
+        "fullName",
         "phone",
         "email",
-        "emergencyContactName",
-        "emergencyContactPhone",
-        "emergencyContactRelationship",
-        "paymentMethod",
-        "message",
         "source",
-        "createdAt"
+        "message",
+        "status",
+        "priority"
       ],
       "additionalProperties": false
     }

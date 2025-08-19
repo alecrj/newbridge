@@ -1,0 +1,75 @@
+{
+  "$ref": "#/definitions/settings",
+  "definitions": {
+    "settings": {
+      "type": "object",
+      "properties": {
+        "siteTitle": {
+          "type": "string"
+        },
+        "siteDescription": {
+          "type": "string"
+        },
+        "contactPhone": {
+          "type": "string"
+        },
+        "contactEmail": {
+          "type": "string",
+          "format": "email"
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "street": {
+              "type": "string"
+            },
+            "city": {
+              "type": "string"
+            },
+            "state": {
+              "type": "string"
+            },
+            "zip": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "street",
+            "city",
+            "state",
+            "zip"
+          ],
+          "additionalProperties": false
+        },
+        "socialMedia": {
+          "type": "object",
+          "properties": {
+            "facebook": {
+              "type": "string"
+            },
+            "instagram": {
+              "type": "string"
+            },
+            "linkedin": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "siteTitle",
+        "siteDescription",
+        "contactPhone",
+        "contactEmail",
+        "address",
+        "socialMedia"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

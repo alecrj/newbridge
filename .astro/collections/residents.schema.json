@@ -4,254 +4,116 @@
     "residents": {
       "type": "object",
       "properties": {
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
+        "fullName": {
           "type": "string"
         },
         "dateOfBirth": {
-          "type": "string"
-        },
-        "ssn": {
-          "type": "string"
-        },
-        "photo": {
-          "type": "string"
-        },
-        "gender": {
-          "type": "string",
-          "enum": [
-            "male",
-            "female",
-            "other"
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
           ]
         },
-        "phone": {
+        "moveInDate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ]
+        },
+        "facility": {
+          "type": "string",
+          "enum": [
+            "Haven House",
+            "Recovery Villa",
+            "Serenity Manor"
+          ]
+        },
+        "roomNumber": {
           "type": "string"
         },
-        "email": {
-          "type": "string"
-        },
-        "address": {
-          "type": "string"
-        },
-        "city": {
-          "type": "string"
-        },
-        "state": {
-          "type": "string"
-        },
-        "zipCode": {
-          "type": "string"
-        },
-        "emergencyContact1": {
+        "emergencyContact": {
           "type": "object",
           "properties": {
             "name": {
               "type": "string"
             },
-            "relationship": {
-              "type": "string"
-            },
             "phone": {
               "type": "string"
             },
-            "email": {
+            "relationship": {
               "type": "string"
             }
           },
           "required": [
             "name",
-            "relationship",
-            "phone"
-          ],
-          "additionalProperties": false
-        },
-        "emergencyContact2": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string"
-            },
-            "relationship": {
-              "type": "string"
-            },
-            "phone": {
-              "type": "string"
-            },
-            "email": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "name",
-            "relationship",
-            "phone"
+            "phone",
+            "relationship"
           ],
           "additionalProperties": false
         },
         "insuranceProvider": {
           "type": "string"
         },
-        "insuranceID": {
-          "type": "string"
-        },
-        "policyNumber": {
-          "type": "string"
-        },
-        "groupNumber": {
-          "type": "string"
-        },
-        "admissionDate": {
-          "type": "string"
-        },
-        "expectedDischargeDate": {
-          "type": "string"
-        },
-        "actualDischargeDate": {
-          "type": "string"
-        },
-        "facilityAssigned": {
-          "type": "string"
-        },
-        "bedNumber": {
-          "type": "string"
-        },
-        "roomNumber": {
-          "type": "string"
-        },
         "sobrietyDate": {
-          "type": "string"
-        },
-        "substancesOfConcern": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": []
-        },
-        "previousTreatmentHistory": {
-          "type": "string"
-        },
-        "currentMedications": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": []
-        },
-        "allergies": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": []
-        },
-        "probationOfficer": {
-          "type": "string"
-        },
-        "probationPhone": {
-          "type": "string"
-        },
-        "courtDates": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": []
-        },
-        "legalConditions": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": []
-        },
-        "programType": {
-          "type": "string",
-          "enum": [
-            "standard",
-            "extended",
-            "transitional",
-            "specialized"
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
           ]
         },
-        "phase": {
+        "programPhase": {
           "type": "string",
           "enum": [
-            "phase-1",
-            "phase-2",
-            "phase-3",
-            "graduated"
-          ],
-          "default": "phase-1"
-        },
-        "privileges": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": []
-        },
-        "restrictions": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": []
+            "Phase 1 - Detox",
+            "Phase 2 - Stabilization",
+            "Phase 3 - Independent Living",
+            "Phase 4 - Aftercare"
+          ]
         },
         "monthlyRent": {
           "type": "number"
         },
-        "securityDeposit": {
-          "type": "number"
-        },
-        "paymentMethod": {
-          "type": "string",
-          "enum": [
-            "insurance",
-            "self-pay",
-            "family",
-            "other"
-          ]
-        },
-        "paymentSchedule": {
-          "type": "string",
-          "enum": [
-            "weekly",
-            "bi-weekly",
-            "monthly"
-          ]
-        },
-        "balanceOwed": {
-          "type": "number",
-          "default": 0
-        },
         "status": {
           "type": "string",
           "enum": [
-            "active",
-            "discharged",
-            "violated",
-            "transferred",
-            "medical-leave"
-          ],
-          "default": "active"
+            "Active",
+            "Extended Stay",
+            "Graduated",
+            "Terminated"
+          ]
         },
-        "dischargeReason": {
+        "caseNotes": {
           "type": "string"
         },
-        "createdAt": {
-          "type": "string"
-        },
-        "updatedAt": {
-          "type": "string"
-        },
-        "caseManager": {
-          "type": "string"
-        },
-        "notes": {
+        "profilePhoto": {
           "type": "string"
         },
         "$schema": {
@@ -259,23 +121,16 @@
         }
       },
       "required": [
-        "firstName",
-        "lastName",
+        "fullName",
         "dateOfBirth",
-        "gender",
-        "phone",
-        "email",
-        "emergencyContact1",
-        "admissionDate",
-        "facilityAssigned",
+        "moveInDate",
+        "facility",
+        "roomNumber",
+        "emergencyContact",
         "sobrietyDate",
-        "programType",
+        "programPhase",
         "monthlyRent",
-        "securityDeposit",
-        "paymentMethod",
-        "paymentSchedule",
-        "createdAt",
-        "updatedAt"
+        "status"
       ],
       "additionalProperties": false
     }

@@ -1,0 +1,82 @@
+{
+  "$ref": "#/definitions/case-notes",
+  "definitions": {
+    "case-notes": {
+      "type": "object",
+      "properties": {
+        "resident": {
+          "type": "string"
+        },
+        "date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ]
+        },
+        "noteType": {
+          "type": "string",
+          "enum": [
+            "Clinical",
+            "Behavioral",
+            "Operational",
+            "Incident",
+            "Progress",
+            "Violation"
+          ]
+        },
+        "staffMember": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "actionRequired": {
+          "type": "boolean",
+          "default": false
+        },
+        "followUpDate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ]
+        },
+        "confidential": {
+          "type": "boolean",
+          "default": false
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "resident",
+        "date",
+        "noteType",
+        "staffMember",
+        "content"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
