@@ -1,5 +1,5 @@
 // Simple Service Worker for CMS Offline Support
-const CACHE_NAME = 'warehouse-cms-v1';
+const CACHE_NAME = 'newbridge-cms-v1';
 const urlsToCache = [
   '/admin/',
   '/admin/index.html',
