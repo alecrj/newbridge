@@ -5,8 +5,11 @@ backend:
 media_folder: "public/images/facilities"
 public_folder: "/images/facilities"
 
+# 🏆 NEWBRIDGE LIVING - ENTERPRISE SOBER LIVING CRM
+# Professional-grade resident management system
+
 collections:
-  # Facility Management
+  # 🏠 FACILITIES MANAGEMENT
   - name: "facilities"
     label: "🏠 Facilities"
     label_singular: "Facility"
@@ -15,7 +18,19 @@ collections:
     slug: "{{slug}}"
     extension: "json"
     format: "json"
-    summary: "{{facilityName}} • {{capacity}} beds • {{availability}}"
+    summary: "{{facilityName}} • {{capacity}} beds • {{currentOccupancy}}/{{capacity}} occupied • {{availability}}"
+    sortable_fields: ['facilityName', 'capacity', 'currentOccupancy', 'availability', 'createdAt']
+    
+    view_filters:
+      - label: "🟢 Accepting Residents"
+        field: availability
+        pattern: "accepting"
+      - label: "⭐ Featured Facilities"
+        field: featured
+        pattern: true
+      - label: "🏠 Men's Facilities"
+        field: facilityType
+        pattern: "men"
     
     fields:
       - label: "🏠 Facility Name"
@@ -42,6 +57,22 @@ collections:
         min: 1
         max: 20
         
+      - label: "🛏️ Current Occupancy"
+        name: "currentOccupancy"
+        widget: "number"
+        required: true
+        default: 0
+        min: 0
+        
+      - label: "🏘️ Facility Type"
+        name: "facilityType"
+        widget: "select"
+        options:
+          - {label: "👨 Men Only", value: "men"}
+          - {label: "👩 Women Only", value: "women"}
+          - {label: "🤝 Mixed Gender", value: "mixed"}
+        default: "men"
+        
       - label: "📍 Location"
         name: "location"
         widget: "string"
@@ -53,11 +84,54 @@ collections:
         widget: "string"
         required: true
         
+      - label: "📜 License Number"
+        name: "licenseNumber"
+        widget: "string"
+        required: false
+        hint: "State facility license number"
+        
+      - label: "🔍 Last Inspection"
+        name: "lastInspection"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        
+      - label: "👨‍💼 House Manager"
+        name: "houseManager"
+        widget: "string"
+        required: false
+        hint: "Primary house manager name"
+        
+      - label: "🚨 Emergency Contact"
+        name: "emergencyContact"
+        widget: "string"
+        required: false
+        hint: "Emergency contact phone number"
+        
+      - label: "📅 Age Range"
+        name: "ageRange"
+        widget: "string"
+        default: "18+"
+        hint: "e.g., 18-65, 18+, 25-45"
+        
+      - label: "📊 Average Length of Stay (Days)"
+        name: "lengthOfStayAvg"
+        widget: "number"
+        default: 90
+        min: 30
+        max: 365
+        
       - label: "📋 Programs Offered"
         name: "programs"
         widget: "list"
         required: true
         default: ["Standard Sober Living", "Extended Care Program"]
+        
+      - label: "🎯 Specializations"
+        name: "specializations"
+        widget: "list"
+        required: false
+        hint: "Special populations served (e.g., Veterans, Professionals, Young Adults)"
         
       - label: "✨ Amenities & Services"
         name: "amenities"
@@ -106,7 +180,7 @@ collections:
         required: false
         hint: "Optional description for search engines (150-160 characters)"
 
-  # Resident Inquiries & CRM
+  # 📞 INQUIRY MANAGEMENT & CRM
   - name: "inquiries"
     label: "📞 Resident Inquiries"
     label_singular: "Inquiry"
@@ -115,8 +189,8 @@ collections:
     slug: "{{year}}-{{month}}-{{day}}-{{name}}"
     extension: "json"
     format: "json"
-    summary: "{{name}} • {{status}} • {{createdAt}}"
-    sortable_fields: ['createdAt', 'status', 'priority']
+    summary: "{{name}} • {{status}} • {{priority}} • {{createdAt}} • Score: {{leadScore}}"
+    sortable_fields: ['createdAt', 'status', 'priority', 'leadScore', 'nextFollowUp']
     
     view_filters:
       - label: "🆕 New Inquiries"
@@ -128,12 +202,35 @@ collections:
       - label: "🔥 High Priority"
         field: priority
         pattern: "high"
+      - label: "✅ Qualified Leads"
+        field: status
+        pattern: "qualified"
+      - label: "📅 Follow-up Today"
+        field: nextFollowUp
+        pattern: "2025.*"
     
     fields:
+      # PERSONAL INFORMATION
       - label: "👤 Full Name"
         name: "name"
         widget: "string" 
         required: true
+        
+      - label: "🎂 Age"
+        name: "age"
+        widget: "number"
+        required: false
+        min: 18
+        max: 80
+        
+      - label: "⚧ Gender"
+        name: "gender"
+        widget: "select"
+        required: false
+        options:
+          - {label: "👨 Male", value: "male"}
+          - {label: "👩 Female", value: "female"}
+          - {label: "🤝 Other", value: "other"}
         
       - label: "📱 Phone Number"
         name: "phone"
@@ -145,29 +242,125 @@ collections:
         widget: "string"
         required: true
         
-      - label: "🚨 Emergency Contact"
+      # EMERGENCY CONTACTS
+      - label: "🚨 Emergency Contact Name"
         name: "emergencyContact"
         widget: "string"
         required: false
-        hint: "Name and phone number"
+        hint: "Primary emergency contact"
         
+      - label: "📞 Emergency Contact Phone"
+        name: "emergencyPhone"
+        widget: "string"
+        required: false
+        
+      - label: "👥 Relationship"
+        name: "relationship"
+        widget: "string"
+        required: false
+        hint: "Relationship to emergency contact (parent, spouse, etc.)"
+        
+      # INSURANCE & PAYMENT
       - label: "🏥 Insurance Provider"
         name: "insuranceProvider"
         widget: "string"
         required: false
         
+      - label: "🆔 Insurance ID"
+        name: "insuranceID"
+        widget: "string"
+        required: false
+        
+      - label: "💳 Payment Method"
+        name: "paymentMethod"
+        widget: "select"
+        required: true
+        options:
+          - {label: "🏥 Insurance", value: "insurance"}
+          - {label: "💰 Self Pay", value: "self-pay"}
+          - {label: "👨‍👩‍👧‍👦 Family Pays", value: "family"}
+          - {label: "📋 Other", value: "other"}
+        default: "self-pay"
+        
+      # TREATMENT HISTORY
       - label: "💊 Previous Treatment History"
         name: "previousTreatment"
         widget: "text"
         required: false
         hint: "Brief history of prior treatment/recovery attempts"
         
+      - label: "📅 Current Sobriety Date"
+        name: "currentSobrietyDate"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        hint: "Date of last substance use"
+        
+      - label: "🚫 Substances Used"
+        name: "substancesUsed"
+        widget: "list"
+        required: false
+        hint: "List primary substances of concern"
+        
+      - label: "📅 Last Use Date"
+        name: "lastUseDate"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        
+      - label: "🏥 Detox Completed?"
+        name: "detoxCompleted"
+        widget: "boolean"
+        default: false
+        
+      - label: "🏥 Detox Location"
+        name: "detoxLocation"
+        widget: "string"
+        required: false
+        hint: "Where detox was completed"
+        
+      # CURRENT SITUATION
       - label: "💬 Inquiry Message"
         name: "message"
         widget: "text"
         required: true
         
-      - label: "🏠 Preferred Program"
+      - label: "🏠 Current Living Situation"
+        name: "currentLiving"
+        widget: "string"
+        required: false
+        hint: "Where they're currently staying"
+        
+      - label: "🚗 Has Transportation"
+        name: "transportation"
+        widget: "boolean"
+        default: false
+        
+      - label: "💼 Employment Status"
+        name: "employment"
+        widget: "string"
+        required: false
+        hint: "Current employment situation"
+        
+      - label: "⚖️ Legal Issues"
+        name: "legalIssues"
+        widget: "boolean"
+        default: false
+        
+      - label: "🏥 Medical Issues"
+        name: "medicalIssues"
+        widget: "string"
+        required: false
+        hint: "Any medical conditions or medications"
+        
+      # PREFERENCES
+      - label: "🏠 Preferred Facility"
+        name: "preferredFacility"
+        widget: "string"
+        required: false
+        hint: "Specific facility they're interested in"
+        
+      - label: "📋 Preferred Program"
         name: "preferredProgram"
         widget: "select"
         required: false
@@ -178,6 +371,25 @@ collections:
           - "Not Sure Yet"
         default: "Not Sure Yet"
         
+      - label: "📅 Preferred Move-in Date"
+        name: "moveInDate"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        
+      - label: "⏰ Expected Length of Stay"
+        name: "lengthOfStay"
+        widget: "select"
+        required: false
+        options:
+          - "30 days"
+          - "60 days"
+          - "90 days"
+          - "6 months"
+          - "1 year"
+          - "Unsure"
+        
+      # CRM TRACKING
       - label: "📍 How They Found Us"
         name: "source"
         widget: "select"
@@ -190,7 +402,15 @@ collections:
           - {label: "👨‍💼 Case Manager", value: "case-manager"}
           - {label: "🔍 Google Search", value: "google"}
           - {label: "📱 Social Media", value: "social-media"}
+          - {label: "⚖️ Court/Legal", value: "court"}
+          - {label: "👨‍👩‍👧‍👦 Family/Friend", value: "family"}
         default: "website"
+        
+      - label: "🤝 Referred By"
+        name: "referredBy"
+        widget: "string"
+        required: false
+        hint: "Specific person or organization that referred them"
         
       - label: "📊 Inquiry Status"
         name: "status"
@@ -199,8 +419,10 @@ collections:
           - {label: "🆕 New Inquiry", value: "new"}
           - {label: "📞 Contacted", value: "contacted"}
           - {label: "📅 Assessment Scheduled", value: "scheduled"}
-          - {label: "✅ Admitted", value: "admitted"}
-          - {label: "❌ Not Suitable/Declined", value: "declined"}
+          - {label: "✅ Qualified for Admission", value: "qualified"}
+          - {label: "🏠 Admitted", value: "admitted"}
+          - {label: "❌ Declined/Not Suitable", value: "declined"}
+          - {label: "📉 Lost Contact", value: "lost"}
         default: "new"
         
       - label: "🔥 Priority Level"
@@ -212,6 +434,31 @@ collections:
           - {label: "❄️ Low Priority", value: "low"}
         default: "medium"
         
+      - label: "👨‍💼 Staff Assigned"
+        name: "staffAssigned"
+        widget: "string"
+        required: false
+        hint: "Staff member handling this inquiry"
+        
+      - label: "📈 Lead Score (0-100)"
+        name: "leadScore"
+        widget: "number"
+        required: false
+        default: 0
+        min: 0
+        max: 100
+        hint: "Automated lead scoring (0-100)"
+        
+      - label: "📊 Conversion Probability (%)"
+        name: "conversionProbability"
+        widget: "number"
+        required: false
+        default: 50
+        min: 0
+        max: 100
+        hint: "Likelihood of admission (0-100%)"
+        
+      # TRACKING DATES
       - label: "📅 Inquiry Date"
         name: "createdAt"
         widget: "datetime"
@@ -224,8 +471,1203 @@ collections:
         format: "YYYY-MM-DD"
         required: false
         
-      - label: "📝 Staff Notes"
+      - label: "📅 Next Follow-up Date"
+        name: "nextFollowUp"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        
+      # NOTES
+      - label: "📝 Public Notes"
         name: "notes"
         widget: "text"
         required: false
-        hint: "Internal notes about calls, assessments, bed availability, etc."
+        hint: "Notes visible to all staff"
+        
+      - label: "🔒 Private Notes"
+        name: "privateNotes"
+        widget: "text"
+        required: false
+        hint: "Confidential notes for management only"
+
+  # 👥 RESIDENT MANAGEMENT (New Enterprise Feature)
+  - name: "residents"
+    label: "👥 Current Residents"
+    label_singular: "Resident"
+    folder: "src/content/residents"
+    create: true
+    slug: "{{year}}-{{month}}-{{firstName}}-{{lastName}}"
+    extension: "json"
+    format: "json"
+    summary: "{{firstName}} {{lastName}} • {{facility}} • {{currentStatus}} • Room {{roomNumber}}"
+    sortable_fields: ['lastName', 'facility', 'checkInDate', 'currentStatus', 'balanceOwed']
+    
+    view_filters:
+      - label: "🟢 Active Residents"
+        field: currentStatus
+        pattern: "active"
+      - label: "🏠 Main House"
+        field: facility
+        pattern: "main-house"
+      - label: "💰 Balance Owed"
+        field: balanceOwed
+        pattern: "[1-9].*"
+      - label: "📅 Recent Admissions"
+        field: checkInDate
+        pattern: "2025.*"
+    
+    fields:
+      # PERSONAL INFORMATION
+      - label: "👤 First Name"
+        name: "firstName"
+        widget: "string"
+        required: true
+        
+      - label: "👤 Last Name"  
+        name: "lastName"
+        widget: "string"
+        required: true
+        
+      - label: "🎂 Date of Birth"
+        name: "dateOfBirth"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: true
+        
+      - label: "🆔 Social Security Number"
+        name: "ssn"
+        widget: "string"
+        required: false
+        hint: "Stored encrypted - last 4 digits only recommended"
+        
+      - label: "📸 Photo"
+        name: "photo"
+        widget: "image"
+        required: false
+        
+      - label: "⚧ Gender"
+        name: "gender"
+        widget: "select"
+        required: true
+        options:
+          - {label: "👨 Male", value: "male"}
+          - {label: "👩 Female", value: "female"}
+          - {label: "🤝 Other", value: "other"}
+        
+      # CONTACT INFORMATION
+      - label: "📱 Phone Number"
+        name: "phone"
+        widget: "string"
+        required: true
+        
+      - label: "📧 Email Address"
+        name: "email"
+        widget: "string"
+        required: true
+        
+      - label: "🏠 Previous Address"
+        name: "address"
+        widget: "string"
+        required: false
+        
+      - label: "🏘️ City"
+        name: "city"
+        widget: "string"
+        required: false
+        
+      - label: "🗺️ State"
+        name: "state"
+        widget: "string"
+        required: false
+        
+      - label: "📮 Zip Code"
+        name: "zipCode"
+        widget: "string"
+        required: false
+        
+      # EMERGENCY CONTACTS
+      - label: "🚨 Primary Emergency Contact"
+        name: "emergencyContact1"
+        widget: "object"
+        fields:
+          - {label: "Name", name: "name", widget: "string"}
+          - {label: "Relationship", name: "relationship", widget: "string"}
+          - {label: "Phone", name: "phone", widget: "string"}
+          - {label: "Email", name: "email", widget: "string", required: false}
+        
+      - label: "🚨 Secondary Emergency Contact"
+        name: "emergencyContact2"
+        widget: "object"
+        required: false
+        fields:
+          - {label: "Name", name: "name", widget: "string"}
+          - {label: "Relationship", name: "relationship", widget: "string"}
+          - {label: "Phone", name: "phone", widget: "string"}
+          - {label: "Email", name: "email", widget: "string", required: false}
+        
+      # INSURANCE
+      - label: "🏥 Insurance Provider"
+        name: "insuranceProvider"
+        widget: "string"
+        required: false
+        
+      - label: "🆔 Insurance ID"
+        name: "insuranceID"
+        widget: "string"
+        required: false
+        
+      - label: "👥 Group Number"
+        name: "groupNumber"
+        widget: "string"
+        required: false
+        
+      - label: "📋 Subscriber Name"
+        name: "subscriberName"
+        widget: "string"
+        required: false
+        
+      # RESIDENCY
+      - label: "🏠 Facility"
+        name: "facility"
+        widget: "string"
+        required: true
+        hint: "Reference to facility slug"
+        
+      - label: "🚪 Room Number"
+        name: "roomNumber"
+        widget: "string"
+        required: false
+        
+      - label: "🛏️ Bed Assignment"
+        name: "bedAssignment"
+        widget: "string"
+        required: false
+        
+      - label: "📅 Check-in Date"
+        name: "checkInDate"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: true
+        
+      - label: "📅 Expected Check-out Date"
+        name: "expectedCheckOutDate"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        
+      - label: "📅 Actual Check-out Date"
+        name: "actualCheckOutDate"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        
+      - label: "⏰ Length of Stay (Days)"
+        name: "lengthOfStay"
+        widget: "number"
+        default: 90
+        min: 1
+        max: 1095
+        
+      # STATUS
+      - label: "📊 Current Status"
+        name: "currentStatus"
+        widget: "select"
+        required: true
+        options:
+          - {label: "🟢 Active", value: "active"}
+          - {label: "✅ Discharged", value: "discharged"}
+          - {label: "❌ AWOL", value: "awol"}
+          - {label: "⏸️ Suspended", value: "suspended"}
+          - {label: "🔄 Transferred", value: "transferred"}
+        default: "active"
+        
+      - label: "📝 Discharge Reason"
+        name: "dischargeReason"
+        widget: "string"
+        required: false
+        
+      - label: "📋 Discharge Type"
+        name: "dischargeType"
+        widget: "select"
+        required: false
+        options:
+          - {label: "✅ Successful Completion", value: "successful"}
+          - {label: "⚠️ Against Medical Advice", value: "against-advice"}
+          - {label: "❌ Rule Violation", value: "violation"}
+          - {label: "🏥 Medical", value: "medical"}
+          - {label: "📋 Other", value: "other"}
+        
+      # RECOVERY INFORMATION
+      - label: "📅 Sobriety Date"
+        name: "sobrietyDate"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        
+      - label: "🚫 Substance History"
+        name: "substanceHistory"
+        widget: "list"
+        required: false
+        
+      - label: "💊 Treatment History"
+        name: "treatmentHistory"
+        widget: "text"
+        required: false
+        
+      - label: "💊 Current Medications"
+        name: "medications"
+        widget: "list"
+        required: false
+        
+      - label: "⚠️ Allergies"
+        name: "allergies"
+        widget: "list"
+        required: false
+        
+      - label: "🏥 Medical Conditions"
+        name: "medicalConditions"
+        widget: "list"
+        required: false
+        
+      # PROGRAM PARTICIPATION
+      - label: "📋 Program"
+        name: "program"
+        widget: "string"
+        required: true
+        
+      - label: "📅 Meetings Required (Per Week)"
+        name: "meetingsRequired"
+        widget: "number"
+        default: 7
+        min: 0
+        max: 21
+        
+      - label: "✅ Meetings Attended"
+        name: "meetingsAttended"
+        widget: "number"
+        default: 0
+        min: 0
+        
+      - label: "🤝 Sponsor"
+        name: "sponsor"
+        widget: "string"
+        required: false
+        
+      - label: "📞 Sponsor Contact"
+        name: "sponsorContact"
+        widget: "string"
+        required: false
+        
+      - label: "🏠 Home Group"
+        name: "homeGroup"
+        widget: "string"
+        required: false
+        
+      # EMPLOYMENT
+      - label: "💼 Employment Status"
+        name: "employmentStatus"
+        widget: "select"
+        required: false
+        options:
+          - {label: "✅ Employed", value: "employed"}
+          - {label: "❌ Unemployed", value: "unemployed"}
+          - {label: "📚 Student", value: "student"}
+          - {label: "♿ Disabled", value: "disabled"}
+          - {label: "🏖️ Retired", value: "retired"}
+        
+      - label: "🏢 Employer"
+        name: "employer"
+        widget: "string"
+        required: false
+        
+      - label: "💼 Job Title"
+        name: "jobTitle"
+        widget: "string"
+        required: false
+        
+      - label: "📞 Work Phone"
+        name: "workPhone"
+        widget: "string"
+        required: false
+        
+      - label: "🎓 Education"
+        name: "education"
+        widget: "string"
+        required: false
+        
+      # FINANCIAL
+      - label: "💰 Monthly Rent"
+        name: "monthlyRent"
+        widget: "number"
+        required: true
+        min: 0
+        
+      - label: "🏦 Security Deposit"
+        name: "securityDeposit"
+        widget: "number"
+        default: 0
+        min: 0
+        
+      - label: "💳 Balance Owed"
+        name: "balanceOwed"
+        widget: "number"
+        default: 0
+        
+      - label: "💳 Payment Method"
+        name: "paymentMethod"
+        widget: "select"
+        required: true
+        options:
+          - {label: "💵 Cash", value: "cash"}
+          - {label: "📝 Check", value: "check"}
+          - {label: "💳 Card", value: "card"}
+          - {label: "🏥 Insurance", value: "insurance"}
+          - {label: "👨‍👩‍👧‍👦 Family", value: "family"}
+        default: "cash"
+        
+      - label: "📅 Payment Schedule"
+        name: "paymentSchedule"
+        widget: "select"
+        required: true
+        options:
+          - {label: "📅 Weekly", value: "weekly"}
+          - {label: "📅 Monthly", value: "monthly"}
+          - {label: "📋 Other", value: "other"}
+        default: "monthly"
+        
+      # LEGAL
+      - label: "⚖️ Legal Issues"
+        name: "legalIssues"
+        widget: "boolean"
+        default: false
+        
+      - label: "👨‍💼 Probation Officer"
+        name: "probationOfficer"
+        widget: "string"
+        required: false
+        
+      - label: "📅 Court Dates"
+        name: "courtDates"
+        widget: "list"
+        required: false
+        
+      - label: "⚖️ Legal Notes"
+        name: "legalNotes"
+        widget: "text"
+        required: false
+        
+      # CASE MANAGEMENT
+      - label: "👨‍💼 Case Manager"
+        name: "caseManager"
+        widget: "string"
+        required: false
+        
+      - label: "📋 Treatment Plan"
+        name: "treatmentPlan"
+        widget: "text"
+        required: false
+        
+      - label: "🎯 Goals"
+        name: "goals"
+        widget: "list"
+        required: false
+        
+      - label: "📅 Last Assessment"
+        name: "lastAssessment"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        
+      - label: "📅 Next Assessment"
+        name: "nextAssessment"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        
+      # PERMISSIONS
+      - label: "📸 Photo Permission"
+        name: "photoPermission"
+        widget: "boolean"
+        default: false
+        
+      - label: "📺 Media Permission"
+        name: "mediaPermission"
+        widget: "boolean"
+        default: false
+        
+      - label: "👨‍👩‍👧‍👦 Family Contact Permission"
+        name: "familyContactPermission"
+        widget: "boolean"
+        default: true
+        
+      # SYSTEM FIELDS
+      - label: "📅 Created Date"
+        name: "createdAt"
+        widget: "datetime"
+        format: "YYYY-MM-DD HH:mm"
+        required: true
+        
+      - label: "📅 Updated Date"
+        name: "updatedAt"
+        widget: "datetime"
+        format: "YYYY-MM-DD HH:mm"
+        required: true
+        
+      - label: "👨‍💼 Created By"
+        name: "createdBy"
+        widget: "string"
+        required: true
+        
+      - label: "👨‍💼 Last Modified By"
+        name: "lastModifiedBy"
+        widget: "string"
+        required: true
+        
+      # NOTES
+      - label: "📝 Admission Notes"
+        name: "admissionNotes"
+        widget: "text"
+        required: false
+        
+      - label: "🧠 Behavioral Notes"
+        name: "behavioralNotes"
+        widget: "text"
+        required: false
+        
+      - label: "🏥 Medical Notes"
+        name: "medicalNotes"
+        widget: "text"
+        required: false
+        
+      - label: "📈 Progress Notes"
+        name: "progressNotes"
+        widget: "text"
+        required: false
+
+  # 💰 PAYMENTS & BILLING (New)
+  - name: "payments"
+    label: "💰 Payments & Billing"
+    label_singular: "Payment"
+    folder: "src/content/payments"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{resident}}-{{paymentType}}"
+    extension: "json"
+    format: "json"
+    summary: "{{resident}} • ${{amount}} • {{paymentType}} • {{status}} • {{paymentDate}}"
+    sortable_fields: ['paymentDate', 'amount', 'status', 'resident', 'dueDate']
+    
+    view_filters:
+      - label: "✅ Completed Payments"
+        field: status
+        pattern: "completed"
+      - label: "⏳ Pending Payments"
+        field: status
+        pattern: "pending"
+      - label: "❌ Failed Payments"
+        field: status
+        pattern: "failed"
+      - label: "💰 Rent Payments"
+        field: paymentType
+        pattern: "rent"
+      - label: "📅 This Month"
+        field: paymentDate
+        pattern: "2025-08.*"
+    
+    fields:
+      - label: "👥 Resident"
+        name: "resident"
+        widget: "string"
+        required: true
+        hint: "Resident name or ID"
+        
+      - label: "💰 Amount"
+        name: "amount"
+        widget: "number"
+        required: true
+        step: 0.01
+        min: 0
+        
+      - label: "📅 Payment Date"
+        name: "paymentDate"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: true
+        
+      - label: "📅 Due Date"
+        name: "dueDate"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: true
+        
+      - label: "💳 Payment Method"
+        name: "paymentMethod"
+        widget: "select"
+        required: true
+        options:
+          - {label: "💵 Cash", value: "cash"}
+          - {label: "📝 Check", value: "check"}
+          - {label: "💳 Credit/Debit Card", value: "card"}
+          - {label: "🏦 Bank Transfer", value: "bank-transfer"}
+          - {label: "🏥 Insurance", value: "insurance"}
+          - {label: "💰 Money Order", value: "money-order"}
+        
+      - label: "📋 Payment Type"
+        name: "paymentType"
+        widget: "select"
+        required: true
+        options:
+          - {label: "🏠 Rent", value: "rent"}
+          - {label: "🏦 Security Deposit", value: "security-deposit"}
+          - {label: "📋 Fees", value: "fees"}
+          - {label: "⚡ Utilities", value: "utilities"}
+          - {label: "📋 Other", value: "other"}
+        
+      - label: "📊 Status"
+        name: "status"
+        widget: "select"
+        required: true
+        options:
+          - {label: "⏳ Pending", value: "pending"}
+          - {label: "✅ Completed", value: "completed"}
+          - {label: "❌ Failed", value: "failed"}
+          - {label: "💸 Refunded", value: "refunded"}
+          - {label: "🔄 Partial", value: "partial"}
+        default: "pending"
+        
+      - label: "📝 Check Number"
+        name: "checkNumber"
+        widget: "string"
+        required: false
+        
+      - label: "🔢 Reference Number"
+        name: "referenceNumber"
+        widget: "string"
+        required: false
+        
+      - label: "📄 Receipt Number"
+        name: "receiptNumber"
+        widget: "string"
+        required: false
+        
+      - label: "👨‍💼 Recorded By"
+        name: "recordedBy"
+        widget: "string"
+        required: true
+        
+      - label: "📅 Recorded At"
+        name: "recordedAt"
+        widget: "datetime"
+        format: "YYYY-MM-DD HH:mm"
+        required: true
+        
+      - label: "📝 Notes"
+        name: "notes"
+        widget: "text"
+        required: false
+        
+      - label: "📅 Period Start"
+        name: "periodStart"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        hint: "For recurring payments like rent"
+        
+      - label: "📅 Period End"
+        name: "periodEnd"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        
+      - label: "⏰ Late Fee"
+        name: "lateFee"
+        widget: "number"
+        default: 0
+        step: 0.01
+        min: 0
+        
+      - label: "💳 Processing Fee"
+        name: "processingFee"
+        widget: "number"
+        default: 0
+        step: 0.01
+        min: 0
+        
+      - label: "💰 Total Amount"
+        name: "totalAmount"
+        widget: "number"
+        required: true
+        step: 0.01
+        min: 0
+
+  # 📝 CASE NOTES & DOCUMENTATION (New)
+  - name: "caseNotes"
+    label: "📝 Case Notes"
+    label_singular: "Case Note"
+    folder: "src/content/case-notes"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{resident}}-{{noteType}}"
+    extension: "json"
+    format: "json"
+    summary: "{{resident}} • {{title}} • {{noteType}} • {{urgency}} • {{noteDate}}"
+    sortable_fields: ['noteDate', 'urgency', 'noteType', 'resident', 'followUpDate']
+    
+    view_filters:
+      - label: "🔥 High Urgency"
+        field: urgency
+        pattern: "high"
+      - label: "🚨 Critical"
+        field: urgency
+        pattern: "critical"
+      - label: "📋 Daily Notes"
+        field: noteType
+        pattern: "daily"
+      - label: "🚨 Incident Reports"
+        field: noteType
+        pattern: "incident"
+      - label: "📅 Follow-up Required"
+        field: followUpRequired
+        pattern: true
+    
+    fields:
+      - label: "👥 Resident"
+        name: "resident"
+        widget: "string"
+        required: true
+        hint: "Resident name or ID"
+        
+      - label: "👨‍💼 Staff Member"
+        name: "staffMember"
+        widget: "string"
+        required: true
+        
+      - label: "📅 Note Date"
+        name: "noteDate"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: true
+        
+      - label: "⏰ Note Time"
+        name: "noteTime"
+        widget: "datetime"
+        format: "HH:mm"
+        required: true
+        
+      - label: "📋 Note Type"
+        name: "noteType"
+        widget: "select"
+        required: true
+        options:
+          - {label: "📅 Daily Note", value: "daily"}
+          - {label: "🚨 Incident Report", value: "incident"}
+          - {label: "🏥 Medical Note", value: "medical"}
+          - {label: "👨‍👩‍👧‍👦 Family Contact", value: "family"}
+          - {label: "📈 Progress Note", value: "progress"}
+          - {label: "🧠 Behavioral Note", value: "behavioral"}
+          - {label: "👥 Meeting Note", value: "meeting"}
+          - {label: "📞 Phone Call", value: "phone-call"}
+          - {label: "📊 Assessment", value: "assessment"}
+        
+      - label: "🚨 Urgency Level"
+        name: "urgency"
+        widget: "select"
+        required: true
+        options:
+          - {label: "❄️ Low", value: "low"}
+          - {label: "🟡 Medium", value: "medium"}
+          - {label: "🔥 High", value: "high"}
+          - {label: "🚨 Critical", value: "critical"}
+        default: "medium"
+        
+      - label: "🔒 Confidential"
+        name: "confidential"
+        widget: "boolean"
+        default: false
+        hint: "Check if this note contains sensitive information"
+        
+      - label: "📝 Title"
+        name: "title"
+        widget: "string"
+        required: true
+        hint: "Brief summary of the note"
+        
+      - label: "📄 Content"
+        name: "content"
+        widget: "text"
+        required: true
+        
+      - label: "✅ Action Items"
+        name: "actionItems"
+        widget: "list"
+        required: false
+        
+      - label: "📅 Follow-up Required"
+        name: "followUpRequired"
+        widget: "boolean"
+        default: false
+        
+      - label: "📅 Follow-up Date"
+        name: "followUpDate"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        
+      - label: "👨‍💼 Follow-up With"
+        name: "followUpWith"
+        widget: "string"
+        required: false
+        
+      - label: "🏷️ Categories"
+        name: "categories"
+        widget: "list"
+        required: false
+        
+      - label: "🏷️ Tags"
+        name: "tags"
+        widget: "list"
+        required: false
+        
+      - label: "👁️ Witnessed"
+        name: "witnessed"
+        widget: "boolean"
+        default: false
+        
+      - label: "👤 Witness Name"
+        name: "witnessName"
+        widget: "string"
+        required: false
+        
+      # INCIDENT SPECIFIC FIELDS
+      - label: "⚠️ Incident Severity"
+        name: "incidentSeverity"
+        widget: "select"
+        required: false
+        options:
+          - {label: "🟢 Minor", value: "minor"}
+          - {label: "🟡 Moderate", value: "moderate"}
+          - {label: "🔴 Major", value: "major"}
+          - {label: "🚨 Critical", value: "critical"}
+        
+      - label: "👮 Police Involved"
+        name: "policeInvolved"
+        widget: "boolean"
+        default: false
+        
+      - label: "👨‍👩‍👧‍👦 Family Notified"
+        name: "familyNotified"
+        widget: "boolean"
+        default: false
+        
+      - label: "💊 Medication Related"
+        name: "medicationRelated"
+        widget: "boolean"
+        default: false
+        
+      # REVIEW FIELDS
+      - label: "✅ Reviewed"
+        name: "reviewed"
+        widget: "boolean"
+        default: false
+        
+      - label: "👨‍💼 Reviewed By"
+        name: "reviewedBy"
+        widget: "string"
+        required: false
+        
+      - label: "📅 Reviewed At"
+        name: "reviewedAt"
+        widget: "datetime"
+        format: "YYYY-MM-DD HH:mm"
+        required: false
+        
+      - label: "👨‍💼 Supervisor Notified"
+        name: "supervisorNotified"
+        widget: "boolean"
+        default: false
+        
+      # SYSTEM FIELDS
+      - label: "📅 Created At"
+        name: "createdAt"
+        widget: "datetime"
+        format: "YYYY-MM-DD HH:mm"
+        required: true
+        
+      - label: "📅 Updated At"
+        name: "updatedAt"
+        widget: "datetime"
+        format: "YYYY-MM-DD HH:mm"
+        required: true
+
+  # 👨‍💼 STAFF MANAGEMENT (New)
+  - name: "staff"
+    label: "👨‍💼 Staff Management"
+    label_singular: "Staff Member"
+    folder: "src/content/staff"
+    create: true
+    slug: "{{firstName}}-{{lastName}}"
+    extension: "json"
+    format: "json"
+    summary: "{{firstName}} {{lastName}} • {{role}} • {{status}} • {{facilities}}"
+    sortable_fields: ['lastName', 'role', 'hireDate', 'status']
+    
+    view_filters:
+      - label: "🟢 Active Staff"
+        field: status
+        pattern: "active"
+      - label: "👨‍💼 House Managers"
+        field: role
+        pattern: "house-manager"
+      - label: "👩‍⚕️ Clinical Staff"
+        field: role
+        pattern: "clinical"
+      - label: "📊 Admin Level"
+        field: accessLevel
+        pattern: "admin"
+    
+    fields:
+      # PERSONAL INFORMATION
+      - label: "👤 First Name"
+        name: "firstName"
+        widget: "string"
+        required: true
+        
+      - label: "👤 Last Name"
+        name: "lastName"
+        widget: "string"
+        required: true
+        
+      - label: "📧 Email Address"
+        name: "email"
+        widget: "string"
+        required: true
+        
+      - label: "📱 Phone Number"
+        name: "phone"
+        widget: "string"
+        required: true
+        
+      - label: "🏠 Address"
+        name: "address"
+        widget: "string"
+        required: false
+        
+      # EMPLOYMENT
+      - label: "🆔 Employee ID"
+        name: "employeeId"
+        widget: "string"
+        required: true
+        
+      - label: "👨‍💼 Role"
+        name: "role"
+        widget: "select"
+        required: true
+        options:
+          - {label: "🏠 House Manager", value: "house-manager"}
+          - {label: "👩‍⚕️ Case Manager", value: "case-manager"}
+          - {label: "📊 Administrator", value: "admin"}
+          - {label: "👩‍⚕️ Clinical Staff", value: "clinical"}
+          - {label: "🔧 Maintenance", value: "maintenance"}
+          - {label: "👨‍💼 Director", value: "director"}
+        
+      - label: "🏢 Department"
+        name: "department"
+        widget: "string"
+        required: true
+        
+      - label: "📅 Hire Date"
+        name: "hireDate"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: true
+        
+      - label: "📅 Termination Date"
+        name: "terminationDate"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        
+      - label: "📊 Status"
+        name: "status"
+        widget: "select"
+        required: true
+        options:
+          - {label: "🟢 Active", value: "active"}
+          - {label: "🔴 Inactive", value: "inactive"}
+          - {label: "❌ Terminated", value: "terminated"}
+          - {label: "⏸️ On Leave", value: "on-leave"}
+        default: "active"
+        
+      # ACCESS & PERMISSIONS
+      - label: "🏠 Facilities Access"
+        name: "facilities"
+        widget: "list"
+        required: false
+        hint: "List of facility slugs this staff member can access"
+        
+      - label: "🔑 Permissions"
+        name: "permissions"
+        widget: "list"
+        required: false
+        hint: "Specific system permissions"
+        
+      - label: "🔐 Access Level"
+        name: "accessLevel"
+        widget: "select"
+        required: true
+        options:
+          - {label: "🔵 Basic", value: "basic"}
+          - {label: "🟡 Standard", value: "standard"}
+          - {label: "🟠 Advanced", value: "advanced"}
+          - {label: "🔴 Admin", value: "admin"}
+        default: "basic"
+        
+      # SCHEDULE
+      - label: "⏰ Shift Type"
+        name: "shiftType"
+        widget: "select"
+        required: false
+        options:
+          - {label: "🌅 Day Shift", value: "day"}
+          - {label: "🌆 Evening Shift", value: "evening"}
+          - {label: "🌙 Night Shift", value: "night"}
+          - {label: "🔄 Rotating", value: "rotating"}
+          - {label: "📞 On-Call", value: "on-call"}
+        
+      - label: "⏰ Hours Per Week"
+        name: "hoursPerWeek"
+        widget: "number"
+        default: 40
+        min: 0
+        max: 80
+        
+      - label: "📅 Schedule Details"
+        name: "schedule"
+        widget: "text"
+        required: false
+        hint: "Detailed schedule information"
+        
+      # QUALIFICATIONS
+      - label: "📜 Certifications"
+        name: "certifications"
+        widget: "list"
+        required: false
+        
+      - label: "🆔 License Number"
+        name: "licenseNumber"
+        widget: "string"
+        required: false
+        
+      - label: "📅 License Expiration"
+        name: "licenseExpiration"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        
+      - label: "🎓 Education"
+        name: "education"
+        widget: "string"
+        required: false
+        
+      # EMERGENCY CONTACT
+      - label: "🚨 Emergency Contact"
+        name: "emergencyContact"
+        widget: "object"
+        fields:
+          - {label: "Name", name: "name", widget: "string"}
+          - {label: "Relationship", name: "relationship", widget: "string"}
+          - {label: "Phone", name: "phone", widget: "string"}
+        
+      # PAYROLL (Optional)
+      - label: "💰 Hourly Rate"
+        name: "hourlyRate"
+        widget: "number"
+        required: false
+        step: 0.01
+        min: 0
+        
+      - label: "💰 Annual Salary"
+        name: "salaryAnnual"
+        widget: "number"
+        required: false
+        min: 0
+        
+      - label: "📅 Pay Frequency"
+        name: "payFrequency"
+        widget: "select"
+        required: false
+        options:
+          - {label: "📅 Weekly", value: "weekly"}
+          - {label: "📅 Bi-weekly", value: "bi-weekly"}
+          - {label: "📅 Monthly", value: "monthly"}
+        
+      # SYSTEM FIELDS
+      - label: "📅 Created At"
+        name: "createdAt"
+        widget: "datetime"
+        format: "YYYY-MM-DD HH:mm"
+        required: true
+        
+      - label: "📅 Updated At"
+        name: "updatedAt"
+        widget: "datetime"
+        format: "YYYY-MM-DD HH:mm"
+        required: true
+        
+      - label: "📅 Last Login"
+        name: "lastLogin"
+        widget: "datetime"
+        format: "YYYY-MM-DD HH:mm"
+        required: false
+        
+      # NOTES
+      - label: "📝 General Notes"
+        name: "notes"
+        widget: "text"
+        required: false
+        
+      - label: "📈 Performance Notes"
+        name: "performanceNotes"
+        widget: "text"
+        required: false
+        hint: "Confidential performance evaluations"
+
+  # 🤝 REFERRAL PARTNERS (New)
+  - name: "referralPartners"
+    label: "🤝 Referral Partners"
+    label_singular: "Partner"
+    folder: "src/content/referral-partners"
+    create: true
+    slug: "{{organizationName}}"
+    extension: "json"
+    format: "json"
+    summary: "{{organizationName}} • {{partnerType}} • {{status}} • {{referralsReceived}} referrals"
+    sortable_fields: ['organizationName', 'partnerType', 'referralsReceived', 'successRate']
+    
+    view_filters:
+      - label: "🟢 Active Partners"
+        field: status
+        pattern: "active"
+      - label: "⭐ Preferred Partners"
+        field: status
+        pattern: "preferred"
+      - label: "🏥 Treatment Centers"
+        field: partnerType
+        pattern: "treatment-center"
+      - label: "👩‍⚕️ Therapists"
+        field: partnerType
+        pattern: "therapist"
+    
+    fields:
+      - label: "🏢 Organization Name"
+        name: "organizationName"
+        widget: "string"
+        required: true
+        
+      - label: "👤 Contact Person"
+        name: "contactPerson"
+        widget: "string"
+        required: true
+        
+      - label: "💼 Title"
+        name: "title"
+        widget: "string"
+        required: false
+        
+      - label: "📧 Email"
+        name: "email"
+        widget: "string"
+        required: true
+        
+      - label: "📱 Phone"
+        name: "phone"
+        widget: "string"
+        required: true
+        
+      - label: "🏠 Address"
+        name: "address"
+        widget: "string"
+        required: false
+        
+      - label: "🏷️ Partner Type"
+        name: "partnerType"
+        widget: "select"
+        required: true
+        options:
+          - {label: "🏥 Treatment Center", value: "treatment-center"}
+          - {label: "🏥 Hospital", value: "hospital"}
+          - {label: "👩‍⚕️ Therapist", value: "therapist"}
+          - {label: "👨‍💼 Case Manager", value: "case-manager"}
+          - {label: "⚖️ Court System", value: "court"}
+          - {label: "👨‍👩‍👧‍👦 Family", value: "family"}
+          - {label: "🎓 Alumni", value: "alumni"}
+          - {label: "📋 Other", value: "other"}
+        
+      - label: "🎯 Specialization"
+        name: "specialization"
+        widget: "list"
+        required: false
+        hint: "Areas of specialization (e.g., Veterans, Young Adults, Dual Diagnosis)"
+        
+      - label: "📅 Partner Since"
+        name: "partnerSince"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: true
+        
+      - label: "📈 Referrals Received"
+        name: "referralsReceived"
+        widget: "number"
+        default: 0
+        min: 0
+        
+      - label: "📤 Referrals Sent"
+        name: "referralsSent"
+        widget: "number"
+        default: 0
+        min: 0
+        
+      - label: "📊 Success Rate (%)"
+        name: "successRate"
+        widget: "number"
+        default: 0
+        min: 0
+        max: 100
+        hint: "Percentage of successful referrals"
+        
+      - label: "📊 Status"
+        name: "status"
+        widget: "select"
+        required: true
+        options:
+          - {label: "🟢 Active", value: "active"}
+          - {label: "🔴 Inactive", value: "inactive"}
+          - {label: "⭐ Preferred", value: "preferred"}
+        default: "active"
+        
+      - label: "📝 Notes"
+        name: "notes"
+        widget: "text"
+        required: false
+        
+      - label: "📅 Last Referral"
+        name: "lastReferral"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        
+      - label: "📅 Next Contact"
+        name: "nextContact"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        
+      - label: "📅 Created At"
+        name: "createdAt"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: true
+        
+      - label: "📅 Updated At"
+        name: "updatedAt"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: true
