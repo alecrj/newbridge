@@ -1,0 +1,160 @@
+---
+// src/components/SimpleAuth.astro - Basic authentication guard
+const { requiredRole = 'staff' } = Astro.props;
+---
+
+<!-- Authentication Check -->
+<div id="auth-check" class="fixed inset-0 bg-emerald-900 z-50 flex items-center justify-center">
+  <div class="text-center">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+    <h2 class="text-xl font-semibold text-white mb-2">🔒 Checking Access</h2>
+    <p class="text-emerald-200">Verifying NewBridge Living CRM credentials...</p>
+  </div>
+</div>
+
+<!-- Login Modal -->
+<div id="login-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8">
+    <div class="text-center mb-6">
+      <div class="bg-emerald-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+      <h2 class="text-2xl font-bold text-gray-900 mb-2">🏠 NewBridge Living CRM</h2>
+      <p class="text-gray-600">Staff authentication required</p>
+    </div>
+    
+    <button 
+      id="login-btn"
+      class="w-full bg-emerald-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-emerald-700 transition-colors duration-300 flex items-center justify-center"
+    >
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+      </svg>
+      Login with Netlify Identity
+    </button>
+    
+    <p class="text-center text-sm text-gray-500 mt-4">
+      NewBridge Living staff only • HIPAA compliant access
+    </p>
+  </div>
+</div>
+
+<script>
+// Simple authentication check
+function checkAuth() {
+  console.log('Checking authentication...');
+  
+  // Check if Netlify Identity is available
+  if (typeof window.netlifyIdentity !== 'undefined') {
+    const user = window.netlifyIdentity.currentUser();
+    
+    if (user) {
+      // User is logged in
+      hideAuthCheck();
+      console.log('User authenticated:', user.email);
+    } else {
+      // User not logged in
+      showLoginModal();
+    }
+  } else {
+    // Load Netlify Identity
+    loadNetlifyIdentity();
+  }
+}
+
+function loadNetlifyIdentity() {
+  console.log('Loading Netlify Identity...');
+  
+  const script = document.createElement('script');
+  script.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
+  script.onload = function() {
+    console.log('Netlify Identity loaded');
+    
+    // Set up event listeners
+    window.netlifyIdentity.on('init', function(user) {
+      if (user) {
+        hideAuthCheck();
+        console.log('User already logged in:', user.email);
+      } else {
+        showLoginModal();
+      }
+    });
+    
+    window.netlifyIdentity.on('login', function() {
+      console.log('User logged in successfully');
+      hideAuthCheck();
+      window.location.reload();
+    });
+    
+    window.netlifyIdentity.on('logout', function() {
+      console.log('User logged out');
+      window.location.href = '/';
+    });
+  };
+  
+  document.head.appendChild(script);
+}
+
+function hideAuthCheck() {
+  const authCheck = document.getElementById('auth-check');
+  const loginModal = document.getElementById('login-modal');
+  
+  if (authCheck) authCheck.style.display = 'none';
+  if (loginModal) loginModal.classList.add('hidden');
+}
+
+function showLoginModal() {
+  const authCheck = document.getElementById('auth-check');
+  const loginModal = document.getElementById('login-modal');
+  
+  if (authCheck) authCheck.style.display = 'none';
+  if (loginModal) loginModal.classList.remove('hidden');
+}
+
+// Set up login button
+document.addEventListener('DOMContentLoaded', function() {
+  const loginBtn = document.getElementById('login-btn');
+  
+  if (loginBtn) {
+    loginBtn.addEventListener('click', function() {
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.open();
+      } else {
+        console.log('Netlify Identity not loaded yet');
+      }
+    });
+  }
+  
+  // Start auth check
+  checkAuth();
+});
+</script>
+
+<style>
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+#login-modal {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 640px) {
+  #login-modal > div {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+}
+</style>

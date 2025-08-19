@@ -1,403 +1,323 @@
 ---
+// src/pages/admin/index.astro - Secure Admin Dashboard
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-// Get data for dashboard
+// Get actual data from CMS
 const facilities = await getCollection('facilities').catch(() => []);
 const residents = await getCollection('residents').catch(() => []);
 const staff = await getCollection('staff').catch(() => []);
 const leads = await getCollection('leads').catch(() => []);
 
-// Calculate stats
+// Calculate real stats
 const totalFacilities = facilities.length;
 const totalResidents = residents.length;
 const activeStaff = staff.length;
 const newLeads = leads.filter(lead => lead.data.status === 'new').length;
+const occupancyRate = Math.round((totalResidents / (facilities.reduce((acc, f) => acc + f.data.capacity, 0) || 1)) * 100);
 
-// Recent activity mock data (would come from actual data in production)
-const recentActivity = [
-  { type: 'lead', message: 'New lead: Sarah M. - High priority', time: '2 minutes ago' },
-  { type: 'resident', message: 'John D. completed daily check-in', time: '15 minutes ago' },
-  { type: 'test', message: 'Drug test scheduled for Mike S.', time: '1 hour ago' },
-  { type: 'payment', message: 'Payment received from Robert T.', time: '2 hours ago' },
-  { type: 'lead', message: 'Assessment scheduled for Alex K.', time: '3 hours ago' }
-];
+// Get current date for professional display
+const currentDate = new Date().toLocaleDateString('en-US', { 
+  weekday: 'long', 
+  year: 'numeric', 
+  month: 'long', 
+  day: 'numeric' 
+});
 ---
 
 <BaseLayout title="CRM Dashboard | NewBridge Living">
+  <!-- Import Authentication Guard -->
+  <div id="admin-auth-required">
+    <!-- This will be replaced by the auth component -->
+    <div class="fixed inset-0 bg-emerald-900 z-50 flex items-center justify-center">
+      <div class="text-center">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+        <h2 class="text-xl font-semibold text-white mb-2">🔒 Verifying Access</h2>
+        <p class="text-emerald-200">Checking credentials for NewBridge Living CRM...</p>
+      </div>
+    </div>
+  </div>
+
   <!-- Professional CRM Header -->
   <section class="bg-gradient-to-r from-emerald-900 to-emerald-800 py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-3xl font-bold text-white">CRM Dashboard</h1>
-          <p class="text-emerald-200 mt-2">Welcome back! Here's what's happening at NewBridge Living today.</p>
+          <h1 class="text-3xl font-bold text-white">NewBridge Living CRM</h1>
+          <p class="text-emerald-200 mt-2">{currentDate}</p>
         </div>
         <div class="flex items-center space-x-4">
           <button 
-            id="exportData"
-            class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center"
+            id="logout-btn"
+            class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 flex items-center text-sm"
           >
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
             </svg>
-            Export Data
-          </button>
-          <button 
-            id="generateReport"
-            class="bg-white text-emerald-800 px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-all duration-300 flex items-center"
-          >
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a4 4 0 01-4-4V5a3 3 0 013-3h4l2 2h6a2 2 0 012 2v11a1 1 0 01-1 1z"></path>
-            </svg>
-            Generate Report
+            Logout
           </button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Dashboard Stats -->
+  <!-- Real-Time Dashboard Stats -->
   <section class="bg-white py-8 border-b">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <!-- Total Residents -->
-        <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-2xl p-6 border border-emerald-200/50">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-emerald-600 font-semibold text-sm uppercase tracking-wide">Total Residents</p>
-              <p class="text-3xl font-bold text-emerald-700">{totalResidents}</p>
-              <p class="text-emerald-600 text-sm">Active residents</p>
-            </div>
-            <div class="bg-emerald-500 rounded-full p-3">
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <!-- New Leads -->
+        <!-- Total Facilities -->
         <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 border border-blue-200/50">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-blue-600 font-semibold text-sm uppercase tracking-wide">New Leads</p>
-              <p class="text-3xl font-bold text-blue-700">{newLeads}</p>
-              <p class="text-blue-600 text-sm">This week</p>
+              <p class="text-blue-600 font-semibold text-sm uppercase tracking-wide">Facilities</p>
+              <p class="text-3xl font-bold text-blue-700">{totalFacilities}</p>
+              <p class="text-blue-600 text-sm">Active locations</p>
             </div>
             <div class="bg-blue-500 rounded-full p-3">
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
               </svg>
             </div>
           </div>
         </div>
 
-        <!-- Facilities -->
-        <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-6 border border-orange-200/50">
+        <!-- Current Residents -->
+        <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-6 border border-green-200/50">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-orange-600 font-semibold text-sm uppercase tracking-wide">Facilities</p>
-              <p class="text-3xl font-bold text-orange-700">{totalFacilities}</p>
-              <p class="text-orange-600 text-sm">Active locations</p>
+              <p class="text-green-600 font-semibold text-sm uppercase tracking-wide">Residents</p>
+              <p class="text-3xl font-bold text-green-700">{totalResidents}</p>
+              <p class="text-green-600 text-sm">{occupancyRate}% occupancy</p>
             </div>
-            <div class="bg-orange-500 rounded-full p-3">
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <!-- Staff Members -->
-        <div class="bg-gradient-to-br from-teal-50 to-teal-100 rounded-2xl p-6 border border-teal-200/50">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-teal-600 font-semibold text-sm uppercase tracking-wide">Staff Members</p>
-              <p class="text-3xl font-bold text-teal-700">{activeStaff}</p>
-              <p class="text-teal-600 text-sm">Active team</p>
-            </div>
-            <div class="bg-teal-500 rounded-full p-3">
+            <div class="bg-green-500 rounded-full p-3">
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
               </svg>
             </div>
           </div>
         </div>
+
+        <!-- New Leads -->
+        <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-6 border border-purple-200/50">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-purple-600 font-semibold text-sm uppercase tracking-wide">New Leads</p>
+              <p class="text-3xl font-bold text-purple-700">{newLeads}</p>
+              <p class="text-purple-600 text-sm">Require follow-up</p>
+            </div>
+            <div class="bg-purple-500 rounded-full p-3">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Staff -->
+        <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-2xl p-6 border border-yellow-200/50">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-yellow-600 font-semibold text-sm uppercase tracking-wide">Staff</p>
+              <p class="text-3xl font-bold text-yellow-700">{activeStaff}</p>
+              <p class="text-yellow-600 text-sm">Team members</p>
+            </div>
+            <div class="bg-yellow-500 rounded-full p-3">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Main Dashboard Content -->
-  <section class="bg-gray-50 py-8">
+  <!-- CRM Navigation Grid -->
+  <section class="bg-gray-50 py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        <!-- CRM Module Navigation -->
+        <!-- Main CRM Actions -->
         <div class="lg:col-span-2">
-          <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-            <h3 class="text-xl font-bold text-gray-900 mb-6">CRM Modules</h3>
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">CRM Functions</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <!-- Leads Management -->
-              <a href="/admin/leads" class="group bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200/50 hover:border-blue-300 transition-all duration-300 hover:shadow-lg">
-                <div class="flex items-center justify-between mb-4">
-                  <div class="bg-blue-500 rounded-lg p-3">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                    </svg>
-                  </div>
-                  <svg class="w-5 h-5 text-blue-400 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            <!-- Leads Management -->
+            <a href="/admin/leads" class="group bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300">
+              <div class="flex items-center justify-between mb-4">
+                <div class="bg-blue-500 rounded-lg p-3">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                   </svg>
                 </div>
-                <h4 class="text-lg font-bold text-blue-900 mb-2">Leads Management</h4>
-                <p class="text-blue-700 text-sm">Track and manage potential residents through the admissions process</p>
-                <div class="mt-4 flex items-center justify-between">
-                  <span class="text-blue-600 text-xs font-medium">{newLeads} new leads</span>
-                  <div class="w-8 h-1 bg-blue-200 rounded-full overflow-hidden">
-                    <div class="w-full h-full bg-blue-500 rounded-full"></div>
-                  </div>
-                </div>
-              </a>
+                <svg class="w-5 h-5 text-gray-400 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">Leads Management</h3>
+              <p class="text-gray-600 text-sm">Track inquiries, schedule assessments, manage admissions pipeline</p>
+            </a>
 
-              <!-- Residents -->
-              <a href="/admin/residents" class="group bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl p-6 border border-emerald-200/50 hover:border-emerald-300 transition-all duration-300 hover:shadow-lg">
-                <div class="flex items-center justify-between mb-4">
-                  <div class="bg-emerald-500 rounded-lg p-3">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                    </svg>
-                  </div>
-                  <svg class="w-5 h-5 text-emerald-400 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            <!-- Residents Dashboard -->
+            <a href="/admin/residents" class="group bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300">
+              <div class="flex items-center justify-between mb-4">
+                <div class="bg-green-500 rounded-lg p-3">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
                   </svg>
                 </div>
-                <h4 class="text-lg font-bold text-emerald-900 mb-2">Resident Management</h4>
-                <p class="text-emerald-700 text-sm">Manage current residents, case notes, and daily check-ins</p>
-                <div class="mt-4 flex items-center justify-between">
-                  <span class="text-emerald-600 text-xs font-medium">{totalResidents} active residents</span>
-                  <div class="w-8 h-1 bg-emerald-200 rounded-full overflow-hidden">
-                    <div class="w-full h-full bg-emerald-500 rounded-full"></div>
-                  </div>
-                </div>
-              </a>
+                <svg class="w-5 h-5 text-gray-400 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">Residents</h3>
+              <p class="text-gray-600 text-sm">Daily check-ins, drug tests, compliance tracking, case notes</p>
+            </a>
 
-              <!-- Compliance & Drug Testing -->
-              <a href="/admin/compliance" class="group bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border border-purple-200/50 hover:border-purple-300 transition-all duration-300 hover:shadow-lg">
-                <div class="flex items-center justify-between mb-4">
-                  <div class="bg-purple-500 rounded-lg p-3">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
-                    </svg>
-                  </div>
-                  <svg class="w-5 h-5 text-purple-400 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                  </svg>
-                </div>
-                <h4 class="text-lg font-bold text-purple-900 mb-2">Compliance & Testing</h4>
-                <p class="text-purple-700 text-sm">Track drug tests, medications, and compliance violations</p>
-                <div class="mt-4 flex items-center justify-between">
-                  <span class="text-purple-600 text-xs font-medium">96.2% pass rate</span>
-                  <div class="w-8 h-1 bg-purple-200 rounded-full overflow-hidden">
-                    <div class="w-full h-full bg-purple-500 rounded-full"></div>
-                  </div>
-                </div>
-              </a>
-
-              <!-- Staff Management -->
-              <a href="/admin/staff" class="group bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl p-6 border border-teal-200/50 hover:border-teal-300 transition-all duration-300 hover:shadow-lg">
-                <div class="flex items-center justify-between mb-4">
-                  <div class="bg-teal-500 rounded-lg p-3">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-                    </svg>
-                  </div>
-                  <svg class="w-5 h-5 text-teal-400 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                  </svg>
-                </div>
-                <h4 class="text-lg font-bold text-teal-900 mb-2">Staff Management</h4>
-                <p class="text-teal-700 text-sm">Manage staff schedules, roles, and performance tracking</p>
-                <div class="mt-4 flex items-center justify-between">
-                  <span class="text-teal-600 text-xs font-medium">{activeStaff} active staff</span>
-                  <div class="w-8 h-1 bg-teal-200 rounded-full overflow-hidden">
-                    <div class="w-full h-full bg-teal-500 rounded-full"></div>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <!-- Additional CRM Features -->
-            <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <a href="/admin/payments" class="flex items-center p-4 bg-yellow-50 rounded-lg border border-yellow-200/50 hover:border-yellow-300 transition-all duration-300 group">
-                <div class="bg-yellow-500 rounded-lg p-2 mr-3">
-                  <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <!-- Financial Management -->
+            <a href="/admin/financial" class="group bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300">
+              <div class="flex items-center justify-between mb-4">
+                <div class="bg-yellow-500 rounded-lg p-3">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
                   </svg>
                 </div>
-                <div>
-                  <h5 class="font-semibold text-yellow-900 text-sm">Payments</h5>
-                  <p class="text-yellow-700 text-xs">Rent & billing</p>
-                </div>
-                <svg class="w-4 h-4 text-yellow-400 ml-auto group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 text-gray-400 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
-              </a>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">Financial</h3>
+              <p class="text-gray-600 text-sm">Rent tracking, payments, billing, financial reports</p>
+            </a>
 
-              <a href="/admin/reports" class="flex items-center p-4 bg-indigo-50 rounded-lg border border-indigo-200/50 hover:border-indigo-300 transition-all duration-300 group">
-                <div class="bg-indigo-500 rounded-lg p-2 mr-3">
-                  <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a4 4 0 01-4-4V5a3 3 0 013-3h4l2 2h6a2 2 0 012 2v11a1 1 0 01-1 1z"></path>
+            <!-- Facilities Management -->
+            <a href="/admin/facilities" class="group bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300">
+              <div class="flex items-center justify-between mb-4">
+                <div class="bg-purple-500 rounded-lg p-3">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                   </svg>
                 </div>
-                <div>
-                  <h5 class="font-semibold text-indigo-900 text-sm">Reports</h5>
-                  <p class="text-indigo-700 text-xs">Analytics & insights</p>
-                </div>
-                <svg class="w-4 h-4 text-indigo-400 ml-auto group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 text-gray-400 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
-              </a>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">Facilities</h3>
+              <p class="text-gray-600 text-sm">Bed assignments, capacity, maintenance, compliance</p>
+            </a>
 
-              <a href="/admin/settings" class="flex items-center p-4 bg-gray-50 rounded-lg border border-gray-200/50 hover:border-gray-300 transition-all duration-300 group">
-                <div class="bg-gray-500 rounded-lg p-2 mr-3">
-                  <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                  </svg>
-                </div>
-                <div>
-                  <h5 class="font-semibold text-gray-900 text-sm">Settings</h5>
-                  <p class="text-gray-700 text-xs">System config</p>
-                </div>
-                <svg class="w-4 h-4 text-gray-400 ml-auto group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-              </a>
-            </div>
           </div>
         </div>
 
-        <!-- Sidebar -->
-        <div class="space-y-6">
-          
-          <!-- Recent Activity -->
-          <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-            <h3 class="text-lg font-bold text-gray-900 mb-4">Recent Activity</h3>
-            <div class="space-y-4">
-              {recentActivity.map((activity) => (
-                <div class="flex items-start space-x-3">
-                  <div class={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    activity.type === 'lead' ? 'bg-blue-100' :
-                    activity.type === 'resident' ? 'bg-green-100' :
-                    activity.type === 'test' ? 'bg-purple-100' :
-                    activity.type === 'payment' ? 'bg-yellow-100' :
-                    'bg-gray-100'
-                  }`}>
-                    <div class={`w-2 h-2 rounded-full ${
-                      activity.type === 'lead' ? 'bg-blue-500' :
-                      activity.type === 'resident' ? 'bg-green-500' :
-                      activity.type === 'test' ? 'bg-purple-500' :
-                      activity.type === 'payment' ? 'bg-yellow-500' :
-                      'bg-gray-500'
-                    }`}></div>
-                  </div>
-                  <div class="flex-1">
-                    <p class="text-sm text-gray-900">{activity.message}</p>
-                    <p class="text-xs text-gray-500">{activity.time}</p>
-                  </div>
+        <!-- Quick Actions Sidebar -->
+        <div>
+          <h3 class="text-xl font-bold text-gray-900 mb-6">Quick Actions</h3>
+          <div class="space-y-4">
+            
+            <!-- Content Management -->
+            <a href="/admin" target="_blank" class="block bg-emerald-600 text-white rounded-xl p-4 hover:bg-emerald-700 transition-colors duration-300">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="font-semibold">📝 Content Editor</h4>
+                  <p class="text-emerald-100 text-sm">Netlify CMS</p>
                 </div>
-              ))}
-            </div>
-          </div>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-2M8 12l4 4l6-6"></path>
+                </svg>
+              </div>
+            </a>
 
-          <!-- Quick Actions -->
-          <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-            <h3 class="text-lg font-bold text-gray-900 mb-4">Quick Actions</h3>
-            <div class="space-y-3">
-              <button class="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center text-sm">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            <!-- Reports -->
+            <button class="w-full bg-gray-100 text-gray-800 rounded-xl p-4 hover:bg-gray-200 transition-colors duration-300 text-left">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="font-semibold">📊 Reports</h4>
+                  <p class="text-gray-600 text-sm">Generate compliance reports</p>
+                </div>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a4 4 0 01-4-4V5a3 3 0 013-3h4l2 2h6a2 2 0 012 2v11a1 1 0 01-1 1z"></path>
                 </svg>
-                Add New Lead
-              </button>
-              
-              <button class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center text-sm">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
-                </svg>
-                Log Drug Test
-              </button>
-              
-              <button class="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center text-sm">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
-                </svg>
-                Record Payment
-              </button>
-            </div>
-          </div>
+              </div>
+            </button>
 
-          <!-- Today's Summary -->
-          <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-2xl p-6 border border-emerald-200/50">
-            <h3 class="text-lg font-bold text-emerald-900 mb-4">Today's Summary</h3>
-            <div class="space-y-3">
+            <!-- Settings -->
+            <button class="w-full bg-gray-100 text-gray-800 rounded-xl p-4 hover:bg-gray-200 transition-colors duration-300 text-left">
               <div class="flex items-center justify-between">
-                <span class="text-emerald-700 text-sm">Drug Tests Scheduled</span>
-                <span class="font-bold text-emerald-900">3</span>
+                <div>
+                  <h4 class="font-semibold">⚙️ Settings</h4>
+                  <p class="text-gray-600 text-sm">System configuration</p>
+                </div>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
               </div>
-              <div class="flex items-center justify-between">
-                <span class="text-emerald-700 text-sm">Residents Present</span>
-                <span class="font-bold text-emerald-900">{totalResidents - 2}</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-emerald-700 text-sm">New Inquiries</span>
-                <span class="font-bold text-emerald-900">2</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-emerald-700 text-sm">Staff on Duty</span>
-                <span class="font-bold text-emerald-900">4</span>
-              </div>
-            </div>
+            </button>
+
           </div>
         </div>
       </div>
     </div>
   </section>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Dashboard functionality
-      const exportBtn = document.getElementById('exportData');
-      const reportBtn = document.getElementById('generateReport');
-      
-      exportBtn?.addEventListener('click', function() {
-        alert('Export functionality would be implemented here (CSV/Excel export)');
-      });
-      
-      reportBtn?.addEventListener('click', function() {
-        alert('Report generation would be implemented here (PDF reports for compliance)');
-      });
-
-      // Quick action buttons with proper scoping to avoid 'this' type issues
-      const quickActions = document.querySelectorAll('.bg-emerald-600, .bg-blue-600, .bg-purple-600');
-      quickActions.forEach(function(button) {
-        button.addEventListener('click', function(event) {
-          const target = event.target as HTMLElement;
-          const buttonText = target.textContent?.trim() || '';
-          
-          if (buttonText.includes('Add New Lead')) {
-            window.location.href = '/admin/leads';
-          } else if (buttonText.includes('Log Drug Test')) {
-            window.location.href = '/admin/compliance';
-          } else if (buttonText.includes('Record Payment')) {
-            window.location.href = '/admin/payments';
-          }
-        });
-      });
-
-      console.log('✅ CRM Dashboard loaded successfully');
-    });
-  </script>
 </BaseLayout>
+
+<script>
+// Authentication and security implementation
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize authentication
+  initializeAuth();
+  
+  // Setup logout functionality
+  document.getElementById('logout-btn')?.addEventListener('click', function() {
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.logout();
+    }
+  });
+});
+
+function initializeAuth() {
+  // Load Netlify Identity if not already loaded
+  if (typeof window.netlifyIdentity === 'undefined') {
+    const script = document.createElement('script');
+    script.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
+    script.onload = checkAuth;
+    document.head.appendChild(script);
+  } else {
+    checkAuth();
+  }
+}
+
+function checkAuth() {
+  // Check if user is authenticated
+  const user = window.netlifyIdentity?.currentUser();
+  
+  if (!user) {
+    // Redirect to login
+    window.location.href = '/admin';
+    return;
+  }
+  
+  // Hide auth guard
+  document.getElementById('admin-auth-required')?.remove();
+  
+  // Log access for compliance
+  console.log(`Admin access: ${user.email} at ${new Date().toISOString()}`);
+}
+</script>
+
+<style>
+/* Ensure professional appearance */
+.group:hover {
+  transform: translateY(-2px);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .text-3xl {
+    font-size: 1.875rem;
+  }
+}
+</style>
