@@ -1,0 +1,387 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ImageGallery from '../../components/ImageGallery.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const facilities = await getCollection('facilities');
+  return facilities.map((facility: CollectionEntry<'facilities'>) => ({
+    params: { slug: facility.data.slug },
+    props: { facility },
+  }));
+}
+
+interface Props {
+  facility: CollectionEntry<'facilities'>;
+}
+
+const { facility } = Astro.props;
+const { facilityName, monthlyRent, capacity, location, address, programs, amenities, images, description, availability, metaTitle, metaDescription } = facility.data;
+
+// Get related facilities
+const allFacilities = await getCollection('facilities');
+const relatedFacilities = allFacilities
+  .filter(f => f.data.slug !== facility.data.slug && f.data.availability === 'accepting')
+  .slice(0, 3);
+---
+
+<BaseLayout 
+  title={metaTitle || `${facilityName} - Sober Living | NewBridge Living`}
+  description={metaDescription || `${capacity}-bed sober living home in ${location}. Structured environment with proven recovery programs. ${description.substring(0, 150)}...`}
+>
+  <!-- Hero Section with Breadcrumb -->
+  <section class="relative bg-gradient-to-br from-emerald-900 via-teal-900 to-emerald-800 pt-24 pb-12 overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-5">
+      <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+    
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Breadcrumb -->
+      <nav class="mb-8" aria-label="Breadcrumb">
+        <ol class="flex items-center space-x-2 text-sm">
+          <li><a href="/" class="text-emerald-200 hover:text-white transition-colors duration-300">Home</a></li>
+          <li><span class="text-emerald-300">•</span></li>
+          <li><a href="/facilities" class="text-emerald-200 hover:text-white transition-colors duration-300">Facilities</a></li>
+          <li><span class="text-emerald-300">•</span></li>
+          <li class="text-white font-semibold">{facilityName}</li>
+        </ol>
+      </nav>
+
+      <!-- Hero Content -->
+      <div class="max-w-4xl">
+        <!-- Status Badge -->
+        <div class="inline-flex items-center mb-6">
+          <div class={`px-4 py-2 rounded-full text-sm font-semibold shadow-lg backdrop-blur-sm border ${
+            availability === 'accepting' ? 'bg-green-500/20 text-green-300 border-green-500/30' :
+            availability === 'waitlist' ? 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' :
+            'bg-red-500/20 text-red-300 border-red-500/30'
+          }`}>
+            {availability === 'accepting' ? '✅ Currently Accepting Residents' :
+             availability === 'waitlist' ? '⏳ Waitlist Available' :
+             '❌ Currently Full'}
+          </div>
+        </div>
+        
+        <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">{facilityName}</h1>
+        <div class="flex flex-wrap items-center gap-6 text-emerald-100 mb-8">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-lg">{location}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"></path>
+            </svg>
+            <span class="text-lg">{capacity} Bed Capacity</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path>
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-1.092a4.535 4.535 0 001.676-.662C13.398 12.766 14 11.991 14 11c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 8.092V6.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V4z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-lg font-bold">{monthlyRent}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Main Content -->
+        <div class="lg:col-span-2">
+          <!-- Image Gallery -->
+          {images.length > 0 && <ImageGallery images={images} />}
+          
+          <!-- Description -->
+          <div class="prose prose-lg max-w-none mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">About This Facility</h2>
+            <p class="text-gray-600 leading-relaxed">{description}</p>
+            <p class="text-gray-600 leading-relaxed mt-4">
+              Located at {address}, our facility provides a safe, structured environment for men in recovery. 
+              With {capacity} beds and comprehensive support services, we're committed to helping residents 
+              build the foundation for lasting sobriety.
+            </p>
+          </div>
+
+          <!-- Programs -->
+          <div class="mb-12">
+            <h3 class="text-2xl font-bold text-gray-900 mb-6">Available Programs</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {programs.map(program => (
+                <div class="bg-emerald-50 rounded-2xl p-6 border border-emerald-200">
+                  <div class="flex items-center mb-3">
+                    <svg class="w-6 h-6 text-emerald-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h4 class="font-bold text-gray-900">{program}</h4>
+                  </div>
+                  <p class="text-gray-600 text-sm">
+                    Comprehensive support program designed for sustainable recovery and personal growth.
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Amenities -->
+          <div class="mb-12">
+            <h3 class="text-2xl font-bold text-gray-900 mb-6">Amenities & Services</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {amenities.map(amenity => (
+                <div class="flex items-center p-4 bg-gray-50 rounded-2xl">
+                  <svg class="w-5 h-5 text-emerald-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span class="text-gray-700 font-medium">{amenity}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="lg:col-span-1">
+          <div class="sticky top-24 space-y-8">
+            <!-- Contact Form -->
+            <div class="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
+              <div class="text-center mb-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-3">Interested in This Home?</h3>
+                <p class="text-gray-600">Get detailed information and schedule a visit</p>
+              </div>
+
+              {availability === 'accepting' ? (
+                <form 
+                  name="facility-inquiry" 
+                  method="POST" 
+                  data-netlify="true"
+                  data-netlify-honeypot="bot-field"
+                  action="/success"
+                  class="space-y-6"
+                >
+                  <input type="hidden" name="form-name" value="facility-inquiry" />
+                  <input type="hidden" name="facilityInterested" value={facilityName} />
+                  <input type="hidden" name="source" value="facility-page" />
+                  <input type="hidden" name="status" value="new" />
+                  <input type="hidden" name="priority" value="high" />
+                  <div class="hidden">
+                    <label>Don't fill this out: <input name="bot-field" /></label>
+                  </div>
+
+                  <div>
+                    <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
+                    <input 
+                      type="text" 
+                      id="name" 
+                      name="name" 
+                      required
+                      class="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
+                    />
+                  </div>
+
+                  <div>
+                    <label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
+                    <input 
+                      type="tel" 
+                      id="phone" 
+                      name="phone" 
+                      required
+                      class="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
+                    />
+                  </div>
+
+                  <div>
+                    <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
+                    <input 
+                      type="email" 
+                      id="email" 
+                      name="email" 
+                      required
+                      class="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
+                    />
+                  </div>
+
+                  <div>
+                    <label for="emergencyContact" class="block text-sm font-semibold text-gray-700 mb-2">Emergency Contact</label>
+                    <input 
+                      type="text" 
+                      id="emergencyContact" 
+                      name="emergencyContact"
+                      placeholder="Name and phone number"
+                      class="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
+                    />
+                  </div>
+
+                  <div>
+                    <label for="preferredProgram" class="block text-sm font-semibold text-gray-700 mb-2">Preferred Program</label>
+                    <select 
+                      id="preferredProgram" 
+                      name="preferredProgram"
+                      class="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
+                    >
+                      <option value="">Select a program</option>
+                      {programs.map(program => (
+                        <option value={program}>{program}</option>
+                      ))}
+                      <option value="not-sure">Not Sure Yet</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label for="insuranceProvider" class="block text-sm font-semibold text-gray-700 mb-2">Insurance Provider</label>
+                    <input 
+                      type="text" 
+                      id="insuranceProvider" 
+                      name="insuranceProvider"
+                      placeholder="Your insurance company"
+                      class="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
+                    />
+                  </div>
+
+                  <div>
+                    <label for="message" class="block text-sm font-semibold text-gray-700 mb-2">Tell us about your situation *</label>
+                    <textarea 
+                      id="message" 
+                      name="message" 
+                      rows="4" 
+                      required
+                      placeholder="Share what brings you to NewBridge Living..."
+                      class="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
+                    ></textarea>
+                  </div>
+
+                  <button 
+                    type="submit" 
+                    class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-6 py-4 rounded-2xl font-bold text-lg hover:from-emerald-700 hover:to-teal-700 transform hover:scale-[1.02] transition-all duration-300 shadow-lg"
+                  >
+                    Request Information
+                  </button>
+                </form>
+              ) : availability === 'waitlist' ? (
+                <div class="text-center">
+                  <div class="bg-yellow-100 text-yellow-800 px-6 py-4 rounded-2xl font-semibold mb-6">
+                    ⏳ Currently on Waitlist Only
+                  </div>
+                  <p class="text-gray-600 mb-6">This home is currently full, but we'd love to add you to our priority waitlist.</p>
+                  
+                  <form 
+                    name="waitlist-inquiry" 
+                    method="POST" 
+                    data-netlify="true"
+                    action="/success"
+                    class="space-y-4"
+                  >
+                    <input type="hidden" name="form-name" value="waitlist-inquiry" />
+                    <input type="hidden" name="facilityInterested" value={facilityName} />
+                    <input type="hidden" name="source" value="waitlist" />
+                    <input type="hidden" name="status" value="new" />
+                    <input type="hidden" name="priority" value="medium" />
+                    
+                    <input 
+                      type="text" 
+                      name="name" 
+                      placeholder="Your Name" 
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-2xl"
+                    />
+                    <input 
+                      type="tel" 
+                      name="phone" 
+                      placeholder="Phone Number" 
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-2xl"
+                    />
+                    <input 
+                      type="email" 
+                      name="email" 
+                      placeholder="Email Address" 
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-2xl"
+                    />
+                    <button 
+                      type="submit" 
+                      class="w-full bg-yellow-600 text-white px-6 py-3 rounded-2xl font-semibold hover:bg-yellow-700 transition-colors"
+                    >
+                      Join Waitlist
+                    </button>
+                  </form>
+                </div>
+              ) : (
+                <div class="text-center">
+                  <div class="bg-red-100 text-red-800 px-6 py-4 rounded-2xl font-semibold mb-6">
+                    ❌ Currently Full
+                  </div>
+                  <p class="text-gray-600 mb-6">This home is currently at capacity. Please check our other facilities or contact us for updates.</p>
+                  <a 
+                    href="/facilities" 
+                    class="inline-block bg-gray-600 text-white px-6 py-3 rounded-2xl font-semibold hover:bg-gray-700 transition-colors"
+                  >
+                    View Other Homes
+                  </a>
+                </div>
+              )}
+            </div>
+
+            <!-- Quick Contact -->
+            <div class="bg-gradient-to-br from-emerald-600 to-teal-600 rounded-3xl p-8 text-white">
+              <div class="text-center">
+                <h3 class="text-xl font-bold mb-4">Need Help Now?</h3>
+                <p class="mb-6">Our admissions team is available 24/7</p>
+                <a 
+                  href="tel:(850)555-HOPE" 
+                  class="block bg-white text-emerald-600 px-6 py-3 rounded-2xl font-bold hover:bg-emerald-50 transition-colors"
+                >
+                  Call (850) 555-HOPE
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Facilities -->
+  {relatedFacilities.length > 0 && (
+    <section class="py-16 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">Other Available Facilities</h2>
+          <p class="text-gray-600">Explore our other sober living options</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {relatedFacilities.map(relatedFacility => {
+            const data = relatedFacility.data;
+            return (
+              <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                <img 
+                  src={data.images[0] || '/images/facilities/placeholder.jpg'} 
+                  alt={data.facilityName}
+                  class="w-full h-48 object-cover"
+                />
+                <div class="p-6">
+                  <h3 class="font-bold text-gray-900 mb-2">{data.facilityName}</h3>
+                  <p class="text-gray-600 text-sm mb-4">{data.location} • {data.capacity} beds</p>
+                  <div class="flex items-center justify-between">
+                    <span class="font-bold text-emerald-600">{data.monthlyRent}</span>
+                    <a 
+                      href={`/facilities/${data.slug}`} 
+                      class="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-emerald-700 transition-colors"
+                    >
+                      View Details
+                    </a>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>

@@ -1,0 +1,31 @@
+{
+  "facilityName": "NewBridge Living Main House",
+  "slug": "main-house",
+  "monthlyRent": "$800",
+  "capacity": 8,
+  "location": "Tallahassee, FL",
+  "address": "1234 Recovery Lane, Tallahassee, FL 32301",
+  "programs": [
+    "Standard Sober Living",
+    "Extended Care Program",
+    "Transitional Living"
+  ],
+  "amenities": [
+    "24/7 House Manager",
+    "Weekly House Meetings",
+    "Job Placement Assistance",
+    "Community Kitchen",
+    "Structured Environment"
+  ],
+  "images": [
+    "/images/facilities/main-house-exterior.jpg",
+    "/images/facilities/main-house-kitchen.jpg",
+    "/images/facilities/main-house-bedroom.jpg"
+  ],
+  "description": "Our flagship sober living home offers a structured, supportive environment for men in early recovery. Located in a quiet Tallahassee neighborhood, residents benefit from close proximity to meetings, employment opportunities, and therapeutic services.",
+  "availability": "accepting",
+  "featured": true,
+  "createdAt": "2025-08-19",
+  "metaTitle": "NewBridge Living Main House - Premier Sober Living in Fort Lauderdale",
+  "metaDescription": "Structured sober living home for men in Tallahassee. 8-bed capacity with 24/7 support, job assistance, and proven recovery programs."
+}

@@ -1,0 +1,231 @@
+backend:
+  name: netlify-identity-widget
+  branch: main
+
+media_folder: "public/images/facilities"
+public_folder: "/images/facilities"
+
+collections:
+  # Facility Management
+  - name: "facilities"
+    label: "🏠 Facilities"
+    label_singular: "Facility"
+    folder: "src/content/facilities"
+    create: true
+    slug: "{{slug}}"
+    extension: "json"
+    format: "json"
+    summary: "{{facilityName}} • {{capacity}} beds • {{availability}}"
+    
+    fields:
+      - label: "🏠 Facility Name"
+        name: "facilityName"
+        widget: "string"
+        required: true
+        
+      - label: "🔗 URL Slug"
+        name: "slug"
+        widget: "string"
+        required: true
+        pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Must be lowercase with hyphens"]
+        
+      - label: "💰 Monthly Rent"
+        name: "monthlyRent"
+        widget: "string"
+        required: true
+        hint: "e.g., $800"
+        
+      - label: "👥 Bed Capacity"
+        name: "capacity"
+        widget: "number"
+        required: true
+        min: 1
+        max: 20
+        
+      - label: "📍 Location"
+        name: "location"
+        widget: "string"
+        required: true
+        hint: "City, State"
+        
+      - label: "🏠 Street Address"
+        name: "address"
+        widget: "string"
+        required: true
+        
+      - label: "📋 Programs Offered"
+        name: "programs"
+        widget: "list"
+        required: true
+        default: ["Standard Sober Living", "Extended Care Program"]
+        
+      - label: "✨ Amenities & Services"
+        name: "amenities"
+        widget: "list"
+        required: true
+        default: ["24/7 House Manager", "Weekly House Meetings"]
+        
+      - label: "📸 Facility Photos"
+        name: "images"
+        widget: "list"
+        field: {label: Image, name: image, widget: image}
+        
+      - label: "📝 Description"
+        name: "description"
+        widget: "text"
+        required: true
+        
+      - label: "🔄 Availability Status"
+        name: "availability"
+        widget: "select"
+        options: 
+          - {label: "✅ Accepting Residents", value: "accepting"}
+          - {label: "⏳ Waitlist Only", value: "waitlist"}  
+          - {label: "❌ Currently Full", value: "full"}
+        default: "accepting"
+        
+      - label: "⭐ Featured Facility"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        
+      - label: "📅 Date Added"
+        name: "createdAt"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        
+      - label: "🔍 SEO Page Title"
+        name: "metaTitle"
+        widget: "string"
+        required: false
+        hint: "Optional custom page title for search engines"
+        
+      - label: "📄 SEO Description"
+        name: "metaDescription"
+        widget: "text"
+        required: false
+        hint: "Optional description for search engines (150-160 characters)"
+
+  # Resident Inquiries & CRM
+  - name: "inquiries"
+    label: "📞 Resident Inquiries"
+    label_singular: "Inquiry"
+    folder: "src/content/inquiries"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{name}}"
+    extension: "json"
+    format: "json"
+    summary: "{{name}} • {{status}} • {{createdAt}}"
+    sortable_fields: ['createdAt', 'status', 'priority']
+    
+    view_filters:
+      - label: "🆕 New Inquiries"
+        field: status
+        pattern: "new"
+      - label: "📞 Contacted"
+        field: status  
+        pattern: "contacted"
+      - label: "🔥 High Priority"
+        field: priority
+        pattern: "high"
+    
+    fields:
+      - label: "👤 Full Name"
+        name: "name"
+        widget: "string" 
+        required: true
+        
+      - label: "📱 Phone Number"
+        name: "phone"
+        widget: "string"
+        required: true
+        
+      - label: "📧 Email Address"
+        name: "email"
+        widget: "string"
+        required: true
+        
+      - label: "🚨 Emergency Contact"
+        name: "emergencyContact"
+        widget: "string"
+        required: false
+        hint: "Name and phone number"
+        
+      - label: "🏥 Insurance Provider"
+        name: "insuranceProvider"
+        widget: "string"
+        required: false
+        
+      - label: "💊 Previous Treatment History"
+        name: "previousTreatment"
+        widget: "text"
+        required: false
+        hint: "Brief history of prior treatment/recovery attempts"
+        
+      - label: "💬 Inquiry Message"
+        name: "message"
+        widget: "text"
+        required: true
+        
+      - label: "🏠 Preferred Program"
+        name: "preferredProgram"
+        widget: "select"
+        required: false
+        options:
+          - "Standard Sober Living"
+          - "Extended Care Program"
+          - "Transitional Living"
+          - "Not Sure Yet"
+        default: "Not Sure Yet"
+        
+      - label: "📍 How They Found Us"
+        name: "source"
+        widget: "select"
+        options:
+          - {label: "🌐 Website", value: "website"}
+          - {label: "📞 Phone Call", value: "phone"}
+          - {label: "👥 Personal Referral", value: "referral"}
+          - {label: "🏥 Treatment Center", value: "treatment-center"}
+          - {label: "👨‍⚕️ Therapist/Counselor", value: "therapist"}
+          - {label: "👨‍💼 Case Manager", value: "case-manager"}
+          - {label: "🔍 Google Search", value: "google"}
+          - {label: "📱 Social Media", value: "social-media"}
+        default: "website"
+        
+      - label: "📊 Inquiry Status"
+        name: "status"
+        widget: "select"
+        options:
+          - {label: "🆕 New Inquiry", value: "new"}
+          - {label: "📞 Contacted", value: "contacted"}
+          - {label: "📅 Assessment Scheduled", value: "scheduled"}
+          - {label: "✅ Admitted", value: "admitted"}
+          - {label: "❌ Not Suitable/Declined", value: "declined"}
+        default: "new"
+        
+      - label: "🔥 Priority Level"
+        name: "priority"
+        widget: "select"
+        options:
+          - {label: "🔥 High Priority", value: "high"}
+          - {label: "🟡 Medium Priority", value: "medium"}  
+          - {label: "❄️ Low Priority", value: "low"}
+        default: "medium"
+        
+      - label: "📅 Inquiry Date"
+        name: "createdAt"
+        widget: "datetime"
+        format: "YYYY-MM-DD HH:mm"
+        required: true
+        
+      - label: "📞 Last Contact Date"
+        name: "lastContactDate"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        required: false
+        
+      - label: "📝 Staff Notes"
+        name: "notes"
+        widget: "text"
+        required: false
+        hint: "Internal notes about calls, assessments, bed availability, etc."
