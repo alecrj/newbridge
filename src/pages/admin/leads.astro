@@ -1,479 +1,510 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 
-const leads = await getCollection('leads');
-const sortedLeads = leads.sort((a, b) => 
-  new Date(b.data.createdAt).getTime() - new Date(a.data.createdAt).getTime()
-);
-
-// Group leads by status
-const newLeads = sortedLeads.filter(l => l.data.status === 'new');
-const contactedLeads = sortedLeads.filter(l => l.data.status === 'contacted');
-const qualifiedLeads = sortedLeads.filter(l => l.data.status === 'qualified');
-const closedLeads = sortedLeads.filter(l => l.data.status === 'closed');
-
-// Calculate stats
-const thisWeekLeads = sortedLeads.filter(l => {
-  const leadDate = new Date(l.data.createdAt);
-  const weekAgo = new Date();
-  weekAgo.setDate(weekAgo.getDate() - 7);
-  return leadDate > weekAgo;
-});
+// Get leads data (would be from CMS in production)
+const leads = await getCollection('leads').catch(() => []);
 ---
 
-<BaseLayout title="Lead Management Dashboard | WarehouseHub">
-  <div id="authCheck" class="hidden">
-    <div class="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div class="text-center">
-        <h2 class="text-2xl font-bold mb-4">Authentication Required</h2>
-        <p class="mb-4">Please login through the CMS first.</p>
-        <a href="/admin" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold">
-          Go to Admin Login
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <div id="dashboard" class="min-h-screen bg-gray-50">
-    <!-- Header -->
-    <div class="bg-white shadow">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center py-6">
-          <h1 class="text-3xl font-bold text-gray-900">Lead Management Dashboard</h1>
-          <div class="space-x-4">
-            <button 
-              id="exportCSV" 
-              class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold"
-            >
-              Export to CSV
-            </button>
-            <a 
-              href="/admin" 
-              class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-semibold inline-block"
-            >
-              Back to CMS
-            </a>
-          </div>
+<BaseLayout title="Leads Management | NewBridge Living CRM">
+  <!-- Professional CRM Header -->
+  <section class="bg-gradient-to-r from-emerald-900 to-emerald-800 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-3xl font-bold text-white">Leads Management</h1>
+          <p class="text-emerald-200 mt-2">Track and manage potential residents through the admissions process</p>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button 
+            id="exportLeads"
+            class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center"
+          >
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            Export Data
+          </button>
+          <button 
+            id="addLead"
+            class="bg-white text-emerald-800 px-6 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-all duration-300 flex items-center"
+          >
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            Add Lead
+          </button>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Stats Cards -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white rounded-lg shadow p-6">
-          <div class="flex items-center">
-            <div class="flex-1">
-              <p class="text-sm font-medium text-gray-600">Total Leads</p>
-              <p class="text-3xl font-bold text-gray-900">{sortedLeads.length}</p>
+  <!-- CRM Dashboard Stats -->
+  <section class="bg-white py-8 border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <!-- New Leads -->
+        <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 border border-blue-200/50">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-blue-600 font-semibold text-sm uppercase tracking-wide">New Leads</p>
+              <p class="text-3xl font-bold text-blue-700" id="newLeadsCount">12</p>
+              <p class="text-blue-600 text-sm">This week</p>
             </div>
-            <div class="p-3 bg-blue-100 rounded-full">
-              <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            <div class="bg-blue-500 rounded-full p-3">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
               </svg>
             </div>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow p-6">
-          <div class="flex items-center">
-            <div class="flex-1">
-              <p class="text-sm font-medium text-gray-600">New Leads</p>
-              <p class="text-3xl font-bold text-green-600">{newLeads.length}</p>
+        <!-- In Progress -->
+        <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-2xl p-6 border border-yellow-200/50">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-yellow-600 font-semibold text-sm uppercase tracking-wide">In Progress</p>
+              <p class="text-3xl font-bold text-yellow-700" id="inProgressCount">8</p>
+              <p class="text-yellow-600 text-sm">Active assessments</p>
             </div>
-            <div class="p-3 bg-green-100 rounded-full">
-              <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            <div class="bg-yellow-500 rounded-full p-3">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
             </div>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow p-6">
-          <div class="flex items-center">
-            <div class="flex-1">
-              <p class="text-sm font-medium text-gray-600">This Week</p>
-              <p class="text-3xl font-bold text-purple-600">{thisWeekLeads.length}</p>
+        <!-- Ready for Admission -->
+        <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-2xl p-6 border border-emerald-200/50">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-emerald-600 font-semibold text-sm uppercase tracking-wide">Ready for Admission</p>
+              <p class="text-3xl font-bold text-emerald-700" id="readyCount">5</p>
+              <p class="text-emerald-600 text-sm">Qualified leads</p>
             </div>
-            <div class="p-3 bg-purple-100 rounded-full">
-              <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow p-6">
-          <div class="flex items-center">
-            <div class="flex-1">
-              <p class="text-sm font-medium text-gray-600">Qualified</p>
-              <p class="text-3xl font-bold text-yellow-600">{qualifiedLeads.length}</p>
-            </div>
-            <div class="p-3 bg-yellow-100 rounded-full">
-              <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-emerald-500 rounded-full p-3">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Filters -->
-      <div class="bg-white rounded-lg shadow p-6 mb-8">
-        <div class="flex flex-wrap gap-4">
-          <select id="statusFilter" class="px-4 py-2 border border-gray-300 rounded-lg">
-            <option value="">All Status</option>
-            <option value="new">New</option>
-            <option value="contacted">Contacted</option>
-            <option value="qualified">Qualified</option>
-            <option value="closed">Closed</option>
-          </select>
-          
-          <input 
-            type="text" 
-            id="searchFilter" 
-            placeholder="Search by name, email, or company..."
-            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg"
-          />
-          
-          <input 
-            type="date" 
-            id="dateFilter" 
-            class="px-4 py-2 border border-gray-300 rounded-lg"
-          />
-          
-          <button 
-            id="clearFilters" 
-            class="px-4 py-2 text-gray-600 hover:text-gray-800"
-          >
-            Clear Filters
-          </button>
+        <!-- Conversion Rate -->
+        <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-6 border border-purple-200/50">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-purple-600 font-semibold text-sm uppercase tracking-wide">Conversion Rate</p>
+              <p class="text-3xl font-bold text-purple-700" id="conversionRate">68%</p>
+              <p class="text-purple-600 text-sm">Last 30 days</p>
+            </div>
+            <div class="bg-purple-500 rounded-full p-3">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- Leads Table -->
-      <div class="bg-white rounded-lg shadow overflow-hidden">
+  <!-- Filters and Search -->
+  <section class="bg-gray-50 py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+          <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+            <input 
+              type="text" 
+              id="searchLeads" 
+              placeholder="Search by name, email, or phone..."
+              class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 min-w-80"
+            />
+            
+            <select id="statusFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+              <option value="">All Statuses</option>
+              <option value="new">New</option>
+              <option value="contacted">Contacted</option>
+              <option value="scheduled">Assessment Scheduled</option>
+              <option value="qualified">Qualified</option>
+              <option value="admitted">Admitted</option>
+              <option value="declined">Declined</option>
+              <option value="lost">Lost</option>
+            </select>
+            
+            <select id="priorityFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+              <option value="">All Priorities</option>
+              <option value="high">High Priority</option>
+              <option value="medium">Medium Priority</option>
+              <option value="low">Low Priority</option>
+            </select>
+          </div>
+          
+          <div class="flex items-center space-x-3">
+            <input 
+              type="date" 
+              id="dateFilter" 
+              class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+            />
+            
+            <button 
+              id="clearFilters" 
+              class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+            >
+              Clear Filters
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leads Table -->
+  <section class="py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
         <div class="overflow-x-auto">
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Date
+                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Contact Info
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Name / Company
+                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Status & Priority
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Contact
+                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Program Interest
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Property
+                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Source & Date
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
+                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Next Action
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Source
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200" id="leadsTableBody">
-              {sortedLeads.map((lead: CollectionEntry<'leads'>) => (
-                <tr class="lead-row hover:bg-gray-50" 
-                    data-status={lead.data.status}
-                    data-name={lead.data.name.toLowerCase()}
-                    data-email={lead.data.email.toLowerCase()}
-                    data-company={(lead.data.company || '').toLowerCase()}
-                    data-date={lead.data.createdAt}>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {new Date(lead.data.createdAt).toLocaleDateString('en-US', { 
-                      month: 'short', 
-                      day: 'numeric',
-                      year: 'numeric'
-                    })}
-                  </td>
-                  <td class="px-6 py-4">
-                    <div class="text-sm font-medium text-gray-900">{lead.data.name}</div>
-                    {lead.data.company && (
-                      <div class="text-sm text-gray-500">{lead.data.company}</div>
-                    )}
-                  </td>
-                  <td class="px-6 py-4">
-                    <div class="text-sm text-gray-900">
-                      <a href={`mailto:${lead.data.email}`} class="text-blue-600 hover:text-blue-800">
-                        {lead.data.email}
-                      </a>
+              <!-- Sample Lead Rows -->
+              <tr class="hover:bg-gray-50 transition-colors duration-200">
+                <td class="px-6 py-4">
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center mr-4">
+                      <span class="text-emerald-600 font-semibold text-sm">JD</span>
                     </div>
-                    <div class="text-sm text-gray-500">
-                      <a href={`tel:${lead.data.phone}`} class="hover:text-gray-700">
-                        {lead.data.phone}
-                      </a>
+                    <div>
+                      <div class="font-semibold text-gray-900">John Doe</div>
+                      <div class="text-gray-500 text-sm">john.doe@email.com</div>
+                      <div class="text-gray-500 text-sm">(555) 123-4567</div>
                     </div>
-                  </td>
-                  <td class="px-6 py-4 text-sm text-gray-900">
-                    {lead.data.propertyInterested || '-'}
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <span class={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      lead.data.status === 'new' ? 'bg-green-100 text-green-800' :
-                      lead.data.status === 'contacted' ? 'bg-blue-100 text-blue-800' :
-                      lead.data.status === 'qualified' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-gray-100 text-gray-800'
-                    }`}>
-                      {lead.data.status}
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="flex flex-col space-y-2">
+                    <span class="inline-flex px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
+                      Contacted
                     </span>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {lead.data.source}
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button 
-                      class="text-indigo-600 hover:text-indigo-900 view-details"
-                      data-lead={JSON.stringify(lead.data)}
-                    >
-                      View Details
+                    <span class="inline-flex px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded-full">
+                      High Priority
+                    </span>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900">Standard Sober Living</div>
+                  <div class="text-sm text-gray-500">Preferred: Main House</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900">Website Form</div>
+                  <div class="text-sm text-gray-500">Aug 19, 2025</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900 font-medium">Assessment Call</div>
+                  <div class="text-sm text-gray-500">Due: Today 2:00 PM</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="flex items-center space-x-2">
+                    <button class="text-emerald-600 hover:text-emerald-800 font-medium text-sm">
+                      View
                     </button>
-                  </td>
-                </tr>
-              ))}
+                    <button class="text-blue-600 hover:text-blue-800 font-medium text-sm">
+                      Edit
+                    </button>
+                    <button class="text-purple-600 hover:text-purple-800 font-medium text-sm">
+                      Call
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 transition-colors duration-200">
+                <td class="px-6 py-4">
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                      <span class="text-blue-600 font-semibold text-sm">MS</span>
+                    </div>
+                    <div>
+                      <div class="font-semibold text-gray-900">Mike Smith</div>
+                      <div class="text-gray-500 text-sm">m.smith@email.com</div>
+                      <div class="text-gray-500 text-sm">(555) 987-6543</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="flex flex-col space-y-2">
+                    <span class="inline-flex px-2 py-1 text-xs font-medium bg-emerald-100 text-emerald-800 rounded-full">
+                      Qualified
+                    </span>
+                    <span class="inline-flex px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
+                      Medium Priority
+                    </span>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900">Extended Care Program</div>
+                  <div class="text-sm text-gray-500">Any facility</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900">Referral - Dr. Johnson</div>
+                  <div class="text-sm text-gray-500">Aug 18, 2025</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900 font-medium">Schedule Intake</div>
+                  <div class="text-sm text-gray-500">Due: Tomorrow</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="flex items-center space-x-2">
+                    <button class="text-emerald-600 hover:text-emerald-800 font-medium text-sm">
+                      View
+                    </button>
+                    <button class="text-blue-600 hover:text-blue-800 font-medium text-sm">
+                      Edit
+                    </button>
+                    <button class="text-purple-600 hover:text-purple-800 font-medium text-sm">
+                      Call
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 transition-colors duration-200">
+                <td class="px-6 py-4">
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                      <span class="text-purple-600 font-semibold text-sm">RW</span>
+                    </div>
+                    <div>
+                      <div class="font-semibold text-gray-900">Robert Wilson</div>
+                      <div class="text-gray-500 text-sm">r.wilson@email.com</div>
+                      <div class="text-gray-500 text-sm">(555) 456-7890</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="flex flex-col space-y-2">
+                    <span class="inline-flex px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+                      New
+                    </span>
+                    <span class="inline-flex px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
+                      Low Priority
+                    </span>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900">Transitional Living</div>
+                  <div class="text-sm text-gray-500">Price sensitive</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900">Phone Inquiry</div>
+                  <div class="text-sm text-gray-500">Aug 17, 2025</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900 font-medium">Initial Contact</div>
+                  <div class="text-sm text-gray-500">Due: Aug 20</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="flex items-center space-x-2">
+                    <button class="text-emerald-600 hover:text-emerald-800 font-medium text-sm">
+                      View
+                    </button>
+                    <button class="text-blue-600 hover:text-blue-800 font-medium text-sm">
+                      Edit
+                    </button>
+                    <button class="text-purple-600 hover:text-purple-800 font-medium text-sm">
+                      Call
+                    </button>
+                  </div>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
+
+        <!-- Pagination -->
+        <div class="bg-gray-50 px-6 py-4 flex items-center justify-between border-t border-gray-200">
+          <div class="text-sm text-gray-700">
+            Showing <span class="font-medium">1</span> to <span class="font-medium">3</span> of <span class="font-medium">27</span> results
+          </div>
+          <div class="flex items-center space-x-2">
+            <button class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+              Previous
+            </button>
+            <button class="px-3 py-2 text-sm font-medium text-white bg-emerald-600 border border-emerald-600 rounded-lg">
+              1
+            </button>
+            <button class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+              2
+            </button>
+            <button class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+              3
+            </button>
+            <button class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+              Next
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Lead Details Modal -->
-  <div id="leadModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-    <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-bold text-gray-900" id="modalTitle">Lead Details</h3>
-        <button id="closeModal" class="text-gray-400 hover:text-gray-600">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
+  <!-- Add Lead Modal -->
+  <div id="addLeadModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-screen overflow-y-auto">
+      <div class="p-6 border-b border-gray-200">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-bold text-gray-900">Add New Lead</h3>
+          <button id="closeModal" class="text-gray-400 hover:text-gray-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
       </div>
-      <div id="modalContent" class="space-y-4">
-        <!-- Content will be inserted here -->
-      </div>
+      
+      <form id="addLeadForm" class="p-6 space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">First Name *</label>
+            <input type="text" name="firstName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Last Name *</label>
+            <input type="text" name="lastName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Email *</label>
+            <input type="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Phone *</label>
+            <input type="tel" name="phone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Priority</label>
+            <select name="priority" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+              <option value="medium">Medium Priority</option>
+              <option value="high">High Priority</option>
+              <option value="low">Low Priority</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Source</label>
+            <select name="source" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+              <option value="website">Website Form</option>
+              <option value="phone">Phone Inquiry</option>
+              <option value="referral">Professional Referral</option>
+              <option value="walk-in">Walk-in</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Program Interest</label>
+          <select name="program" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+            <option value="standard">Standard Sober Living</option>
+            <option value="extended">Extended Care Program</option>
+            <option value="transitional">Transitional Living</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Initial Notes</label>
+          <textarea name="notes" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="Initial assessment notes, concerns, special requirements..."></textarea>
+        </div>
+
+        <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+          <button type="button" id="cancelAdd" class="px-6 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 font-semibold transition-colors duration-300">
+            Cancel
+          </button>
+          <button type="submit" class="px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 font-semibold transition-colors duration-300">
+            Add Lead
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 
   <script>
-    // Check authentication on client side
-    document.addEventListener('DOMContentLoaded', () => {
-      // Check if user is logged in via Netlify Identity
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on('init', user => {
-          if (!user) {
-            // Not logged in, show auth message
-            document.getElementById('dashboard')?.classList.add('hidden');
-            document.getElementById('authCheck')?.classList.remove('hidden');
-          } else {
-            // Logged in, show dashboard
-            document.getElementById('dashboard')?.classList.remove('hidden');
-            document.getElementById('authCheck')?.classList.add('hidden');
-          }
-        });
+    // Modal functionality
+    const addLeadBtn = document.getElementById('addLead');
+    const modal = document.getElementById('addLeadModal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const cancelBtn = document.getElementById('cancelAdd');
+
+    addLeadBtn?.addEventListener('click', () => {
+      modal?.classList.remove('hidden');
+    });
+
+    [closeModalBtn, cancelBtn].forEach(btn => {
+      btn?.addEventListener('click', () => {
+        modal?.classList.add('hidden');
+      });
+    });
+
+    // Close modal on outside click
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.add('hidden');
       }
     });
 
-    // Lead filtering
-    const statusFilter = document.getElementById('statusFilter') as HTMLSelectElement;
-    const searchFilter = document.getElementById('searchFilter') as HTMLInputElement;
-    const dateFilter = document.getElementById('dateFilter') as HTMLInputElement;
-    const clearButton = document.getElementById('clearFilters');
-    const leadRows = document.querySelectorAll('.lead-row');
-
-    function filterLeads() {
-      const status = statusFilter.value;
-      const search = searchFilter.value.toLowerCase();
-      const date = dateFilter.value;
-
-      leadRows.forEach((row) => {
-        const rowStatus = row.getAttribute('data-status');
-        const rowName = row.getAttribute('data-name') || '';
-        const rowEmail = row.getAttribute('data-email') || '';
-        const rowCompany = row.getAttribute('data-company') || '';
-        const rowDate = row.getAttribute('data-date') || '';
-
-        const matchesStatus = !status || rowStatus === status;
-        const matchesSearch = !search || 
-          rowName.includes(search) || 
-          rowEmail.includes(search) || 
-          rowCompany.includes(search);
-        const matchesDate = !date || rowDate.startsWith(date);
-
-        (row as HTMLElement).style.display = 
-          matchesStatus && matchesSearch && matchesDate ? '' : 'none';
-      });
-    }
-
-    statusFilter?.addEventListener('change', filterLeads);
-    searchFilter?.addEventListener('input', filterLeads);
-    dateFilter?.addEventListener('change', filterLeads);
-    clearButton?.addEventListener('click', () => {
-      statusFilter.value = '';
-      searchFilter.value = '';
-      dateFilter.value = '';
-      filterLeads();
-    });
-
-    // CSV Export
-    document.getElementById('exportCSV')?.addEventListener('click', () => {
-      const rows = [
-        ['Date', 'Name', 'Email', 'Phone', 'Company', 'Property', 'Status', 'Source', 'Message']
-      ];
-
-      const visibleRows = Array.from(leadRows).filter(
-        row => (row as HTMLElement).style.display !== 'none'
-      );
-
-      visibleRows.forEach(row => {
-        const viewButton = row.querySelector('.view-details') as HTMLButtonElement;
-        const leadData = JSON.parse(viewButton.getAttribute('data-lead') || '{}');
-        
-        rows.push([
-          new Date(leadData.createdAt).toLocaleDateString(),
-          leadData.name,
-          leadData.email,
-          leadData.phone,
-          leadData.company || '',
-          leadData.propertyInterested || '',
-          leadData.status,
-          leadData.source,
-          leadData.message.replace(/"/g, '""') // Escape quotes
-        ]);
-      });
-
-      const csvContent = rows.map(row => 
-        row.map(cell => `"${cell}"`).join(',')
-      ).join('\n');
-
-      const blob = new Blob([csvContent], { type: 'text/csv' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.setAttribute('hidden', '');
-      a.setAttribute('href', url);
-      a.setAttribute('download', `leads-export-${new Date().toISOString().split('T')[0]}.csv`);
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    });
-
-    // Lead Details Modal
-    const modal = document.getElementById('leadModal');
-    const modalContent = document.getElementById('modalContent');
-    const closeModal = document.getElementById('closeModal');
-
-    document.querySelectorAll('.view-details').forEach(button => {
-      button.addEventListener('click', (e) => {
-        const leadData = JSON.parse((e.target as HTMLButtonElement).getAttribute('data-lead') || '{}');
-        
-        if (modalContent) {
-          modalContent.innerHTML = `
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Name</label>
-                <p class="mt-1 text-sm text-gray-900">${leadData.name}</p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Company</label>
-                <p class="mt-1 text-sm text-gray-900">${leadData.company || '-'}</p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Email</label>
-                <p class="mt-1 text-sm">
-                  <a href="mailto:${leadData.email}" class="text-blue-600 hover:text-blue-800">
-                    ${leadData.email}
-                  </a>
-                </p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Phone</label>
-                <p class="mt-1 text-sm">
-                  <a href="tel:${leadData.phone}" class="text-blue-600 hover:text-blue-800">
-                    ${leadData.phone}
-                  </a>
-                </p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Property Interested</label>
-                <p class="mt-1 text-sm text-gray-900">${leadData.propertyInterested || '-'}</p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Source</label>
-                <p class="mt-1 text-sm text-gray-900">${leadData.source}</p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Status</label>
-                <p class="mt-1">
-                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                    leadData.status === 'new' ? 'bg-green-100 text-green-800' :
-                    leadData.status === 'contacted' ? 'bg-blue-100 text-blue-800' :
-                    leadData.status === 'qualified' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-gray-100 text-gray-800'
-                  }">
-                    ${leadData.status}
-                  </span>
-                </p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700">Date Submitted</label>
-                <p class="mt-1 text-sm text-gray-900">
-                  ${new Date(leadData.createdAt).toLocaleString()}
-                </p>
-              </div>
-            </div>
-            <div class="mt-4">
-              <label class="block text-sm font-medium text-gray-700">Message</label>
-              <p class="mt-1 text-sm text-gray-900 bg-gray-50 p-3 rounded">
-                ${leadData.message}
-              </p>
-            </div>
-            ${leadData.notes ? `
-              <div class="mt-4">
-                <label class="block text-sm font-medium text-gray-700">Internal Notes</label>
-                <p class="mt-1 text-sm text-gray-900 bg-yellow-50 p-3 rounded">
-                  ${leadData.notes}
-                </p>
-              </div>
-            ` : ''}
-            <div class="mt-6 flex justify-end space-x-3">
-              <a 
-                href="/admin/#/collections/leads/entries/${leadData.createdAt}-${leadData.name.replace(/\s+/g, '-').toLowerCase()}" 
-                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold"
-              >
-                Edit in CMS
-              </a>
-              <button 
-                onclick="window.open('mailto:${leadData.email}')" 
-                class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-semibold"
-              >
-                Send Email
-              </button>
-            </div>
-          `;
-        }
-        
-        modal?.classList.remove('hidden');
-      });
-    });
-
-    closeModal?.addEventListener('click', () => {
+    // Form submission
+    document.getElementById('addLeadForm')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Here you would integrate with your CMS/backend
+      alert('Lead added successfully! (This would integrate with your CMS)');
       modal?.classList.add('hidden');
     });
 
-    // Close modal when clicking outside
-    window.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal?.classList.add('hidden');
-      }
+    // Filter functionality
+    const searchInput = document.getElementById('searchLeads');
+    const statusFilter = document.getElementById('statusFilter');
+    const priorityFilter = document.getElementById('priorityFilter');
+    const dateFilter = document.getElementById('dateFilter');
+    const clearFiltersBtn = document.getElementById('clearFilters');
+
+    // Search and filter logic would go here
+    clearFiltersBtn?.addEventListener('click', () => {
+      if (searchInput) searchInput.value = '';
+      if (statusFilter) statusFilter.value = '';
+      if (priorityFilter) priorityFilter.value = '';
+      if (dateFilter) dateFilter.value = '';
+    });
+
+    // Export functionality
+    document.getElementById('exportLeads')?.addEventListener('click', () => {
+      alert('Export functionality would be implemented here');
     });
   </script>
 </BaseLayout>

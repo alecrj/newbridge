@@ -2,25 +2,25 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-// Get available warehouses for the CTA section
-const warehouses = await getCollection('warehouses');
-const availableWarehouses = warehouses.filter(w => w.data.availability === 'available').slice(0, 3);
+// Get available facilities for the CTA section
+const facilities = await getCollection('facilities');
+const availableFacilities = facilities.filter(f => f.data.availability === 'accepting').slice(0, 3);
 ---
 
-<BaseLayout title="Thank You | WarehouseHub - Your Inquiry Has Been Received">
+<BaseLayout title="Thank You | NewBridge Living - Your Inquiry Has Been Received">
   <!-- Enhanced Success Hero with Professional Animation -->
-  <section class="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 overflow-hidden">
+  <section class="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-900 via-emerald-800 to-emerald-700 overflow-hidden">
     <!-- Professional Background Effects -->
     <div class="absolute inset-0">
-      <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 to-blue-600/20"></div>
+      <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 to-emerald-800/20"></div>
       <div class="absolute inset-0 opacity-5">
         <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0); background-size: 30px 30px;"></div>
       </div>
       
       <!-- Animated Success Elements -->
       <div class="absolute top-20 left-10 w-24 h-24 bg-emerald-500/20 rounded-full blur-xl animate-float"></div>
-      <div class="absolute bottom-20 right-10 w-32 h-32 bg-blue-500/20 rounded-full blur-xl animate-float-delay"></div>
-      <div class="absolute top-1/2 left-1/4 w-16 h-16 bg-purple-500/20 rounded-full blur-xl animate-float-slow"></div>
+      <div class="absolute bottom-20 right-10 w-32 h-32 bg-emerald-600/20 rounded-full blur-xl animate-float-delay"></div>
+      <div class="absolute top-1/2 left-1/4 w-16 h-16 bg-emerald-400/20 rounded-full blur-xl animate-float-slow"></div>
     </div>
     
     <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -39,174 +39,145 @@ const availableWarehouses = warehouses.filter(w => w.data.availability === 'avai
           Thank You for Your Inquiry!
         </h1>
         
-        <p class="text-xl md:text-2xl text-blue-100 mb-12 leading-relaxed max-w-4xl mx-auto">
-          We've received your message and our team of industrial real estate experts 
-          <span class="text-white font-bold">will get back to you within 2 business hours</span>.
+        <p class="text-xl md:text-2xl text-emerald-100 mb-12 leading-relaxed max-w-4xl mx-auto">
+          We've received your message and our <span class="text-white font-bold">admissions team</span> 
+          will get back to you <span class="text-white font-bold">within 2 hours</span> to discuss placement options.
         </p>
-
-        <!-- Professional Process Timeline -->
-        <div class="bg-white/20 backdrop-blur-sm rounded-3xl p-8 md:p-12 mb-12 text-left border border-white/30">
-          <h2 class="text-3xl font-bold text-white mb-10 text-center">What Happens Next?</h2>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="flex flex-col items-center text-center">
-              <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-full w-16 h-16 flex items-center justify-center mb-6 shadow-lg">
-                <span class="text-white font-bold text-xl">1</span>
-              </div>
-              <div>
-                <h3 class="text-white font-bold mb-3 text-lg">Initial Review</h3>
-                <p class="text-blue-100 leading-relaxed">Our team will review your requirements and property preferences within 2 hours</p>
-              </div>
-            </div>
-            
-            <div class="flex flex-col items-center text-center">
-              <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-full w-16 h-16 flex items-center justify-center mb-6 shadow-lg">
-                <span class="text-white font-bold text-xl">2</span>
-              </div>
-              <div>
-                <h3 class="text-white font-bold mb-3 text-lg">Expert Consultation</h3>
-                <p class="text-blue-100 leading-relaxed">A licensed real estate professional will contact you to discuss your specific needs</p>
-              </div>
-            </div>
-            
-            <div class="flex flex-col items-center text-center">
-              <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full w-16 h-16 flex items-center justify-center mb-6 shadow-lg">
-                <span class="text-white font-bold text-xl">3</span>
-              </div>
-              <div>
-                <h3 class="text-white font-bold mb-3 text-lg">Property Tours</h3>
-                <p class="text-blue-100 leading-relaxed">We'll schedule private tours of properties that match your criteria</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Enhanced Immediate Actions -->
-        <div class="flex flex-col sm:flex-row gap-6 justify-center mb-12">
+        
+        <!-- Professional Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
           <a 
-            href="tel:(555)123-4567"
-            class="group relative overflow-hidden bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white px-12 py-6 rounded-2xl text-xl font-bold transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
+            href="tel:(850)555-HOPE"
+            class="group bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white px-12 py-6 rounded-2xl font-bold text-xl transition-all duration-300 transform hover:scale-105 shadow-2xl flex items-center"
           >
-            <span class="relative z-10 flex items-center justify-center">
-              <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
-              </svg>
-              Call Us Now: (555) 123-4567
-            </span>
-            <div class="absolute inset-0 bg-gradient-to-r from-emerald-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <svg class="w-6 h-6 mr-3 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+            </svg>
+            Call Now: (850) 555-HOPE
           </a>
           
           <a 
-            href="/warehouses" 
-            class="group backdrop-blur-xl bg-white/20 hover:bg-white/30 text-white border-2 border-white/30 hover:border-white/50 px-12 py-6 rounded-2xl text-xl font-bold transition-all duration-300 transform hover:scale-105"
+            href="mailto:admissions@newbridgeliving.com"
+            class="group bg-white/20 hover:bg-white/30 text-white border-2 border-white/30 hover:border-white/50 px-12 py-6 rounded-2xl font-bold text-xl transition-all duration-300 transform hover:scale-105 backdrop-blur-sm flex items-center"
           >
-            <span class="flex items-center justify-center">
-              <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-              </svg>
-              Continue Browsing Properties
-            </span>
+            <svg class="w-6 h-6 mr-3 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+            Email Admissions
           </a>
         </div>
-
-        <!-- Professional Trust Indicators -->
-        <div class="flex flex-wrap justify-center items-center gap-8 text-emerald-200/80 text-sm">
-          <div class="flex items-center">
-            <svg class="w-5 h-5 mr-2 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-            </svg>
-            Licensed Brokers
-          </div>
-          <div class="flex items-center">
-            <svg class="w-5 h-5 mr-2 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-            </svg>
-            10+ Years Experience
-          </div>
-          <div class="flex items-center">
-            <svg class="w-5 h-5 mr-2 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-            </svg>
-            2-Hour Response Time
+        
+        <!-- What Happens Next -->
+        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+          <h3 class="text-2xl font-bold text-white mb-6">What Happens Next?</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+            <div class="flex items-start">
+              <div class="bg-emerald-500 rounded-full w-8 h-8 flex items-center justify-center mr-4 mt-1 flex-shrink-0">
+                <span class="text-white font-bold text-sm">1</span>
+              </div>
+              <div>
+                <h4 class="text-white font-bold mb-2">Initial Contact</h4>
+                <p class="text-emerald-100 text-sm">Our admissions team will call within 2 hours to discuss your needs and answer questions.</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="bg-emerald-500 rounded-full w-8 h-8 flex items-center justify-center mr-4 mt-1 flex-shrink-0">
+                <span class="text-white font-bold text-sm">2</span>
+              </div>
+              <div>
+                <h4 class="text-white font-bold mb-2">Assessment</h4>
+                <p class="text-emerald-100 text-sm">We'll conduct a brief assessment to ensure our program is the right fit for your recovery goals.</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="bg-emerald-500 rounded-full w-8 h-8 flex items-center justify-center mr-4 mt-1 flex-shrink-0">
+                <span class="text-white font-bold text-sm">3</span>
+              </div>
+              <div>
+                <h4 class="text-white font-bold mb-2">Move-In</h4>
+                <p class="text-emerald-100 text-sm">If approved, we can often accommodate same-day or next-day move-in for immediate placement.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Professional Contact Information Section -->
+  <!-- Contact Options Section -->
   <section class="bg-white py-20">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-16">
         <h2 class="text-4xl font-bold text-gray-900 mb-6">Need Immediate Assistance?</h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Our team of industrial real estate experts is standing by to help with your warehouse and distribution needs</p>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Our admissions team is standing by to help you or your loved one begin the journey to recovery</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-        <!-- Direct Contact -->
-        <div class="text-center p-10 bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl hover:shadow-lg transition-all duration-300 group border border-blue-200">
-          <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-3xl w-20 h-20 flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+        <!-- Direct Phone -->
+        <div class="text-center p-10 bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-3xl hover:shadow-lg transition-all duration-300 group border border-emerald-200">
+          <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-3xl w-20 h-20 flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-300 shadow-lg">
             <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
             </svg>
           </div>
           <h3 class="text-2xl font-bold text-gray-900 mb-4">Direct Line</h3>
-          <p class="text-gray-600 mb-6 text-lg">Speak directly with our experts</p>
-          <a href="tel:(555)123-4567" class="text-3xl font-bold text-blue-600 hover:text-blue-700 transition-colors duration-300 block mb-4">(555) 123-4567</a>
-          <p class="text-sm text-gray-500">Mon-Fri: 8AM-6PM EST</p>
+          <p class="text-gray-600 mb-6 text-lg">Speak with admissions directly</p>
+          <a href="tel:(850)555-HOPE" class="text-3xl font-bold text-emerald-600 hover:text-emerald-700 transition-colors duration-300 block mb-4">(850) 555-HOPE</a>
+          <p class="text-sm text-gray-500">Available 24/7 for Crisis Support</p>
         </div>
         
         <!-- Email Support -->
-        <div class="text-center p-10 bg-gradient-to-br from-purple-50 to-purple-100 rounded-3xl hover:shadow-lg transition-all duration-300 group border border-purple-200">
-          <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-3xl w-20 h-20 flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+        <div class="text-center p-10 bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl hover:shadow-lg transition-all duration-300 group border border-blue-200">
+          <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-3xl w-20 h-20 flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-300 shadow-lg">
             <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
             </svg>
           </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-4">Email Support</h3>
-          <p class="text-gray-600 mb-6 text-lg">Professional correspondence</p>
-          <a href="mailto:info@warehousehub.com" class="text-xl font-bold text-purple-600 hover:text-purple-700 transition-colors duration-300 block mb-4">info@warehousehub.com</a>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Email Admissions</h3>
+          <p class="text-gray-600 mb-6 text-lg">Detailed information requests</p>
+          <a href="mailto:admissions@newbridgeliving.com" class="text-xl font-bold text-blue-600 hover:text-blue-700 transition-colors duration-300 block mb-4">admissions@newbridgeliving.com</a>
           <p class="text-sm text-gray-500">Response within 2 hours</p>
         </div>
         
-        <!-- Priority Support -->
-        <div class="text-center p-10 bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-3xl hover:shadow-lg transition-all duration-300 group border border-emerald-200">
-          <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-3xl w-20 h-20 flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+        <!-- Crisis Support -->
+        <div class="text-center p-10 bg-gradient-to-br from-purple-50 to-purple-100 rounded-3xl hover:shadow-lg transition-all duration-300 group border border-purple-200">
+          <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-3xl w-20 h-20 flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-300 shadow-lg">
             <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
           </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-4">Quick Response</h3>
-          <p class="text-gray-600 mb-6 text-lg">Time-sensitive requirements</p>
-          <a href="tel:(555)123-9999" class="text-xl font-bold text-emerald-600 hover:text-emerald-700 transition-colors duration-300 block mb-4">(555) 123-9999</a>
-          <p class="text-sm text-gray-500">Priority Support Line</p>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Crisis Support</h3>
+          <p class="text-gray-600 mb-6 text-lg">Immediate assistance needed</p>
+          <a href="tel:(850)555-9999" class="text-xl font-bold text-purple-600 hover:text-purple-700 transition-colors duration-300 block mb-4">(850) 555-9999</a>
+          <p class="text-sm text-gray-500">24/7 Crisis Hotline</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Continue Exploring Section -->
-  {availableWarehouses.length > 0 && (
+  <!-- Explore Our Facilities -->
+  {availableFacilities.length > 0 && (
     <section class="bg-gray-50 py-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-          <h2 class="text-4xl font-bold text-gray-900 mb-6">While You Wait, Explore More Properties</h2>
-          <p class="text-xl text-gray-600 max-w-3xl mx-auto">Discover other premium warehouse facilities that might interest you while our team prepares your personalized response</p>
+          <h2 class="text-4xl font-bold text-gray-900 mb-6">Explore Our Sober Living Homes</h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">While you wait for our call, learn more about our structured sober living environments</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {availableWarehouses.map((warehouse) => (
+          {availableFacilities.map((facility) => (
             <div class="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border border-gray-100 overflow-hidden">
               <div class="relative h-64 overflow-hidden">
-                {warehouse.data.images && warehouse.data.images[0] ? (
+                {facility.data.images && facility.data.images[0] ? (
                   <img 
-                    src={warehouse.data.images[0]} 
-                    alt={warehouse.data.title}
+                    src={facility.data.images[0]} 
+                    alt={facility.data.facilityName}
                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     loading="lazy"
                   />
                 ) : (
-                  <div class="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                    <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div class="w-full h-full bg-gradient-to-br from-emerald-100 to-emerald-200 flex items-center justify-center">
+                    <svg class="w-16 h-16 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                     </svg>
                   </div>
@@ -214,35 +185,35 @@ const availableWarehouses = warehouses.filter(w => w.data.availability === 'avai
                 
                 <div class="absolute top-6 right-6">
                   <div class="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
-                    Available
+                    {facility.data.availability === 'accepting' ? 'Beds Available' : 'Contact Us'}
                   </div>
                 </div>
               </div>
               
               <div class="p-8">
-                <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">{warehouse.data.title}</h3>
+                <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-emerald-600 transition-colors duration-300">{facility.data.facilityName}</h3>
                 
                 <div class="flex items-center text-gray-600 mb-6">
-                  <svg class="w-5 h-5 mr-3 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-5 h-5 mr-3 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                   </svg>
-                  <span class="font-semibold text-lg">{warehouse.data.location}</span>
+                  <span class="font-semibold text-lg">{facility.data.location}</span>
                 </div>
                 
                 <div class="grid grid-cols-2 gap-4 mb-8">
-                  <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-2xl border border-blue-200/50">
-                    <div class="text-2xl font-bold text-blue-600 mb-1">{warehouse.data.price}</div>
-                    <div class="text-sm text-blue-600/80 font-medium">per sq ft/year</div>
+                  <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 p-4 rounded-2xl border border-emerald-200/50">
+                    <div class="text-2xl font-bold text-emerald-600 mb-1">{facility.data.monthlyRent}</div>
+                    <div class="text-sm text-emerald-600/80 font-medium">per month</div>
                   </div>
-                  <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-2xl border border-purple-200/50">
-                    <div class="text-2xl font-bold text-purple-600 mb-1">{warehouse.data.size.toLocaleString()}</div>
-                    <div class="text-sm text-purple-600/80 font-medium">sq ft</div>
+                  <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-2xl border border-blue-200/50">
+                    <div class="text-2xl font-bold text-blue-600 mb-1">{facility.data.capacity}</div>
+                    <div class="text-sm text-blue-600/80 font-medium">bed capacity</div>
                   </div>
                 </div>
                 
                 <a 
-                  href={`/warehouses/${warehouse.data.slug}`}
-                  class="block text-center bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-2xl font-bold transition-all duration-300 transform group-hover:scale-105"
+                  href={`/facilities/${facility.data.slug}`}
+                  class="block text-center bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white px-8 py-4 rounded-2xl font-bold transition-all duration-300 transform group-hover:scale-105"
                 >
                   View Details
                 </a>
@@ -253,10 +224,10 @@ const availableWarehouses = warehouses.filter(w => w.data.availability === 'avai
 
         <div class="text-center mt-16">
           <a 
-            href="/warehouses" 
+            href="/facilities" 
             class="inline-flex items-center bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 text-white px-12 py-5 rounded-2xl font-bold text-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl group"
           >
-            <span>View All Properties</span>
+            <span>View All Facilities</span>
             <svg class="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
             </svg>
@@ -275,137 +246,40 @@ const availableWarehouses = warehouses.filter(w => w.data.availability === 'avai
     
     @keyframes float-delay {
       0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-18px) rotate(-1deg); }
+      50% { transform: translateY(-8px) rotate(-1deg); }
     }
     
     @keyframes float-slow {
       0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-8px) rotate(0.5deg); }
+      50% { transform: translateY(-6px) rotate(0.5deg); }
     }
     
     @keyframes scale-in {
-      from { opacity: 0; transform: scale(0.5) rotate(-10deg); }
-      to { opacity: 1; transform: scale(1) rotate(0deg); }
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
     
     @keyframes slide-up {
-      from { opacity: 0; transform: translateY(50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    @keyframes check-draw {
-      0% { stroke-dasharray: 0 100; opacity: 0; }
-      50% { opacity: 1; }
-      100% { stroke-dasharray: 100 0; opacity: 1; }
+      0% { transform: translateY(30px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
     }
     
     @keyframes pulse-success {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-      50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); }
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
     
-    .animate-float {
-      animation: float 8s ease-in-out infinite;
+    @keyframes check-draw {
+      0% { stroke-dasharray: 0 50; }
+      100% { stroke-dasharray: 50 0; }
     }
     
-    .animate-float-delay {
-      animation: float-delay 10s ease-in-out infinite;
-    }
-    
-    .animate-float-slow {
-      animation: float-slow 12s ease-in-out infinite;
-    }
-    
-    .animate-scale-in {
-      animation: scale-in 1s ease-out 0.5s both;
-    }
-    
-    .animate-slide-up {
-      animation: slide-up 1s ease-out 0.3s both;
-    }
-    
-    .animate-check-draw {
-      stroke-dasharray: 100;
-      animation: check-draw 1.5s ease-out 1.5s both;
-    }
-    
-    .animate-pulse-success {
-      animation: pulse-success 3s ease-out infinite;
-    }
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    .animate-float-delay { animation: float-delay 8s ease-in-out infinite; }
+    .animate-float-slow { animation: float-slow 10s ease-in-out infinite; }
+    .animate-scale-in { animation: scale-in 0.6s ease-out; }
+    .animate-slide-up { animation: slide-up 0.8s ease-out 0.2s both; }
+    .animate-pulse-success { animation: pulse-success 2s ease-in-out infinite; }
+    .animate-check-draw { animation: check-draw 0.8s ease-in-out 0.5s both; stroke-dasharray: 0 50; }
   </style>
-
-  <script>
-    // Enhanced interactions and animations
-    document.addEventListener('DOMContentLoaded', () => {
-      // Professional scroll animations
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fadeIn');
-          }
-        });
-      }, observerOptions);
-
-      // Observe elements for scroll animations
-      document.querySelectorAll('.group, .card, h2, h3').forEach(el => {
-        observer.observe(el);
-      });
-
-      // Professional confetti effect (subtle)
-      function createConfetti() {
-        const colors = ['#10b981', '#3b82f6', '#8b5cf6'];
-        const confettiCount = 50;
-        
-        for (let i = 0; i < confettiCount; i++) {
-          const confetti = document.createElement('div');
-          confetti.style.position = 'fixed';
-          confetti.style.width = '6px';
-          confetti.style.height = '6px';
-          confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-          confetti.style.left = Math.random() * window.innerWidth + 'px';
-          confetti.style.top = '-10px';
-          confetti.style.borderRadius = '50%';
-          confetti.style.pointerEvents = 'none';
-          confetti.style.zIndex = '1000';
-          confetti.style.opacity = '0.8';
-          
-          document.body.appendChild(confetti);
-          
-          const animationDuration = Math.random() * 2000 + 1000;
-          const horizontalMovement = (Math.random() - 0.5) * 200;
-          
-          confetti.animate([
-            { transform: 'translateY(-10px) translateX(0px) rotate(0deg)', opacity: 0.8 },
-            { transform: `translateY(${window.innerHeight + 10}px) translateX(${horizontalMovement}px) rotate(360deg)`, opacity: 0 }
-          ], {
-            duration: animationDuration,
-            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-          }).onfinish = () => {
-            confetti.remove();
-          };
-        }
-      }
-
-      // Trigger confetti after page load
-      setTimeout(createConfetti, 2000);
-
-      // Professional page analytics (placeholder)
-      // Only call if gtag is available
-      if (typeof (window as any).gtag !== 'undefined') {
-        (window as any).gtag('event', 'conversion', {
-          'send_to': 'AW-CONVERSION_ID/CONVERSION_LABEL',
-          'value': 1.0,
-          'currency': 'USD'
-        });
-      }
-
-      // Enhanced user experience
-      console.log('✅ Success page loaded - Professional experience activated');
-    });
-  </script>
 </BaseLayout>
