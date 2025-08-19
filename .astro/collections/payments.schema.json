@@ -1,0 +1,85 @@
+{
+  "$ref": "#/definitions/payments",
+  "definitions": {
+    "payments": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "residentId": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "paymentDate": {
+          "type": "string"
+        },
+        "paymentMethod": {
+          "type": "string",
+          "enum": [
+            "cash",
+            "card",
+            "bank",
+            "money-order",
+            "insurance"
+          ]
+        },
+        "paymentType": {
+          "type": "string",
+          "enum": [
+            "rent",
+            "deposit",
+            "fees",
+            "medical",
+            "other"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "completed",
+            "failed",
+            "refunded"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "receiptNumber": {
+          "type": "string"
+        },
+        "staffMember": {
+          "type": "string"
+        },
+        "facilityId": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "residentId",
+        "amount",
+        "paymentDate",
+        "paymentMethod",
+        "paymentType",
+        "status",
+        "description",
+        "receiptNumber",
+        "staffMember",
+        "facilityId",
+        "createdAt"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

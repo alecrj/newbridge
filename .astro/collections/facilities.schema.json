@@ -1,0 +1,89 @@
+{
+  "$ref": "#/definitions/facilities",
+  "definitions": {
+    "facilities": {
+      "type": "object",
+      "properties": {
+        "facilityName": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "monthlyRent": {
+          "type": "string"
+        },
+        "capacity": {
+          "type": "number"
+        },
+        "location": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "programs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "amenities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "type": "string"
+        },
+        "availability": {
+          "type": "string",
+          "enum": [
+            "accepting",
+            "waitlist",
+            "full"
+          ]
+        },
+        "featured": {
+          "type": "boolean",
+          "default": false
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "metaTitle": {
+          "type": "string"
+        },
+        "metaDescription": {
+          "type": "string"
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "facilityName",
+        "slug",
+        "monthlyRent",
+        "capacity",
+        "location",
+        "address",
+        "programs",
+        "amenities",
+        "images",
+        "description",
+        "availability",
+        "createdAt"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

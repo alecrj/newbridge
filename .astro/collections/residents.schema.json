@@ -1,0 +1,284 @@
+{
+  "$ref": "#/definitions/residents",
+  "definitions": {
+    "residents": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "dateOfBirth": {
+          "type": "string"
+        },
+        "ssn": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string",
+          "enum": [
+            "male",
+            "female",
+            "other"
+          ]
+        },
+        "phone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "zipCode": {
+          "type": "string"
+        },
+        "emergencyContact1": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "relationship": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "relationship",
+            "phone"
+          ],
+          "additionalProperties": false
+        },
+        "emergencyContact2": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "relationship": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "relationship",
+            "phone"
+          ],
+          "additionalProperties": false
+        },
+        "insuranceProvider": {
+          "type": "string"
+        },
+        "insuranceID": {
+          "type": "string"
+        },
+        "policyNumber": {
+          "type": "string"
+        },
+        "groupNumber": {
+          "type": "string"
+        },
+        "admissionDate": {
+          "type": "string"
+        },
+        "expectedDischargeDate": {
+          "type": "string"
+        },
+        "actualDischargeDate": {
+          "type": "string"
+        },
+        "facilityAssigned": {
+          "type": "string"
+        },
+        "bedNumber": {
+          "type": "string"
+        },
+        "roomNumber": {
+          "type": "string"
+        },
+        "sobrietyDate": {
+          "type": "string"
+        },
+        "substancesOfConcern": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "previousTreatmentHistory": {
+          "type": "string"
+        },
+        "currentMedications": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "allergies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "probationOfficer": {
+          "type": "string"
+        },
+        "probationPhone": {
+          "type": "string"
+        },
+        "courtDates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "legalConditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "programType": {
+          "type": "string",
+          "enum": [
+            "standard",
+            "extended",
+            "transitional",
+            "specialized"
+          ]
+        },
+        "phase": {
+          "type": "string",
+          "enum": [
+            "phase-1",
+            "phase-2",
+            "phase-3",
+            "graduated"
+          ],
+          "default": "phase-1"
+        },
+        "privileges": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "restrictions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "monthlyRent": {
+          "type": "number"
+        },
+        "securityDeposit": {
+          "type": "number"
+        },
+        "paymentMethod": {
+          "type": "string",
+          "enum": [
+            "insurance",
+            "self-pay",
+            "family",
+            "other"
+          ]
+        },
+        "paymentSchedule": {
+          "type": "string",
+          "enum": [
+            "weekly",
+            "bi-weekly",
+            "monthly"
+          ]
+        },
+        "balanceOwed": {
+          "type": "number",
+          "default": 0
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "discharged",
+            "violated",
+            "transferred",
+            "medical-leave"
+          ],
+          "default": "active"
+        },
+        "dischargeReason": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "caseManager": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "dateOfBirth",
+        "gender",
+        "phone",
+        "email",
+        "emergencyContact1",
+        "admissionDate",
+        "facilityAssigned",
+        "sobrietyDate",
+        "programType",
+        "monthlyRent",
+        "securityDeposit",
+        "paymentMethod",
+        "paymentSchedule",
+        "createdAt",
+        "updatedAt"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

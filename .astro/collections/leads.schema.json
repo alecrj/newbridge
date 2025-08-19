@@ -4,54 +4,193 @@
     "leads": {
       "type": "object",
       "properties": {
-        "name": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "dateOfBirth": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string",
+          "enum": [
+            "male",
+            "female",
+            "non-binary",
+            "prefer-not-to-say"
+          ]
+        },
+        "phone": {
           "type": "string"
         },
         "email": {
           "type": "string"
         },
-        "phone": {
+        "address": {
           "type": "string"
         },
-        "company": {
+        "city": {
           "type": "string"
         },
-        "propertyInterested": {
+        "state": {
+          "type": "string"
+        },
+        "zipCode": {
+          "type": "string"
+        },
+        "emergencyContactName": {
+          "type": "string"
+        },
+        "emergencyContactPhone": {
+          "type": "string"
+        },
+        "emergencyContactRelationship": {
+          "type": "string"
+        },
+        "insuranceProvider": {
+          "type": "string"
+        },
+        "insuranceID": {
+          "type": "string"
+        },
+        "paymentMethod": {
+          "type": "string",
+          "enum": [
+            "insurance",
+            "self-pay",
+            "family",
+            "other"
+          ]
+        },
+        "previousTreatment": {
+          "type": "string"
+        },
+        "currentSobrietyDate": {
+          "type": "string"
+        },
+        "substancesUsed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "lastUseDate": {
+          "type": "string"
+        },
+        "detoxCompleted": {
+          "type": "boolean",
+          "default": false
+        },
+        "detoxLocation": {
           "type": "string"
         },
         "message": {
           "type": "string"
         },
+        "currentLiving": {
+          "type": "string"
+        },
+        "transportation": {
+          "type": "boolean",
+          "default": false
+        },
+        "employment": {
+          "type": "string"
+        },
+        "legalIssues": {
+          "type": "boolean",
+          "default": false
+        },
+        "medicalIssues": {
+          "type": "string"
+        },
+        "preferredFacility": {
+          "type": "string"
+        },
+        "preferredProgram": {
+          "type": "string"
+        },
+        "moveInDate": {
+          "type": "string"
+        },
+        "lengthOfStay": {
+          "type": "string"
+        },
         "source": {
-          "type": "string",
-          "default": "website"
+          "type": "string"
+        },
+        "referredBy": {
+          "type": "string"
         },
         "status": {
           "type": "string",
           "enum": [
             "new",
             "contacted",
+            "scheduled",
             "qualified",
-            "closed"
+            "admitted",
+            "declined",
+            "lost"
           ],
           "default": "new"
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ],
+          "default": "medium"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "lastContactDate": {
+          "type": "string"
+        },
+        "nextFollowUp": {
+          "type": "string"
+        },
+        "staffAssigned": {
+          "type": "string"
         },
         "notes": {
           "type": "string"
         },
-        "createdAt": {
-          "type": "string",
-          "default": "2025-08-18T14:40:40.824Z"
+        "privateNotes": {
+          "type": "string"
+        },
+        "leadScore": {
+          "type": "number",
+          "default": 0
+        },
+        "conversionProbability": {
+          "type": "number",
+          "default": 50
         },
         "$schema": {
           "type": "string"
         }
       },
       "required": [
-        "name",
-        "email",
+        "firstName",
+        "lastName",
+        "dateOfBirth",
+        "gender",
         "phone",
-        "message"
+        "email",
+        "emergencyContactName",
+        "emergencyContactPhone",
+        "emergencyContactRelationship",
+        "paymentMethod",
+        "message",
+        "source",
+        "createdAt"
       ],
       "additionalProperties": false
     }

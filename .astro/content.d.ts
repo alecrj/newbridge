@@ -162,7 +162,39 @@ declare module 'astro:content' {
 	};
 
 	type DataEntryMap = {
-		"leads": Record<string, {
+		"caseNotes": Record<string, {
+  id: string;
+  body?: string;
+  collection: "caseNotes";
+  data: InferEntrySchema<"caseNotes">;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
+"drugTests": Record<string, {
+  id: string;
+  body?: string;
+  collection: "drugTests";
+  data: InferEntrySchema<"drugTests">;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
+"facilities": Record<string, {
+  id: string;
+  body?: string;
+  collection: "facilities";
+  data: InferEntrySchema<"facilities">;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
+"inquiries": Record<string, {
+  id: string;
+  body?: string;
+  collection: "inquiries";
+  data: any;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
+"leads": Record<string, {
   id: string;
   body?: string;
   collection: "leads";
@@ -170,11 +202,35 @@ declare module 'astro:content' {
   rendered?: RenderedContent;
   filePath?: string;
 }>;
-"warehouses": Record<string, {
+"outcomes": Record<string, {
   id: string;
   body?: string;
-  collection: "warehouses";
-  data: InferEntrySchema<"warehouses">;
+  collection: "outcomes";
+  data: InferEntrySchema<"outcomes">;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
+"payments": Record<string, {
+  id: string;
+  body?: string;
+  collection: "payments";
+  data: InferEntrySchema<"payments">;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
+"residents": Record<string, {
+  id: string;
+  body?: string;
+  collection: "residents";
+  data: InferEntrySchema<"residents">;
+  rendered?: RenderedContent;
+  filePath?: string;
+}>;
+"staff": Record<string, {
+  id: string;
+  body?: string;
+  collection: "staff";
+  data: InferEntrySchema<"staff">;
   rendered?: RenderedContent;
   filePath?: string;
 }>;
