@@ -226,9 +226,9 @@ const {
           document.body.style.overflow = 'hidden';
           
           // Animate burger to X
-          if (burgerLines[0]) burgerLines[0].style.transform = 'rotate(45deg) translate(4px, 4px)';
-          if (burgerLines[1]) burgerLines[1].style.opacity = '0';
-          if (burgerLines[2]) burgerLines[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+          if (burgerLines[0]) (burgerLines[0] as HTMLElement).style.transform = 'rotate(45deg) translate(4px, 4px)';
+          if (burgerLines[1]) (burgerLines[1] as HTMLElement).style.opacity = '0';
+          if (burgerLines[2]) (burgerLines[2] as HTMLElement).style.transform = 'rotate(-45deg) translate(5px, -5px)';
         }
 
         function closeMobileMenu() {
@@ -241,9 +241,9 @@ const {
           document.body.style.overflow = '';
           
           // Animate X back to burger
-          if (burgerLines[0]) burgerLines[0].style.transform = '';
-          if (burgerLines[1]) burgerLines[1].style.opacity = '1';
-          if (burgerLines[2]) burgerLines[2].style.transform = '';
+          if (burgerLines[0]) (burgerLines[0] as HTMLElement).style.transform = '';
+          if (burgerLines[1]) (burgerLines[1] as HTMLElement).style.opacity = '1';
+          if (burgerLines[2]) (burgerLines[2] as HTMLElement).style.transform = '';
         }
 
         mobileMenuButton?.addEventListener('click', openMobileMenu);
