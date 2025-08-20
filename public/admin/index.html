@@ -1,184 +1,436 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>🏠 NewBridge Living CRM</title>
-  
-  <!-- PWA Meta Tags -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#059669">
-  <meta name="format-detection" content="telephone=no">
-  
-  <!-- Icons -->
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="apple-touch-icon" href="/favicon.svg" />
-  
-  <!-- Critical Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Netlify Identity -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-</head>
-<body>
-  <!-- Loading Screen -->
-  <div id="loading" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #059669, #047857); display: flex; align-items: center; justify-content: center; z-index: 10000; color: white; font-family: Inter, sans-serif;">
-    <div style="text-align: center;">
-      <div style="width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.3); border-top: 4px solid white; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
-      <div style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">🏠 NewBridge Living CRM</div>
-      <div style="font-size: 16px; opacity: 0.9;">Optimizing for mobile...</div>
-    </div>
-  </div>
+---
+// src/pages/admin/index.astro
+import BaseLayout from '../../layouts/BaseLayout.astro';
 
-  <!-- Success Toast -->
-  <div id="toast" style="position: fixed; top: 20px; left: 16px; right: 16px; background: #10b981; color: white; padding: 16px; border-radius: 12px; display: none; align-items: center; font-weight: 600; z-index: 10001; font-family: Inter, sans-serif;">
-    ✅ Sober Living CRM optimized successfully!
-  </div>
-
-  <!-- Mobile Navigation Header -->
-  <div id="mobile-header" style="position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(135deg, #059669, #047857); color: white; padding: 12px 16px; display: flex; align-items: center; justify-content: between; z-index: 9999; font-family: Inter, sans-serif; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-    <div style="display: flex; align-items: center; flex: 1;">
-      <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
-        🏠
-      </div>
-      <div>
-        <div style="font-weight: 700; font-size: 16px;">NewBridge Living</div>
-        <div style="font-size: 12px; opacity: 0.9;">Content Management</div>
-      </div>
-    </div>
-    <div style="display: flex; align-items: center; gap: 8px;">
-      <a href="/" style="color: white; text-decoration: none; padding: 8px 12px; background: rgba(255,255,255,0.2); border-radius: 8px; font-size: 14px; font-weight: 600;">
-        🌐 View Site
-      </a>
-    </div>
-  </div>
-
-  <!-- Professional Loading Spinner -->
-  <style>
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    #mobile-header { animation: fadeInUp 0.6s ease-out; }
-    #loading { animation: fadeInUp 0.3s ease-out; }
-    
-    /* Enhanced Mobile CMS Styles */
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-    
-    /* Hide default CMS navigation on mobile */
-    @media (max-width: 768px) {
-      .nc-app-container nav,
-      .nc-app-container aside,
-      .nc-app-container [role="navigation"]:not(#mobile-header),
-      .nc-app-container .css-1dbjc4n:first-child {
-        display: none !important;
-      }
-      
-      .nc-app-container main,
-      .nc-app-container [role="main"] {
-        margin-top: 80px !important;
-        padding: 16px !important;
-        width: 100% !important;
-        margin-left: 0 !important;
-      }
-    }
-  </style>
-
-  <!-- Netlify CMS -->
-  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+// Mock data for dashboard (replace with real data from your CMS/database)
+const dashboardData = {
+  facilities: [
+    { name: "Haven House", capacity: 12, occupied: 8, occupancyRate: 67 },
+    { name: "Recovery Villa", capacity: 16, occupied: 14, occupancyRate: 88 },
+    { name: "Serenity Manor", capacity: 10, occupied: 6, occupancyRate: 60 }
+  ],
   
-  <!-- Enhanced Mobile Optimization Script -->
-  <script>
-    // Professional loading sequence
-    window.addEventListener('load', function() {
-      setTimeout(() => {
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('toast').style.display = 'flex';
+  metrics: {
+    totalResidents: 28,
+    totalCapacity: 38,
+    newAdmissions: 3,
+    graduations: 2,
+    monthlyRevenue: 23800,
+    collectionRate: 96,
+    avgStay: 89,
+    successRate: 78
+  },
+  
+  recentActivity: [
+    { type: "admission", resident: "Alex M.", facility: "Haven House", time: "2 hours ago", status: "completed" },
+    { type: "payment", resident: "Jordan K.", amount: 850, time: "4 hours ago", status: "received" },
+    { type: "test", resident: "Sam R.", testType: "UA", result: "Pass", time: "6 hours ago", status: "pass" },
+    { type: "violation", resident: "Casey L.", violation: "Late Curfew", time: "8 hours ago", status: "warning" },
+    { type: "graduation", resident: "Taylor P.", facility: "Recovery Villa", time: "1 day ago", status: "completed" }
+  ],
+  
+  alerts: [
+    { type: "urgent", message: "Drug test required for 3 residents today", count: 3 },
+    { type: "warning", message: "2 residents have outstanding rent payments", count: 2 },
+    { type: "info", message: "Monthly inspection scheduled for Friday", count: 1 }
+  ]
+};
+
+const quickActions = [
+  { name: "Add New Resident", icon: "user-plus", href: "/admin/residents/new", color: "emerald" },
+  { name: "Schedule Drug Test", icon: "beaker", href: "/admin/tests/schedule", color: "blue" },
+  { name: "Process Payment", icon: "credit-card", href: "/admin/payments/new", color: "purple" },
+  { name: "Generate Report", icon: "document-report", href: "/admin/reports", color: "orange" },
+  { name: "Send Notification", icon: "speakerphone", href: "/admin/notifications", color: "teal" },
+  { name: "View Calendar", icon: "calendar", href: "/admin/calendar", color: "indigo" }
+];
+---
+
+<BaseLayout title="Admin Dashboard | NewBridge Living CRM">
+  <!-- Dashboard Header -->
+  <section class="bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 py-16 relative overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10"></div>
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.03"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
+    
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+        <!-- Header Content -->
+        <div>
+          <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-white/90 text-sm font-medium mb-4">
+            <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            System Online
+          </div>
+          
+          <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+            NewBridge Living
+            <span class="block text-2xl md:text-3xl text-emerald-400 font-semibold">
+              Management Dashboard
+            </span>
+          </h1>
+          
+          <p class="text-xl text-white/80 max-w-2xl">
+            Complete operations management for all sober living facilities. Monitor residents, track compliance, and manage your business efficiently.
+          </p>
+        </div>
         
-        setTimeout(() => {
-          document.getElementById('toast').style.display = 'none';
-        }, 3000);
-      }, 1500);
-    });
+        <!-- Key Metric Card -->
+        <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl p-8 text-center min-w-[200px]">
+          <div class="text-4xl font-bold text-white mb-2">
+            {Math.round((dashboardData.metrics.totalResidents / dashboardData.metrics.totalCapacity) * 100)}%
+          </div>
+          <div class="text-emerald-400 font-semibold text-lg mb-1">Occupancy Rate</div>
+          <div class="text-white/60 text-sm">
+            {dashboardData.metrics.totalResidents} of {dashboardData.metrics.totalCapacity} beds
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    // Enhanced mobile-first CMS optimization
-    function optimizeForMobile() {
-      const isMobile = window.innerWidth <= 768;
+  <!-- Quick Actions Bar -->
+  <section class="bg-white border-b border-gray-100 py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold text-gray-900">Quick Actions</h2>
+        <button class="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200">
+          Customize →
+        </button>
+      </div>
       
-      if (isMobile) {
-        // Apply aggressive mobile optimization
-        const style = document.createElement('style');
-        style.textContent = `
-          /* Force mobile-friendly CMS layout */
-          .nc-app-container {
-            margin: 0 !important;
-            padding: 0 !important;
-          }
-          
-          .nc-app-container > div {
-            margin-top: 80px !important;
-            padding: 16px !important;
-          }
-          
-          /* Optimize form elements for mobile */
-          .nc-app-container input,
-          .nc-app-container textarea,
-          .nc-app-container select {
-            font-size: 16px !important;
-            padding: 12px !important;
-            border-radius: 8px !important;
-            min-height: 44px !important;
-          }
-          
-          /* Optimize buttons for touch */
-          .nc-app-container button {
-            min-height: 44px !important;
-            padding: 12px 20px !important;
-            font-size: 16px !important;
-            border-radius: 8px !important;
-            font-weight: 600 !important;
-          }
-          
-          /* Optimize content management cards */
-          .nc-app-container .card,
-          .nc-app-container [class*="card"] {
-            border-radius: 12px !important;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
-            margin-bottom: 16px !important;
-          }
-        `;
-        document.head.appendChild(style);
-      }
-    }
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-6">
+        {quickActions.map((action) => (
+          <a href={action.href} class={`group relative bg-gradient-to-br from-${action.color}-50 to-${action.color}-100 rounded-2xl p-4 border border-${action.color}-200 hover:shadow-lg hover:shadow-${action.color}-500/10 transition-all duration-300 hover:-translate-y-1`}>
+            <div class="absolute inset-0 bg-gradient-to-br from-${action.color}-500/5 to-${action.color}-600/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="relative z-10">
+              <div class={`w-12 h-12 bg-gradient-to-br from-${action.color}-500 to-${action.color}-600 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                {action.icon === 'user-plus' && (
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                  </svg>
+                )}
+                {action.icon === 'beaker' && (
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                  </svg>
+                )}
+                {action.icon === 'credit-card' && (
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                  </svg>
+                )}
+                {action.icon === 'document-report' && (
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a4 4 0 01-4-4V5a3 3 0 013-3h4l2 2h6a2 2 0 012 2v11a1 1 0 01-1 1z"></path>
+                  </svg>
+                )}
+                {action.icon === 'speakerphone' && (
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
+                  </svg>
+                )}
+                {action.icon === 'calendar' && (
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                )}
+              </div>
+              <div class="text-sm font-medium text-gray-900">{action.name}</div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
 
-    // Initialize mobile optimization
-    document.addEventListener('DOMContentLoaded', optimizeForMobile);
-    window.addEventListener('resize', optimizeForMobile);
+  <!-- Main Dashboard Content -->
+  <section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Alerts Section -->
+      {dashboardData.alerts.length > 0 && (
+        <div class="mb-8">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {dashboardData.alerts.map((alert) => (
+              <div class={`p-4 rounded-2xl border ${
+                alert.type === 'urgent' ? 'bg-red-50 border-red-200' :
+                alert.type === 'warning' ? 'bg-yellow-50 border-yellow-200' :
+                'bg-blue-50 border-blue-200'
+              }`}>
+                <div class="flex items-start gap-3">
+                  <div class={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                    alert.type === 'urgent' ? 'bg-red-500' :
+                    alert.type === 'warning' ? 'bg-yellow-500' :
+                    'bg-blue-500'
+                  }`}>
+                    <span class="text-white font-bold text-sm">{alert.count}</span>
+                  </div>
+                  <div>
+                    <div class={`text-sm font-medium ${
+                      alert.type === 'urgent' ? 'text-red-800' :
+                      alert.type === 'warning' ? 'text-yellow-800' :
+                      'text-blue-800'
+                    }`}>
+                      {alert.message}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
-    // Netlify Identity integration
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", user => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
-          });
-        }
-      });
-    }
-  </script>
-</body>
-</html>
+      <!-- Key Metrics Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <!-- Total Residents -->
+        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600 uppercase tracking-wide">Current Residents</p>
+              <p class="text-3xl font-bold text-gray-900 mt-1">{dashboardData.metrics.totalResidents}</p>
+              <p class="text-sm text-emerald-600 font-medium">+{dashboardData.metrics.newAdmissions} this week</p>
+            </div>
+            <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monthly Revenue -->
+        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600 uppercase tracking-wide">Monthly Revenue</p>
+              <p class="text-3xl font-bold text-gray-900 mt-1">${dashboardData.metrics.monthlyRevenue.toLocaleString()}</p>
+              <p class="text-sm text-blue-600 font-medium">{dashboardData.metrics.collectionRate}% collection rate</p>
+            </div>
+            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Average Stay -->
+        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600 uppercase tracking-wide">Average Stay</p>
+              <p class="text-3xl font-bold text-gray-900 mt-1">{dashboardData.metrics.avgStay} <span class="text-lg">days</span></p>
+              <p class="text-sm text-purple-600 font-medium">{dashboardData.metrics.graduations} graduations this month</p>
+            </div>
+            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Success Rate -->
+        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600 uppercase tracking-wide">Success Rate</p>
+              <p class="text-3xl font-bold text-gray-900 mt-1">{dashboardData.metrics.successRate}%</p>
+              <p class="text-sm text-orange-600 font-medium">Last 12 months</p>
+            </div>
+            <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Facilities Overview -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <!-- Facilities Status -->
+        <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-bold text-gray-900">Facilities Overview</h3>
+            <a href="/admin/facilities" class="text-sm text-emerald-600 hover:text-emerald-700 font-medium">
+              Manage →
+            </a>
+          </div>
+          
+          <div class="space-y-6">
+            {dashboardData.facilities.map((facility) => (
+              <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl">
+                <div>
+                  <h4 class="font-semibold text-gray-900">{facility.name}</h4>
+                  <p class="text-sm text-gray-600">{facility.occupied} of {facility.capacity} beds occupied</p>
+                </div>
+                <div class="text-right">
+                  <div class="text-2xl font-bold text-gray-900">{facility.occupancyRate}%</div>
+                  <div class={`text-xs font-medium ${
+                    facility.occupancyRate >= 80 ? 'text-emerald-600' :
+                    facility.occupancyRate >= 60 ? 'text-yellow-600' :
+                    'text-red-600'
+                  }`}>
+                    {facility.occupancyRate >= 80 ? 'Excellent' :
+                     facility.occupancyRate >= 60 ? 'Good' : 'Low'}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-bold text-gray-900">Recent Activity</h3>
+            <a href="/admin/activity" class="text-sm text-emerald-600 hover:text-emerald-700 font-medium">
+              View All →
+            </a>
+          </div>
+          
+          <div class="space-y-4">
+            {dashboardData.recentActivity.map((activity, index) => (
+              <div class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-xl transition-colors duration-200">
+                <div class={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                  activity.type === 'admission' ? 'bg-emerald-100' :
+                  activity.type === 'payment' ? 'bg-blue-100' :
+                  activity.type === 'test' ? 'bg-purple-100' :
+                  activity.type === 'violation' ? 'bg-red-100' :
+                  'bg-orange-100'
+                }`}>
+                  {activity.type === 'admission' && (
+                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                    </svg>
+                  )}
+                  {activity.type === 'payment' && (
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                    </svg>
+                  )}
+                  {activity.type === 'test' && (
+                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                  )}
+                  {activity.type === 'violation' && (
+                    <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.34 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>
+                  )}
+                  {activity.type === 'graduation' && (
+                    <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
+                    </svg>
+                  )}
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-sm font-medium text-gray-900">
+                    {activity.type === 'admission' && `New admission: ${activity.resident}`}
+                    {activity.type === 'payment' && `Payment received from ${activity.resident}: $${activity.amount}`}
+                    {activity.type === 'test' && `${activity.testType} test: ${activity.resident} - ${activity.result}`}
+                    {activity.type === 'violation' && `${activity.violation}: ${activity.resident}`}
+                    {activity.type === 'graduation' && `${activity.resident} graduated from ${activity.facility}`}
+                  </div>
+                  <div class="text-xs text-gray-500 mt-1">{activity.time}</div>
+                </div>
+                <div class={`text-xs font-medium px-2 py-1 rounded-full ${
+                  activity.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
+                  activity.status === 'received' ? 'bg-blue-100 text-blue-700' :
+                  activity.status === 'pass' ? 'bg-emerald-100 text-emerald-700' :
+                  activity.status === 'warning' ? 'bg-yellow-100 text-yellow-700' :
+                  'bg-gray-100 text-gray-700'
+                }`}>
+                  {activity.status}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Management Tools -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Residents Management -->
+        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 group">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+            <a href="/admin/residents" class="text-emerald-600 hover:text-emerald-700">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+              </svg>
+            </a>
+          </div>
+          <h4 class="font-bold text-gray-900 mb-2">👥 Residents</h4>
+          <p class="text-gray-600 text-sm mb-4">Manage resident profiles, intake, and case notes</p>
+          <div class="text-2xl font-bold text-emerald-600">{dashboardData.metrics.totalResidents}</div>
+        </div>
+
+        <!-- Financial Management -->
+        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 group">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <a href="/admin/finance" class="text-blue-600 hover:text-blue-700">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+              </svg>
+            </a>
+          </div>
+          <h4 class="font-bold text-gray-900 mb-2">💰 Finance</h4>
+          <p class="text-gray-600 text-sm mb-4">Track payments, rent, and financial reports</p>
+          <div class="text-2xl font-bold text-blue-600">${dashboardData.metrics.monthlyRevenue.toLocaleString()}</div>
+        </div>
+
+        <!-- Compliance & Testing -->
+        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 group">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <a href="/admin/compliance" class="text-purple-600 hover:text-purple-700">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+              </svg>
+            </a>
+          </div>
+          <h4 class="font-bold text-gray-900 mb-2">🔬 Compliance</h4>
+          <p class="text-gray-600 text-sm mb-4">Drug testing, chores, and accountability</p>
+          <div class="text-2xl font-bold text-purple-600">96%</div>
+        </div>
+
+        <!-- Reports & Analytics -->
+        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 group">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a4 4 0 01-4-4V5a3 3 0 013-3h4l2 2h6a2 2 0 012 2v11a1 1 0 01-1 1z"></path>
+              </svg>
+            </div>
+            <a href="/admin/reports" class="text-orange-600 hover:text-orange-700">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+              </svg>
+            </a>
+          </div>
+          <h4 class="font-bold text-gray-900 mb-2">📊 Reports</h4>
+          <p class="text-gray-600 text-sm mb-4">Analytics, outcomes, and business insights</p>
+          <div class="text-2xl font-bold text-orange-600">{dashboardData.metrics.successRate}%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
