@@ -180,27 +180,11 @@ declare module 'astro:content' {
   rendered?: RenderedContent;
   filePath?: string;
 }>;
-"caseNotes": Record<string, {
-  id: string;
-  body?: string;
-  collection: "caseNotes";
-  data: any;
-  rendered?: RenderedContent;
-  filePath?: string;
-}>;
 "drug-tests": Record<string, {
   id: string;
   body?: string;
   collection: "drug-tests";
   data: InferEntrySchema<"drug-tests">;
-  rendered?: RenderedContent;
-  filePath?: string;
-}>;
-"drugTests": Record<string, {
-  id: string;
-  body?: string;
-  collection: "drugTests";
-  data: any;
   rendered?: RenderedContent;
   filePath?: string;
 }>;
@@ -225,14 +209,6 @@ declare module 'astro:content' {
   body?: string;
   collection: "leads";
   data: InferEntrySchema<"leads">;
-  rendered?: RenderedContent;
-  filePath?: string;
-}>;
-"outcomes": Record<string, {
-  id: string;
-  body?: string;
-  collection: "outcomes";
-  data: any;
   rendered?: RenderedContent;
   filePath?: string;
 }>;

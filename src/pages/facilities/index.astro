@@ -1,5 +1,5 @@
 ---
-// src/pages/facilities/index.astro - NewBridge Living Facilities (No Fake Data)
+// src/pages/facilities/index.astro - NewBridge Living Facilities (Professional & Clean)
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
@@ -8,11 +8,11 @@ const facilities = await getCollection('facilities').catch(() => []);
 ---
 
 <BaseLayout 
-  title="Sober Living Facilities - NewBridge Living | Fort Lauderdale, FL"
-  description="Professional sober living homes in Fort Lauderdale, Florida. Structured environments, 24/7 support staff, and evidence-based recovery programs. View available beds and apply today."
+  title="Sober Living Facilities - NewBridge Living | Tallahassee, FL"
+  description="Professional sober living homes in Tallahassee, Florida. Structured environments, 24/7 support staff, and evidence-based recovery programs. View available beds and apply today."
 >
   <!-- Hero Section -->
-  <section class="relative bg-gradient-to-br from-emerald-900 via-teal-900 to-emerald-800 pt-24 pb-16 overflow-hidden">
+  <section class="relative bg-gradient-to-br from-emerald-900 via-teal-900 to-emerald-800 pt-24 pb-20 overflow-hidden">
     <!-- Background Pattern -->
     <div class="absolute inset-0 opacity-10">
       <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0); background-size: 40px 40px;"></div>
@@ -20,22 +20,25 @@ const facilities = await getCollection('facilities').catch(() => []);
     
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center text-white">
-        <h1 class="text-5xl lg:text-6xl font-bold mb-6">
-          Our Sober Living
-          <span class="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-emerald-300">
-            Facilities
+        <div class="inline-flex items-center bg-emerald-500/20 backdrop-blur-sm text-emerald-200 px-4 py-2 rounded-full text-sm font-semibold mb-6 border border-emerald-400/30">
+          Premium Sober Living
+        </div>
+        <h1 class="text-5xl lg:text-7xl font-bold mb-6">
+          Our Recovery
+          <span class="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-emerald-300 to-teal-300">
+            Communities
           </span>
         </h1>
-        <p class="text-xl lg:text-2xl text-emerald-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-          Safe, structured environments designed for lasting recovery success. Professional staff, proven programs, and a community that cares.
+        <p class="text-xl lg:text-2xl text-emerald-100 mb-10 max-w-4xl mx-auto leading-relaxed">
+          Safe, structured environments designed for lasting recovery success. Professional staff, proven programs, and a community that truly cares about your journey.
         </p>
         
-        <div class="flex flex-wrap justify-center gap-4">
-          <a href="#facilities" class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:from-emerald-700 hover:to-teal-700 transform hover:scale-105 transition-all duration-300 shadow-lg">
+        <div class="flex flex-wrap justify-center gap-6">
+          <a href="#facilities" class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:from-emerald-700 hover:to-teal-700 transform hover:scale-105 transition-all duration-300 shadow-2xl">
             View Available Homes
           </a>
           <a href="tel:(850)555-HOPE" class="bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/20 border border-white/20 transition-all duration-300">
-            Call: (850) 555-HOPE
+            Call (850) 555-HOPE
           </a>
         </div>
       </div>
@@ -43,65 +46,68 @@ const facilities = await getCollection('facilities').catch(() => []);
   </section>
 
   <!-- Program Features -->
-  <section class="py-16 bg-white">
+  <section class="py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-gray-900 mb-4">What Makes Our Facilities Different</h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-          Every NewBridge Living facility is designed with your recovery success in mind.
+      <div class="text-center mb-20">
+        <div class="inline-flex items-center bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+          What Makes Us Different
+        </div>
+        <h2 class="text-5xl font-bold text-gray-900 mb-6">Excellence in Every Detail</h2>
+        <p class="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+          Every NewBridge Living facility is meticulously designed with your recovery success as the primary focus.
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         <!-- 24/7 Professional Staff -->
-        <div class="group text-center">
-          <div class="bg-emerald-100 rounded-3xl p-8 group-hover:scale-105 transition-transform duration-300 mb-4">
-            <div class="bg-emerald-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+        <div class="text-center">
+          <div class="h-full bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-3xl p-8 hover:scale-105 transition-all duration-300 shadow-lg border border-emerald-200/50">
+            <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl w-16 h-16 flex items-center justify-center mx-auto mb-6 shadow-lg">
               <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
             </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">24/7 Staff Support</h3>
-            <p class="text-gray-600 text-sm">Professional staff available around the clock for support and emergency situations.</p>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">24/7 Staff Support</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">Professional staff available around the clock for support, guidance, and emergency situations.</p>
           </div>
         </div>
 
         <!-- Structured Environment -->
-        <div class="group text-center">
-          <div class="bg-teal-100 rounded-3xl p-8 group-hover:scale-105 transition-transform duration-300 mb-4">
-            <div class="bg-teal-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+        <div class="text-center">
+          <div class="h-full bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-8 hover:scale-105 transition-all duration-300 shadow-lg border border-blue-200/50">
+            <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl w-16 h-16 flex items-center justify-center mx-auto mb-6 shadow-lg">
               <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
               </svg>
             </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">Structured Programs</h3>
-            <p class="text-gray-600 text-sm">Daily schedules, accountability measures, and evidence-based recovery programming.</p>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Structured Programs</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">Daily schedules, accountability measures, and evidence-based recovery programming tailored to your needs.</p>
           </div>
         </div>
 
         <!-- Safe Environment -->
-        <div class="group text-center">
-          <div class="bg-blue-100 rounded-3xl p-8 group-hover:scale-105 transition-transform duration-300 mb-4">
-            <div class="bg-blue-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+        <div class="text-center">
+          <div class="h-full bg-gradient-to-br from-purple-50 to-purple-100 rounded-3xl p-8 hover:scale-105 transition-all duration-300 shadow-lg border border-purple-200/50">
+            <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl w-16 h-16 flex items-center justify-center mx-auto mb-6 shadow-lg">
               <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
               </svg>
             </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">Safe & Secure</h3>
-            <p class="text-gray-600 text-sm">Drug-free environments with security measures and strict house policies.</p>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Safe & Secure</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">Drug-free environments with comprehensive security measures and strict house policies for your safety.</p>
           </div>
         </div>
 
         <!-- Community Support -->
-        <div class="group text-center">
-          <div class="bg-purple-100 rounded-3xl p-8 group-hover:scale-105 transition-transform duration-300 mb-4">
-            <div class="bg-purple-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+        <div class="text-center">
+          <div class="h-full bg-gradient-to-br from-teal-50 to-teal-100 rounded-3xl p-8 hover:scale-105 transition-all duration-300 shadow-lg border border-teal-200/50">
+            <div class="bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl w-16 h-16 flex items-center justify-center mx-auto mb-6 shadow-lg">
               <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
               </svg>
             </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">Peer Community</h3>
-            <p class="text-gray-600 text-sm">Connect with others in recovery through group activities and shared experiences.</p>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Peer Community</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">Connect with others in recovery through group activities, shared experiences, and lasting friendships.</p>
           </div>
         </div>
       </div>
@@ -109,30 +115,33 @@ const facilities = await getCollection('facilities').catch(() => []);
   </section>
 
   <!-- Facilities Listing -->
-  <section id="facilities" class="py-20 bg-gray-50">
+  <section id="facilities" class="py-24 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold text-gray-900 mb-4">Available Facilities</h2>
-        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-          Each home is carefully designed to provide a safe, supportive environment for your recovery journey.
+      <div class="text-center mb-20">
+        <div class="inline-flex items-center bg-teal-100 text-teal-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+          Available Now
+        </div>
+        <h2 class="text-5xl font-bold text-gray-900 mb-6">Choose Your Home</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          Each home is carefully designed to provide a safe, supportive environment for your unique recovery journey.
         </p>
       </div>
 
       {facilities.length > 0 ? (
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {facilities.map((facility) => (
-            <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
+            <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-200">
               <div class="relative h-64 overflow-hidden">
                 <img 
                   src={facility.data.images?.[0] || '/images/facilities/placeholder.jpg'} 
                   alt={facility.data.facilityName}
-                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div class="absolute top-4 right-4">
-                  <div class={`px-3 py-1 rounded-full text-sm font-semibold shadow-lg ${
-                    facility.data.availability === 'accepting' ? 'bg-green-500 text-white' :
-                    facility.data.availability === 'waitlist' ? 'bg-yellow-500 text-white' :
-                    'bg-red-500 text-white'
+                  <div class={`px-4 py-2 rounded-full text-sm font-bold shadow-lg backdrop-blur-sm ${
+                    facility.data.availability === 'accepting' ? 'bg-green-500/90 text-white border border-green-400' :
+                    facility.data.availability === 'waitlist' ? 'bg-yellow-500/90 text-white border border-yellow-400' :
+                    'bg-red-500/90 text-white border border-red-400'
                   }`}>
                     {facility.data.availability === 'accepting' ? 'Available Now' :
                      facility.data.availability === 'waitlist' ? 'Waitlist' :
@@ -141,32 +150,39 @@ const facilities = await getCollection('facilities').catch(() => []);
                 </div>
               </div>
               
-              <div class="p-6">
-                <h3 class="text-2xl font-bold text-gray-900 mb-2">{facility.data.facilityName}</h3>
-                <p class="text-gray-600 mb-4 flex items-center">
-                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="p-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-3">{facility.data.facilityName}</h3>
+                <div class="flex items-center text-gray-600 mb-6">
+                  <svg class="w-5 h-5 mr-2 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                   </svg>
-                  {facility.data.location}
-                </p>
+                  <span class="font-medium">{facility.data.location}</span>
+                </div>
                 
-                <div class="flex items-center justify-between mb-4">
-                  <span class="text-3xl font-bold text-emerald-600">${facility.data.monthlyRent || 'Call for pricing'}</span>
-                  <span class="text-gray-500">{facility.data.capacity} beds</span>
+                <div class="flex items-center justify-between mb-6 bg-gray-50 rounded-xl p-4">
+                  <div>
+                    <span class="text-3xl font-bold text-emerald-600">${facility.data.monthlyRent || 'Call'}</span>
+                    {facility.data.monthlyRent && <span class="text-gray-500 text-sm">/month</span>}
+                  </div>
+                  <div class="text-right">
+                    <div class="text-2xl font-bold text-gray-900">{facility.data.capacity}</div>
+                    <div class="text-gray-500 text-sm">bed capacity</div>
+                  </div>
                 </div>
                 
                 <!-- Amenities Preview -->
                 {facility.data.amenities && (
-                  <div class="mb-4">
-                    <div class="flex flex-wrap gap-1">
+                  <div class="mb-6">
+                    <h4 class="text-sm font-semibold text-gray-700 mb-2">Featured Amenities</h4>
+                    <div class="flex flex-wrap gap-2">
                       {facility.data.amenities.slice(0, 3).map((amenity) => (
-                        <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">
+                        <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-medium">
                           {amenity}
                         </span>
                       ))}
                       {facility.data.amenities.length > 3 && (
-                        <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">
+                        <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">
                           +{facility.data.amenities.length - 3} more
                         </span>
                       )}
@@ -177,13 +193,13 @@ const facilities = await getCollection('facilities').catch(() => []);
                 <div class="space-y-3">
                   <a 
                     href={`/facilities/${facility.data.slug}`}
-                    class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl text-center transition-all duration-300"
+                    class="block w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold py-4 px-6 rounded-xl text-center transition-all duration-300 shadow-lg hover:shadow-xl"
                   >
-                    View Details
+                    View Full Details
                   </a>
                   <a 
                     href="tel:+1-850-555-HOPE" 
-                    class="block w-full border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-semibold py-3 px-4 rounded-xl text-center transition-all duration-300"
+                    class="block w-full border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold py-4 px-6 rounded-xl text-center transition-all duration-300"
                   >
                     Call About This Home
                   </a>
@@ -195,27 +211,57 @@ const facilities = await getCollection('facilities').catch(() => []);
       ) : (
         <!-- No Facilities Yet - Coming Soon -->
         <div class="text-center py-20">
-          <div class="bg-white rounded-3xl p-12 shadow-lg max-w-2xl mx-auto border border-gray-200">
-            <div class="bg-emerald-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
-              <svg class="w-10 h-10 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m2 0h3M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+          <div class="bg-white rounded-3xl p-16 shadow-2xl max-w-3xl mx-auto border border-gray-200">
+            <div class="bg-gradient-to-br from-emerald-100 to-teal-100 rounded-3xl w-24 h-24 flex items-center justify-center mx-auto mb-8">
+              <svg class="w-12 h-12 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2-2v16m14 0h2m-2 0h-4m-5 0H3m2 0h3M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
               </svg>
             </div>
             
-            <h3 class="text-3xl font-bold text-gray-900 mb-4">Facilities Coming Soon</h3>
-            <p class="text-xl text-gray-600 mb-8 leading-relaxed">
-              We're currently preparing our sober living facilities to provide the highest standard of care. Our homes will be ready soon with professional staff and proven programs.
+            <h3 class="text-4xl font-bold text-gray-900 mb-6">Beautiful Facilities Coming Soon</h3>
+            <p class="text-xl text-gray-600 mb-10 leading-relaxed max-w-2xl mx-auto">
+              We're putting the finishing touches on our state-of-the-art sober living facilities. Each home will feature professional staff, proven programs, and the highest standards of care in the industry.
             </p>
+            
+            <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl p-8 mb-8">
+              <h4 class="text-xl font-bold text-gray-900 mb-4">What We're Building</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                <div class="flex items-center space-x-3">
+                  <svg class="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span class="text-gray-700">Modern, comfortable living spaces</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <svg class="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span class="text-gray-700">24/7 professional staff support</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <svg class="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span class="text-gray-700">Comprehensive safety measures</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <svg class="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span class="text-gray-700">Evidence-based program structure</span>
+                </div>
+              </div>
+            </div>
             
             <div class="space-y-4">
               <a 
                 href="tel:+1-850-555-HOPE"
-                class="block w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-4 px-6 rounded-xl text-center text-lg hover:from-emerald-700 hover:to-teal-700 transition-all duration-300"
+                class="block w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-5 px-8 rounded-xl text-center text-lg hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 shadow-lg"
               >
-                📞 Call (850) 555-HOPE
+                Call (850) 555-HOPE
               </a>
-              <p class="text-gray-600 text-sm">
-                Call now to get on our waiting list and be notified when beds become available
+              <p class="text-gray-600">
+                Call now to join our priority waiting list and be among the first to secure placement
               </p>
             </div>
           </div>
@@ -225,81 +271,88 @@ const facilities = await getCollection('facilities').catch(() => []);
   </section>
 
   <!-- Admission Process -->
-  <section class="py-20 bg-white">
+  <section class="py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold text-gray-900 mb-4">Simple Admission Process</h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-          Getting started with NewBridge Living is straightforward. We'll guide you through every step.
+      <div class="text-center mb-20">
+        <div class="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+          Simple Process
+        </div>
+        <h2 class="text-5xl font-bold text-gray-900 mb-6">Your Journey Starts Here</h2>
+        <p class="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+          Getting started with NewBridge Living is straightforward and supportive. We'll guide you through every step with care and professionalism.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
         <!-- Step 1 -->
-        <div class="text-center group">
-          <div class="bg-gradient-to-br from-emerald-100 to-teal-100 rounded-3xl p-8 mb-6 group-hover:scale-105 transition-transform duration-300">
-            <div class="bg-emerald-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <span class="text-2xl font-bold text-white">1</span>
+        <div class="text-center">
+          <div class="relative">
+            <div class="bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-3xl p-12 mb-8 hover:scale-105 transition-all duration-300 shadow-lg">
+              <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <span class="text-3xl font-bold text-white">1</span>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900 mb-4">Initial Contact</h3>
+              <p class="text-gray-600 leading-relaxed">
+                Call our 24/7 admissions hotline or fill out our online form. We'll discuss your needs, answer questions, and provide immediate support.
+              </p>
             </div>
-            <h3 class="text-2xl font-bold text-gray-900 mb-4">Initial Contact</h3>
-            <p class="text-gray-600 leading-relaxed">
-              Call our 24/7 admissions hotline or fill out our online form. We'll discuss your needs and answer questions.
-            </p>
           </div>
         </div>
 
         <!-- Step 2 -->
-        <div class="text-center group">
-          <div class="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-3xl p-8 mb-6 group-hover:scale-105 transition-transform duration-300">
-            <div class="bg-blue-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <span class="text-2xl font-bold text-white">2</span>
+        <div class="text-center">
+          <div class="relative">
+            <div class="bg-gradient-to-br from-blue-100 to-blue-200 rounded-3xl p-12 mb-8 hover:scale-105 transition-all duration-300 shadow-lg">
+              <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <span class="text-3xl font-bold text-white">2</span>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900 mb-4">Assessment & Planning</h3>
+              <p class="text-gray-600 leading-relaxed">
+                Complete a comprehensive intake assessment to determine the best facility match and create your personalized recovery plan.
+              </p>
             </div>
-            <h3 class="text-2xl font-bold text-gray-900 mb-4">Assessment & Planning</h3>
-            <p class="text-gray-600 leading-relaxed">
-              Complete intake assessment to determine the best facility match and create your personalized recovery plan.
-            </p>
           </div>
         </div>
 
         <!-- Step 3 -->
-        <div class="text-center group">
-          <div class="bg-gradient-to-br from-purple-100 to-pink-100 rounded-3xl p-8 mb-6 group-hover:scale-105 transition-transform duration-300">
-            <div class="bg-purple-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <span class="text-2xl font-bold text-white">3</span>
+        <div class="text-center">
+          <div class="bg-gradient-to-br from-purple-100 to-purple-200 rounded-3xl p-12 mb-8 hover:scale-105 transition-all duration-300 shadow-lg">
+            <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-lg">
+              <span class="text-3xl font-bold text-white">3</span>
             </div>
             <h3 class="text-2xl font-bold text-gray-900 mb-4">Move-In & Begin</h3>
             <p class="text-gray-600 leading-relaxed">
-              Move into your new sober living home and begin your structured recovery program with full support.
+              Move into your new sober living home and begin your structured recovery program with full support from our professional team.
             </p>
           </div>
         </div>
       </div>
 
       <!-- Call to Action -->
-      <div class="text-center mt-16">
-        <div class="bg-gradient-to-br from-emerald-600 to-teal-600 rounded-3xl p-8 text-white max-w-4xl mx-auto">
-          <h3 class="text-3xl font-bold mb-4">Ready to Get Started?</h3>
-          <p class="text-emerald-100 text-lg mb-6 leading-relaxed">
-            Don't wait another day. Our admissions team is standing by to help you begin your recovery journey.
+      <div class="text-center mt-20">
+        <div class="bg-gradient-to-br from-emerald-600 to-teal-600 rounded-3xl p-12 text-white max-w-5xl mx-auto shadow-2xl">
+          <h3 class="text-4xl font-bold mb-6">Ready to Transform Your Life?</h3>
+          <p class="text-emerald-100 text-xl mb-10 leading-relaxed max-w-3xl mx-auto">
+            Don't wait another day to begin your recovery journey. Our experienced admissions team is standing by 24/7 to help you take this important step toward lasting sobriety and independence.
           </p>
           
-          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <div class="flex flex-col sm:flex-row gap-6 justify-center">
             <a 
               href="tel:+1-850-555-HOPE" 
-              class="bg-white text-emerald-600 font-bold py-4 px-8 rounded-xl text-lg hover:bg-gray-100 transition-all duration-300"
+              class="bg-white text-emerald-600 font-bold py-5 px-10 rounded-xl text-xl hover:bg-gray-100 transition-all duration-300 shadow-lg"
             >
-              📞 Call (850) 555-HOPE
+              Call (850) 555-HOPE
             </a>
             <a 
               href="/#contact-form" 
-              class="border-2 border-white text-white font-bold py-4 px-8 rounded-xl text-lg hover:bg-white hover:text-emerald-600 transition-all duration-300"
+              class="border-2 border-white text-white font-bold py-5 px-10 rounded-xl text-xl hover:bg-white hover:text-emerald-600 transition-all duration-300"
             >
               Request Information
             </a>
           </div>
           
-          <p class="text-emerald-200 text-sm mt-4">
-            Available 24/7 • Free consultation • All calls confidential
+          <p class="text-emerald-200 text-sm mt-8">
+            Available 24/7 • Free consultation • All calls completely confidential
           </p>
         </div>
       </div>
@@ -307,45 +360,48 @@ const facilities = await getCollection('facilities').catch(() => []);
   </section>
 
   <!-- FAQ Section -->
-  <section class="py-20 bg-gray-50">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
-        <p class="text-xl text-gray-600">
-          Get answers to common questions about our sober living facilities.
+  <section class="py-24 bg-gray-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-20">
+        <div class="inline-flex items-center bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+          Common Questions
+        </div>
+        <h2 class="text-5xl font-bold text-gray-900 mb-6">Get Your Answers</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          Here are answers to the most frequently asked questions about our sober living facilities and programs.
         </p>
       </div>
 
-      <div class="space-y-6">
+      <div class="space-y-8">
         <!-- FAQ Item 1 -->
-        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-          <h3 class="text-xl font-bold text-gray-900 mb-3">What is the difference between sober living and treatment?</h3>
-          <p class="text-gray-600 leading-relaxed">
-            Sober living provides a structured residential environment for people in recovery, while treatment typically involves intensive therapy and medical care. Many residents come to sober living after completing inpatient treatment to continue their recovery in a supportive community setting.
+        <div class="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">What is the difference between sober living and treatment?</h3>
+          <p class="text-gray-600 leading-relaxed text-lg">
+            Sober living provides a structured residential environment for people in recovery, while treatment typically involves intensive therapy and medical care. Many residents come to sober living after completing inpatient treatment to continue their recovery in a supportive community setting with ongoing accountability and life skills development.
           </p>
         </div>
 
         <!-- FAQ Item 2 -->
-        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-          <h3 class="text-xl font-bold text-gray-900 mb-3">How long can I stay in sober living?</h3>
-          <p class="text-gray-600 leading-relaxed">
-            Length of stay varies based on individual needs and progress. Most residents stay 3-12 months, but we work with each person to determine the right timeline for their recovery goals and transition to independent living.
+        <div class="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">How long can I stay in sober living?</h3>
+          <p class="text-gray-600 leading-relaxed text-lg">
+            Length of stay varies based on individual needs and progress. Most residents stay 3-12 months, but we work with each person to determine the right timeline for their recovery goals and transition to independent living. Our flexible approach ensures you have the time needed to build a strong foundation for lasting sobriety.
           </p>
         </div>
 
         <!-- FAQ Item 3 -->
-        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-          <h3 class="text-xl font-bold text-gray-900 mb-3">What are the house rules and expectations?</h3>
-          <p class="text-gray-600 leading-relaxed">
-            All residents must maintain sobriety, attend house meetings, complete assigned chores, follow curfew times, participate in drug testing, and engage respectfully with staff and other residents. Specific rules are provided during the admission process.
+        <div class="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">What are the house rules and expectations?</h3>
+          <p class="text-gray-600 leading-relaxed text-lg">
+            All residents must maintain complete sobriety, attend weekly house meetings, complete assigned chores, follow curfew times, participate in regular drug testing, and engage respectfully with staff and other residents. We also require participation in recovery programming and progress toward personal goals. Specific rules and expectations are provided in detail during the admission process.
           </p>
         </div>
 
         <!-- FAQ Item 4 -->
-        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-          <h3 class="text-xl font-bold text-gray-900 mb-3">Do you accept insurance or offer payment plans?</h3>
-          <p class="text-gray-600 leading-relaxed">
-            We work with most insurance providers and offer flexible payment options. Our admissions team will help verify your benefits and discuss all available payment arrangements during your initial consultation.
+        <div class="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Do you accept insurance or offer payment plans?</h3>
+          <p class="text-gray-600 leading-relaxed text-lg">
+            We work with most major insurance providers and offer flexible payment options to make our program accessible. Our admissions team will help verify your benefits and discuss all available payment arrangements during your initial consultation. We believe financial barriers should never prevent someone from accessing quality sober living support.
           </p>
         </div>
       </div>
