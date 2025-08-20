@@ -97,7 +97,7 @@
               "format": "unix-time"
             }
           ],
-          "default": "2025-08-20T01:26:43.284Z"
+          "default": "2025-08-20T01:34:56.985Z"
         },
         "$schema": {
           "type": "string"

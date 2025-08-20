@@ -1,745 +1,770 @@
 ---
-// src/pages/contact.astro
+// Premium Contact Page for NewBridge Living
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout 
-  title="Contact Us | NewBridge Living - Sober Living Homes"
-  description="Contact NewBridge Living for immediate help with sober living placement. Multiple locations in Tallahassee, FL. Call (850) 555-0123 or submit our online form."
+  title="Contact NewBridge Living - 24/7 Admissions & Support"
+  description="Contact NewBridge Living for immediate assistance with sober living placement. Available 24/7 for crisis support and admissions in Tallahassee, Florida."
 >
-  <!-- Contact Hero -->
-  <section class="bg-gradient-to-br from-emerald-900 via-emerald-800 to-emerald-700 py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center text-white">
-        <h1 class="text-5xl lg:text-6xl font-bold mb-6">Get Help Today</h1>
-        <p class="text-xl lg:text-2xl text-emerald-100 mb-8 max-w-3xl mx-auto">
-          Ready to start your recovery journey? Our admissions team is standing by 24/7 to help you find the right sober living program.
+  <!-- Premium Hero Section -->
+  <section class="relative py-32 bg-gradient-to-br from-primary-700 via-primary-600 to-secondary-600 overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-10">
+      <svg class="w-full h-full" viewBox="0 0 100 100" fill="none">
+        <defs>
+          <pattern id="contact-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="10" cy="10" r="2" fill="currentColor" opacity="0.3"/>
+            <circle cx="5" cy="5" r="1" fill="currentColor" opacity="0.2"/>
+            <circle cx="15" cy="15" r="1" fill="currentColor" opacity="0.2"/>
+          </pattern>
+        </defs>
+        <rect width="100" height="100" fill="url(#contact-pattern)" />
+      </svg>
+    </div>
+
+    <div class="container relative z-10">
+      <div class="text-center max-w-4xl mx-auto">
+        <div class="inline-flex items-center bg-white/20 backdrop-blur-sm text-white px-6 py-3 rounded-full text-sm font-semibold mb-8 border border-white/30">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Available 24/7 for Crisis Support
+        </div>
+        
+        <h1 class="text-white mb-8">Get In Touch</h1>
+        
+        <p class="text-xl text-primary-100 leading-relaxed max-w-3xl mx-auto">
+          We're here to help you or your loved one take the first step toward recovery. Our admissions team is available around the clock to provide support, answer questions, and arrange immediate placement when needed.
         </p>
-        
-        <!-- Emergency Contact -->
-        <div class="bg-red-600 rounded-2xl p-6 max-w-md mx-auto mb-8">
-          <h2 class="text-2xl font-bold mb-2">Crisis Support</h2>
-          <p class="text-red-100 mb-4">If you're in immediate danger or having thoughts of self-harm:</p>
-          <a 
-            href="tel:988"
-            class="inline-flex items-center bg-white text-red-600 px-6 py-3 rounded-xl font-bold text-lg hover:bg-red-50 transition-all duration-300"
-          >
-            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-            </svg>
-            Call 988 - Suicide & Crisis Lifeline
-          </a>
-        </div>
-
-        <div class="flex flex-col sm:flex-row gap-6 justify-center">
-          <a 
-            href="tel:+1-850-555-0123"
-            class="bg-yellow-500 text-gray-900 px-8 py-4 rounded-2xl font-bold text-xl hover:bg-yellow-400 transition-all duration-300 hover:transform hover:scale-105 shadow-xl flex items-center justify-center"
-          >
-            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-            </svg>
-            Call (850) 555-0123
-          </a>
-          <a 
-            href="#contact-forms"
-            class="border-2 border-white text-white px-8 py-4 rounded-2xl font-bold text-xl hover:bg-white hover:text-emerald-900 transition-all duration-300 text-center"
-          >
-            Fill Out Form Below
-          </a>
-        </div>
       </div>
     </div>
   </section>
 
-  <!-- Contact Forms Section -->
-  <section id="contact-forms" class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Form Type Selector -->
-      <div class="text-center mb-12">
-        <h2 class="text-4xl font-bold text-gray-900 mb-6">How Can We Help You?</h2>
-        <p class="text-xl text-gray-600 mb-8">Choose the form that best describes your situation</p>
-        
-        <div class="flex flex-wrap justify-center gap-4 mb-8">
-          <button 
-            onclick="showForm('admission')"
-            class="form-selector bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-emerald-700 transition-all duration-300"
-          >
-            🏠 Admission Inquiry
-          </button>
-          <button 
-            onclick="showForm('insurance')"
-            class="form-selector bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-semibold hover:bg-gray-300 transition-all duration-300"
-          >
-            💳 Insurance Verification
-          </button>
-          <button 
-            onclick="showForm('family')"
-            class="form-selector bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-semibold hover:bg-gray-300 transition-all duration-300"
-          >
-            👨‍👩‍👧‍👦 Family/Loved One
-          </button>
-          <button 
-            onclick="showForm('general')"
-            class="form-selector bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-semibold hover:bg-gray-300 transition-all duration-300"
-          >
-            ❓ General Questions
-          </button>
+  <!-- Contact Options Section -->
+  <section class="section bg-gray-50">
+    <div class="container">
+      <!-- Emergency Contact Banner -->
+      <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-3xl p-8 mb-16 text-center shadow-xl">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.314 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Crisis Support Available</h2>
         </div>
+        <p class="text-red-100 text-lg mb-6">
+          If you or someone you know is in immediate danger, call 911. For substance abuse crisis support, call our 24-hour hotline.
+        </p>
+        <a href="tel:+1-850-555-HOPE" class="btn btn-accent btn-lg">
+          <span class="flex items-center gap-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+            </svg>
+            Call Crisis Line: (850) 555-HOPE
+          </span>
+        </a>
       </div>
 
-      <!-- Admission Inquiry Form -->
-      <div id="admission-form" class="contact-form bg-white rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto">
-        <div class="text-center mb-8">
-          <h3 class="text-3xl font-bold text-gray-900 mb-2">Admission Inquiry</h3>
-          <p class="text-gray-600">Complete information for faster placement and better care coordination</p>
-        </div>
-
-        <form 
-          name="admission-inquiry"
-          method="POST"
-          data-netlify="true"
-          data-netlify-honeypot="bot-field"
-          action="/success"
-          class="space-y-6"
-        >
-          <input type="hidden" name="form-name" value="admission-inquiry" />
-          <input type="hidden" name="source" value="contact-page-admission" />
-          <input type="hidden" name="status" value="New" />
-          <input type="hidden" name="priority" value="High" />
-          <div class="hidden">
-            <label>Don't fill this out: <input name="bot-field" /></label>
-          </div>
-
-          <!-- Personal Information -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label for="fullName" class="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
-              <input 
-                type="text" 
-                id="fullName" 
-                name="fullName" 
-                required
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-                placeholder="Enter full name"
-              />
-            </div>
-            <div>
-              <label for="dateOfBirth" class="block text-sm font-semibold text-gray-700 mb-2">Date of Birth</label>
-              <input 
-                type="date" 
-                id="dateOfBirth" 
-                name="dateOfBirth"
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-              />
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
-              <input 
-                type="tel" 
-                id="phone" 
-                name="phone" 
-                required
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-                placeholder="(850) 555-0123"
-              />
-            </div>
-            <div>
-              <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
-              <input 
-                type="email" 
-                id="email" 
-                name="email" 
-                required
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-                placeholder="your.email@example.com"
-              />
-            </div>
-          </div>
-
-          <!-- Emergency Contact -->
-          <div class="bg-yellow-50 rounded-xl p-6">
-            <h4 class="text-lg font-semibold text-gray-900 mb-4">Emergency Contact Information</h4>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label for="emergencyContactName" class="block text-sm font-semibold text-gray-700 mb-2">Contact Name</label>
-                <input 
-                  type="text" 
-                  id="emergencyContactName" 
-                  name="emergencyContactName"
-                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-                  placeholder="Full name"
-                />
-              </div>
-              <div>
-                <label for="emergencyContactPhone" class="block text-sm font-semibold text-gray-700 mb-2">Phone</label>
-                <input 
-                  type="tel" 
-                  id="emergencyContactPhone" 
-                  name="emergencyContactPhone"
-                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-                  placeholder="(850) 555-0123"
-                />
-              </div>
-              <div>
-                <label for="emergencyContactRelationship" class="block text-sm font-semibold text-gray-700 mb-2">Relationship</label>
-                <select 
-                  id="emergencyContactRelationship" 
-                  name="emergencyContactRelationship"
-                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-                >
-                  <option value="">Select relationship</option>
-                  <option value="Parent">Parent</option>
-                  <option value="Spouse">Spouse</option>
-                  <option value="Sibling">Sibling</option>
-                  <option value="Child">Child</option>
-                  <option value="Friend">Friend</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <!-- Treatment History -->
-          <div>
-            <label for="previousTreatment" class="block text-sm font-semibold text-gray-700 mb-2">Previous Treatment History</label>
-            <textarea 
-              id="previousTreatment" 
-              name="previousTreatment" 
-              rows="3"
-              class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-              placeholder="Please describe any previous treatment, rehab, or sober living experiences..."
-            ></textarea>
-          </div>
-
-          <!-- Insurance & Financial -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label for="insuranceProvider" class="block text-sm font-semibold text-gray-700 mb-2">Insurance Provider</label>
-              <input 
-                type="text" 
-                id="insuranceProvider" 
-                name="insuranceProvider"
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-                placeholder="e.g., Blue Cross Blue Shield, Medicaid"
-              />
-            </div>
-            <div>
-              <label for="preferredMoveInDate" class="block text-sm font-semibold text-gray-700 mb-2">Preferred Move-in Date</label>
-              <input 
-                type="date" 
-                id="preferredMoveInDate" 
-                name="preferredMoveInDate"
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label for="preferredFacility" class="block text-sm font-semibold text-gray-700 mb-2">Preferred Program</label>
-            <select 
-              id="preferredFacility" 
-              name="preferredFacility"
-              class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-            >
-              <option value="">Select preferred program</option>
-              <option value="Any Available">Any Available</option>
-              <option value="Haven House">Haven House - Men's Program</option>
-              <option value="Recovery Villa">Recovery Villa - Women's Program</option>
-              <option value="Serenity Manor">Serenity Manor - Co-Ed Program</option>
-            </select>
-          </div>
-
-          <!-- Additional Information -->
-          <div>
-            <label for="message" class="block text-sm font-semibold text-gray-700 mb-2">Additional Information</label>
-            <textarea 
-              id="message" 
-              name="message" 
-              rows="4"
-              class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-              placeholder="Tell us about your specific needs, concerns, questions, or anything else we should know..."
-            ></textarea>
-          </div>
-
-          <!-- Legal Consent -->
-          <div class="bg-blue-50 rounded-xl p-6">
-            <div class="flex items-start">
-              <input 
-                type="checkbox" 
-                id="consent" 
-                name="consent" 
-                required
-                class="mt-1 mr-3 h-5 w-5 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
-              />
-              <label for="consent" class="text-sm text-gray-700">
-                <strong>I consent to:</strong> Receiving calls/texts from NewBridge Living at the number provided above, sharing this information with our admissions team for placement purposes, and understand that standard message rates may apply. I can opt out at any time.
-              </label>
-            </div>
-          </div>
-
-          <button 
-            type="submit"
-            class="w-full bg-emerald-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-emerald-700 transition-all duration-300 hover:transform hover:scale-105 shadow-lg"
-          >
-            Submit Admission Inquiry
-          </button>
-        </form>
-      </div>
-
-      <!-- Insurance Verification Form -->
-      <div id="insurance-form" class="contact-form bg-white rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto hidden">
-        <div class="text-center mb-8">
-          <h3 class="text-3xl font-bold text-gray-900 mb-2">Insurance Verification</h3>
-          <p class="text-gray-600">Get your benefits verified quickly and confidentially</p>
-        </div>
-
-        <form 
-          name="insurance-verification"
-          method="POST"
-          data-netlify="true"
-          data-netlify-honeypot="bot-field"
-          action="/success"
-          class="space-y-6"
-        >
-          <input type="hidden" name="form-name" value="insurance-verification" />
-          <input type="hidden" name="source" value="contact-page-insurance" />
-          <input type="hidden" name="status" value="New" />
-          <input type="hidden" name="priority" value="Medium" />
-          <div class="hidden">
-            <label>Don't fill this out: <input name="bot-field" /></label>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label for="insFullName" class="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
-              <input 
-                type="text" 
-                id="insFullName" 
-                name="fullName" 
-                required
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-              />
-            </div>
-            <div>
-              <label for="insDateOfBirth" class="block text-sm font-semibold text-gray-700 mb-2">Date of Birth *</label>
-              <input 
-                type="date" 
-                id="insDateOfBirth" 
-                name="dateOfBirth" 
-                required
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-              />
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label for="insPhone" class="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
-              <input 
-                type="tel" 
-                id="insPhone" 
-                name="phone" 
-                required
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-              />
-            </div>
-            <div>
-              <label for="insEmail" class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
-              <input 
-                type="email" 
-                id="insEmail" 
-                name="email" 
-                required
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-              />
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label for="insuranceCompany" class="block text-sm font-semibold text-gray-700 mb-2">Insurance Company *</label>
-              <input 
-                type="text" 
-                id="insuranceCompany" 
-                name="insuranceProvider" 
-                required
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-                placeholder="e.g., Blue Cross Blue Shield"
-              />
-            </div>
-            <div>
-              <label for="memberID" class="block text-sm font-semibold text-gray-700 mb-2">Member ID Number</label>
-              <input 
-                type="text" 
-                id="memberID" 
-                name="memberID"
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-                placeholder="Insurance member ID"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label for="insMessage" class="block text-sm font-semibold text-gray-700 mb-2">Questions or Special Circumstances</label>
-            <textarea 
-              id="insMessage" 
-              name="message" 
-              rows="3"
-              class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-              placeholder="Any specific questions about coverage or special circumstances..."
-            ></textarea>
-          </div>
-
-          <button 
-            type="submit"
-            class="w-full bg-emerald-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-emerald-700 transition-all duration-300 hover:transform hover:scale-105 shadow-lg"
-          >
-            Verify Insurance Benefits
-          </button>
-        </form>
-      </div>
-
-      <!-- Family/Loved One Form -->
-      <div id="family-form" class="contact-form bg-white rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto hidden">
-        <div class="text-center mb-8">
-          <h3 class="text-3xl font-bold text-gray-900 mb-2">Family & Loved Ones</h3>
-          <p class="text-gray-600">Getting help for someone you care about</p>
-        </div>
-
-        <form 
-          name="family-inquiry"
-          method="POST"
-          data-netlify="true"
-          data-netlify-honeypot="bot-field"
-          action="/success"
-          class="space-y-6"
-        >
-          <input type="hidden" name="form-name" value="family-inquiry" />
-          <input type="hidden" name="source" value="contact-page-family" />
-          <input type="hidden" name="status" value="New" />
-          <input type="hidden" name="priority" value="High" />
-          <div class="hidden">
-            <label>Don't fill this out: <input name="bot-field" /></label>
-          </div>
-
-          <div class="bg-blue-50 rounded-xl p-6 mb-6">
-            <h4 class="text-lg font-semibold text-gray-900 mb-2">Your Contact Information</h4>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label for="famContactName" class="block text-sm font-semibold text-gray-700 mb-2">Your Name *</label>
-                <input 
-                  type="text" 
-                  id="famContactName" 
-                  name="contactName" 
-                  required
-                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-                />
-              </div>
-              <div>
-                <label for="famContactPhone" class="block text-sm font-semibold text-gray-700 mb-2">Your Phone *</label>
-                <input 
-                  type="tel" 
-                  id="famContactPhone" 
-                  name="phone" 
-                  required
-                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-                />
-              </div>
-              <div>
-                <label for="famContactEmail" class="block text-sm font-semibold text-gray-700 mb-2">Your Email *</label>
-                <input 
-                  type="email" 
-                  id="famContactEmail" 
-                  name="email" 
-                  required
-                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-                />
-              </div>
-              <div>
-                <label for="relationshipToResident" class="block text-sm font-semibold text-gray-700 mb-2">Relationship *</label>
-                <select 
-                  id="relationshipToResident" 
-                  name="relationshipToResident" 
-                  required
-                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-                >
-                  <option value="">Select relationship</option>
-                  <option value="Parent">Parent</option>
-                  <option value="Spouse">Spouse</option>
-                  <option value="Sibling">Sibling</option>
-                  <option value="Child">Child</option>
-                  <option value="Friend">Friend</option>
-                  <option value="Other Family">Other Family</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-yellow-50 rounded-xl p-6">
-            <h4 class="text-lg font-semibold text-gray-900 mb-2">About Your Loved One</h4>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label for="lovedOneName" class="block text-sm font-semibold text-gray-700 mb-2">Their Name *</label>
-                <input 
-                  type="text" 
-                  id="lovedOneName" 
-                  name="fullName" 
-                  required
-                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-                />
-              </div>
-              <div>
-                <label for="lovedOneAge" class="block text-sm font-semibold text-gray-700 mb-2">Their Age</label>
-                <input 
-                  type="number" 
-                  id="lovedOneAge" 
-                  name="lovedOneAge"
-                  min="18"
-                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label for="famMessage" class="block text-sm font-semibold text-gray-700 mb-2">Describe the Situation</label>
-            <textarea 
-              id="famMessage" 
-              name="message" 
-              rows="4"
-              class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-              placeholder="Please tell us about their current situation, any treatment history, timeline for placement, and how we can best help..."
-            ></textarea>
-          </div>
-
-          <button 
-            type="submit"
-            class="w-full bg-emerald-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-emerald-700 transition-all duration-300 hover:transform hover:scale-105 shadow-lg"
-          >
-            Submit Family Inquiry
-          </button>
-        </form>
-      </div>
-
-      <!-- General Questions Form -->
-      <div id="general-form" class="contact-form bg-white rounded-3xl shadow-2xl p-8 max-w-4xl mx-auto hidden">
-        <div class="text-center mb-8">
-          <h3 class="text-3xl font-bold text-gray-900 mb-2">General Questions</h3>
-          <p class="text-gray-600">Ask us anything about our programs and services</p>
-        </div>
-
-        <form 
-          name="general-inquiry"
-          method="POST"
-          data-netlify="true"
-          data-netlify-honeypot="bot-field"
-          action="/success"
-          class="space-y-6"
-        >
-          <input type="hidden" name="form-name" value="general-inquiry" />
-          <input type="hidden" name="source" value="contact-page-general" />
-          <input type="hidden" name="status" value="New" />
-          <input type="hidden" name="priority" value="Low" />
-          <div class="hidden">
-            <label>Don't fill this out: <input name="bot-field" /></label>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label for="genFullName" class="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
-              <input 
-                type="text" 
-                id="genFullName" 
-                name="fullName" 
-                required
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-              />
-            </div>
-            <div>
-              <label for="genPhone" class="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
-              <input 
-                type="tel" 
-                id="genPhone" 
-                name="phone"
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label for="genEmail" class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
-            <input 
-              type="email" 
-              id="genEmail" 
-              name="email" 
-              required
-              class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-            />
-          </div>
-
-          <div>
-            <label for="inquiryType" class="block text-sm font-semibold text-gray-700 mb-2">Type of Inquiry</label>
-            <select 
-              id="inquiryType" 
-              name="inquiryType"
-              class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-            >
-              <option value="">Select inquiry type</option>
-              <option value="Program Information">Program Information</option>
-              <option value="Pricing & Payment">Pricing & Payment</option>
-              <option value="Locations & Facilities">Locations & Facilities</option>
-              <option value="Visiting Policy">Visiting Policy</option>
-              <option value="Aftercare Programs">Aftercare Programs</option>
-              <option value="Employment/Volunteer">Employment/Volunteer Opportunities</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-
-          <div>
-            <label for="genMessage" class="block text-sm font-semibold text-gray-700 mb-2">Your Question *</label>
-            <textarea 
-              id="genMessage" 
-              name="message" 
-              rows="4"
-              required
-              class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
-              placeholder="Please describe your question or what information you're looking for..."
-            ></textarea>
-          </div>
-
-          <button 
-            type="submit"
-            class="w-full bg-emerald-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-emerald-700 transition-all duration-300 hover:transform hover:scale-105 shadow-lg"
-          >
-            Submit Question
-          </button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact Information -->
-  <section class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+      <!-- Contact Methods Grid -->
+      <div class="grid md:grid-cols-3 gap-8 mb-16">
         <!-- Phone Contact -->
-        <div class="text-center bg-emerald-50 rounded-2xl p-8">
-          <div class="bg-emerald-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
-            <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+        <div class="card text-center group">
+          <div class="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-600 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
             </svg>
           </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-4">Call Us</h3>
-          <p class="text-gray-600 mb-6">Available 24/7 for admissions and emergency support</p>
-          <a 
-            href="tel:+1-850-555-0123"
-            class="text-2xl font-bold text-emerald-600 hover:text-emerald-700 transition-colors duration-200"
-          >
-            (850) 555-0123
-          </a>
+          <h3 class="text-2xl font-bold text-primary-700 mb-4">Call Us</h3>
+          <p class="text-gray-600 mb-6 leading-relaxed">Available 24/7 for admissions and emergency support</p>
+          <div class="space-y-3">
+            <div>
+              <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Main Line</div>
+              <a 
+                href="tel:+1-850-555-0123"
+                class="text-2xl font-bold text-primary-600 hover:text-primary-700 transition-colors duration-200"
+              >
+                (850) 555-0123
+              </a>
+            </div>
+            <div>
+              <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Crisis Hotline</div>
+              <a 
+                href="tel:+1-850-555-HOPE"
+                class="text-xl font-bold text-accent-500 hover:text-accent-600 transition-colors duration-200"
+              >
+                (850) 555-HOPE
+              </a>
+            </div>
+          </div>
         </div>
 
         <!-- Email Contact -->
-        <div class="text-center bg-blue-50 rounded-2xl p-8">
-          <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
-            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="card text-center group">
+          <div class="w-20 h-20 bg-gradient-to-br from-secondary-500 to-secondary-600 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
             </svg>
           </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-4">Email Us</h3>
-          <p class="text-gray-600 mb-6">For general inquiries and non-urgent matters</p>
-          <a 
-            href="mailto:admissions@newbridgeliving.com"
-            class="text-lg font-semibold text-blue-600 hover:text-blue-700 transition-colors duration-200"
-          >
-            admissions@newbridgeliving.com
-          </a>
+          <h3 class="text-2xl font-bold text-primary-700 mb-4">Email Us</h3>
+          <p class="text-gray-600 mb-6 leading-relaxed">For general inquiries and non-urgent matters</p>
+          <div class="space-y-3">
+            <div>
+              <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Admissions</div>
+              <a 
+                href="mailto:admissions@newbridgeliving.com"
+                class="text-lg font-semibold text-secondary-600 hover:text-secondary-700 transition-colors duration-200 break-all"
+              >
+                admissions@newbridgeliving.com
+              </a>
+            </div>
+            <div>
+              <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">General Info</div>
+              <a 
+                href="mailto:info@newbridgeliving.com"
+                class="text-lg font-semibold text-secondary-600 hover:text-secondary-700 transition-colors duration-200 break-all"
+              >
+                info@newbridgeliving.com
+              </a>
+            </div>
+          </div>
         </div>
 
         <!-- Location -->
-        <div class="text-center bg-purple-50 rounded-2xl p-8">
-          <div class="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
-            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="card text-center group">
+          <div class="w-20 h-20 bg-gradient-to-br from-accent-400 to-accent-500 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
           </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-4">Visit Us</h3>
-          <p class="text-gray-600 mb-6">Multiple locations serving Tallahassee and surrounding areas</p>
-          <address class="text-lg font-semibold text-purple-600 not-italic">
-            Tallahassee, FL<br>
-            By appointment only
-          </address>
+          <h3 class="text-2xl font-bold text-primary-700 mb-4">Visit Us</h3>
+          <p class="text-gray-600 mb-6 leading-relaxed">Multiple locations serving Tallahassee and surrounding areas</p>
+          <div class="space-y-3">
+            <address class="text-lg font-semibold text-accent-600 not-italic">
+              Tallahassee, FL<br>
+              <span class="text-sm text-gray-600">Multiple secure locations</span>
+            </address>
+            <div class="text-sm text-gray-500">
+              <strong>Note:</strong> By appointment only for privacy and security
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form Section -->
+  <section class="section bg-white">
+    <div class="container">
+      <div class="max-w-4xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+          <div class="inline-flex items-center bg-primary-100 text-primary-800 px-6 py-3 rounded-full text-sm font-semibold mb-6">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+            </svg>
+            Send Us a Message
+          </div>
+          <h2 class="mb-6">Get Your Questions Answered</h2>
+          <p class="text-xl text-gray-600 leading-relaxed">
+            Use the form below for non-urgent inquiries. For immediate assistance or crisis support, please call our 24/7 hotline.
+          </p>
+        </div>
+
+        <!-- Contact Form Type Selector -->
+        <div class="bg-gray-50 rounded-2xl p-8 mb-12">
+          <h3 class="text-lg font-semibold text-primary-700 mb-6 text-center">What type of inquiry is this?</h3>
+          <div class="grid md:grid-cols-3 gap-4">
+            <button class="contact-type-btn active" data-form="general">
+              <svg class="w-6 h-6 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              General Questions
+            </button>
+            <button class="contact-type-btn" data-form="admission">
+              <svg class="w-6 h-6 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+              </svg>
+              Admission Inquiry
+            </button>
+            <button class="contact-type-btn" data-form="professional">
+              <svg class="w-6 h-6 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 00-2 2H8a2 2 0 00-2-2V6m8 0h2a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h2"></path>
+              </svg>
+              Professional Referral
+            </button>
+          </div>
+        </div>
+
+        <!-- Premium Contact Forms -->
+        <div class="card">
+          <!-- General Inquiry Form -->
+          <form id="general-form" class="contact-form space-y-6" action="#" method="POST">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="form-group">
+                <label for="general-firstName" class="form-label">First Name</label>
+                <input 
+                  type="text" 
+                  id="general-firstName" 
+                  name="firstName" 
+                  required
+                  class="form-input"
+                  placeholder="Your first name"
+                >
+              </div>
+              <div class="form-group">
+                <label for="general-lastName" class="form-label">Last Name</label>
+                <input 
+                  type="text" 
+                  id="general-lastName" 
+                  name="lastName" 
+                  required
+                  class="form-input"
+                  placeholder="Your last name"
+                >
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="form-group">
+                <label for="general-email" class="form-label">Email Address</label>
+                <input 
+                  type="email" 
+                  id="general-email" 
+                  name="email" 
+                  required
+                  class="form-input"
+                  placeholder="your.email@example.com"
+                >
+              </div>
+              <div class="form-group">
+                <label for="general-phone" class="form-label">Phone Number</label>
+                <input 
+                  type="tel" 
+                  id="general-phone" 
+                  name="phone"
+                  class="form-input"
+                  placeholder="(850) 555-0123"
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="general-subject" class="form-label">Subject</label>
+              <select 
+                id="general-subject" 
+                name="subject" 
+                required
+                class="form-input"
+              >
+                <option value="">Select a topic</option>
+                <option value="services">Services & Programs</option>
+                <option value="costs">Costs & Insurance</option>
+                <option value="facilities">Facility Information</option>
+                <option value="policies">Policies & Procedures</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="general-message" class="form-label">Message</label>
+              <textarea 
+                id="general-message" 
+                name="message" 
+                rows="5"
+                required
+                class="form-input resize-none"
+                placeholder="Please tell us how we can help you..."
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg w-full">
+              <span class="flex items-center justify-center gap-3">
+                Send Message
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                </svg>
+              </span>
+            </button>
+          </form>
+
+          <!-- Admission Inquiry Form -->
+          <form id="admission-form" class="contact-form space-y-6 hidden" action="#" method="POST">
+            <div class="bg-primary-50 rounded-xl p-6 mb-6">
+              <h3 class="text-lg font-semibold text-primary-700 mb-2">Admission Inquiry</h3>
+              <p class="text-primary-600">Please provide details about the person seeking placement.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="form-group">
+                <label for="admission-contactName" class="form-label">Your Name</label>
+                <input 
+                  type="text" 
+                  id="admission-contactName" 
+                  name="contactName" 
+                  required
+                  class="form-input"
+                  placeholder="Contact person name"
+                >
+              </div>
+              <div class="form-group">
+                <label for="admission-relationship" class="form-label">Relationship</label>
+                <select 
+                  id="admission-relationship" 
+                  name="relationship" 
+                  required
+                  class="form-input"
+                >
+                  <option value="">Select relationship</option>
+                  <option value="self">Self</option>
+                  <option value="parent">Parent</option>
+                  <option value="spouse">Spouse/Partner</option>
+                  <option value="sibling">Sibling</option>
+                  <option value="friend">Friend</option>
+                  <option value="professional">Healthcare Professional</option>
+                  <option value="legal">Legal Representative</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="form-group">
+                <label for="admission-email" class="form-label">Email Address</label>
+                <input 
+                  type="email" 
+                  id="admission-email" 
+                  name="email" 
+                  required
+                  class="form-input"
+                  placeholder="your.email@example.com"
+                >
+              </div>
+              <div class="form-group">
+                <label for="admission-phone" class="form-label">Phone Number</label>
+                <input 
+                  type="tel" 
+                  id="admission-phone" 
+                  name="phone" 
+                  required
+                  class="form-input"
+                  placeholder="(850) 555-0123"
+                >
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+              <div class="form-group">
+                <label for="admission-timeline" class="form-label">Timeline Needed</label>
+                <select 
+                  id="admission-timeline" 
+                  name="timeline" 
+                  required
+                  class="form-input"
+                >
+                  <option value="">Select timeline</option>
+                  <option value="immediate">Immediately</option>
+                  <option value="within-week">Within a week</option>
+                  <option value="within-month">Within a month</option>
+                  <option value="planning">Planning ahead</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="admission-age" class="form-label">Age of Resident</label>
+                <select 
+                  id="admission-age" 
+                  name="age" 
+                  required
+                  class="form-input"
+                >
+                  <option value="">Select age range</option>
+                  <option value="18-25">18-25</option>
+                  <option value="26-35">26-35</option>
+                  <option value="36-45">36-45</option>
+                  <option value="46-55">46-55</option>
+                  <option value="55+">55+</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="admission-gender" class="form-label">Gender</label>
+                <select 
+                  id="admission-gender" 
+                  name="gender" 
+                  required
+                  class="form-input"
+                >
+                  <option value="">Select gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="non-binary">Non-binary</option>
+                  <option value="prefer-not-to-say">Prefer not to say</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="admission-insurance" class="form-label">Insurance Information</label>
+              <input 
+                type="text" 
+                id="admission-insurance" 
+                name="insurance"
+                class="form-input"
+                placeholder="Insurance provider name (if applicable)"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="admission-situation" class="form-label">Current Situation</label>
+              <textarea 
+                id="admission-situation" 
+                name="situation" 
+                rows="4"
+                required
+                class="form-input resize-none"
+                placeholder="Please describe the current situation, any specific needs, medical concerns, or other relevant information..."
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg w-full">
+              <span class="flex items-center justify-center gap-3">
+                Submit Admission Inquiry
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+              </span>
+            </button>
+          </form>
+
+          <!-- Professional Referral Form -->
+          <form id="professional-form" class="contact-form space-y-6 hidden" action="#" method="POST">
+            <div class="bg-secondary-50 rounded-xl p-6 mb-6">
+              <h3 class="text-lg font-semibold text-secondary-700 mb-2">Professional Referral</h3>
+              <p class="text-secondary-600">For healthcare professionals, courts, and treatment centers.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="form-group">
+                <label for="prof-name" class="form-label">Your Name</label>
+                <input 
+                  type="text" 
+                  id="prof-name" 
+                  name="professionalName" 
+                  required
+                  class="form-input"
+                  placeholder="Your full name"
+                >
+              </div>
+              <div class="form-group">
+                <label for="prof-title" class="form-label">Professional Title</label>
+                <input 
+                  type="text" 
+                  id="prof-title" 
+                  name="title" 
+                  required
+                  class="form-input"
+                  placeholder="e.g., Licensed Therapist, Case Manager"
+                >
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="form-group">
+                <label for="prof-organization" class="form-label">Organization</label>
+                <input 
+                  type="text" 
+                  id="prof-organization" 
+                  name="organization" 
+                  required
+                  class="form-input"
+                  placeholder="Hospital, treatment center, court, etc."
+                >
+              </div>
+              <div class="form-group">
+                <label for="prof-license" class="form-label">License Number (if applicable)</label>
+                <input 
+                  type="text" 
+                  id="prof-license" 
+                  name="license"
+                  class="form-input"
+                  placeholder="Professional license number"
+                >
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="form-group">
+                <label for="prof-email" class="form-label">Professional Email</label>
+                <input 
+                  type="email" 
+                  id="prof-email" 
+                  name="email" 
+                  required
+                  class="form-input"
+                  placeholder="your.email@organization.com"
+                >
+              </div>
+              <div class="form-group">
+                <label for="prof-phone" class="form-label">Direct Phone</label>
+                <input 
+                  type="tel" 
+                  id="prof-phone" 
+                  name="phone" 
+                  required
+                  class="form-input"
+                  placeholder="(850) 555-0123"
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="prof-referralType" class="form-label">Type of Referral</label>
+              <select 
+                id="prof-referralType" 
+                name="referralType" 
+                required
+                class="form-input"
+              >
+                <option value="">Select referral type</option>
+                <option value="treatment-center">Treatment Center Discharge</option>
+                <option value="hospital">Hospital Discharge</option>
+                <option value="court-ordered">Court-Ordered Placement</option>
+                <option value="detox">Post-Detox Placement</option>
+                <option value="outpatient">Outpatient Support</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="prof-clientInfo" class="form-label">Client Information & Needs</label>
+              <textarea 
+                id="prof-clientInfo" 
+                name="clientInfo" 
+                rows="5"
+                required
+                class="form-input resize-none"
+                placeholder="Please provide relevant client information, specific needs, timeline, and any special considerations..."
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg w-full">
+              <span class="flex items-center justify-center gap-3">
+                Submit Professional Referral
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+              </span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Tallahassee Section -->
+  <section class="section bg-gray-50">
+    <div class="container">
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center bg-accent-100 text-accent-800 px-6 py-3 rounded-full text-sm font-semibold mb-6">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+          Our Location
+        </div>
+        <h2 class="mb-6">Why Tallahassee?</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          Our strategic location in Florida's capital city provides unique advantages for recovery and rebuilding your life.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="card text-center">
+          <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-primary-700 mb-3">Treatment Centers</h3>
+          <p class="text-gray-600">Close proximity to major treatment centers and medical facilities for seamless care coordination.</p>
+        </div>
+
+        <div class="card text-center">
+          <div class="w-16 h-16 bg-gradient-to-br from-secondary-500 to-secondary-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-primary-700 mb-3">Educational Opportunities</h3>
+          <p class="text-gray-600">University town with educational and professional development opportunities for residents.</p>
+        </div>
+
+        <div class="card text-center">
+          <div class="w-16 h-16 bg-gradient-to-br from-accent-400 to-accent-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-primary-700 mb-3">Recovery Community</h3>
+          <p class="text-gray-600">Strong recovery community with numerous AA/NA meetings and support groups throughout the area.</p>
+        </div>
+
+        <div class="card text-center">
+          <div class="w-16 h-16 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 00-2 2H8a2 2 0 00-2-2V6m8 0h2a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h2"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-primary-700 mb-3">Employment</h3>
+          <p class="text-gray-600">State capital with government and healthcare job opportunities, plus growing tech sector.</p>
+        </div>
+
+        <div class="card text-center">
+          <div class="w-16 h-16 bg-gradient-to-br from-secondary-600 to-accent-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-primary-700 mb-3">Outdoor Activities</h3>
+          <p class="text-gray-600">Access to outdoor activities, parks, and recreational opportunities that support healthy living.</p>
+        </div>
+
+        <div class="card text-center">
+          <div class="w-16 h-16 bg-gradient-to-br from-accent-500 to-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-primary-700 mb-3">Transportation</h3>
+          <p class="text-gray-600">Good public transportation and walkable neighborhoods make it easy to access services and opportunities.</p>
         </div>
       </div>
     </div>
   </section>
 </BaseLayout>
 
-// Fixed JavaScript for contact.astro - add this script section
-<script>
-  function showForm(formType: string): void {
-    // Hide all forms
-    const forms = document.querySelectorAll('.contact-form');
-    forms.forEach(form => form.classList.add('hidden'));
-    
-    // Reset all selector buttons
-    const selectors = document.querySelectorAll('.form-selector');
-    selectors.forEach(selector => {
-      selector.classList.remove('bg-emerald-600', 'text-white');
-      selector.classList.add('bg-gray-200', 'text-gray-700');
-    });
-    
-    // Show selected form
-    const selectedForm = document.getElementById(formType + '-form');
-    if (selectedForm) {
-      selectedForm.classList.remove('hidden');
-    }
-    
-    // Update active selector - safer event handling
-    const clickedButton = document.querySelector(`button[onclick="showForm('${formType}')"]`) as HTMLButtonElement;
-    if (clickedButton) {
-      clickedButton.classList.remove('bg-gray-200', 'text-gray-700');
-      clickedButton.classList.add('bg-emerald-600', 'text-white');
-    }
+<style>
+  /* Contact Type Button Styles */
+  .contact-type-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: white;
+    border: 2px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    color: var(--color-gray-600);
+    font-weight: 600;
+    text-align: center;
+    transition: all var(--transition-medium);
+    cursor: pointer;
+    min-height: 120px;
   }
 
-  // Make showForm globally available
-  (window as any).showForm = showForm;
+  .contact-type-btn:hover {
+    border-color: var(--color-primary-300);
+    background: var(--color-primary-50);
+    color: var(--color-primary-700);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
 
-  // Initialize with admission form
+  .contact-type-btn.active {
+    border-color: var(--color-primary-500);
+    background: var(--color-primary-600);
+    color: white;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .contact-type-btn.active:hover {
+    background: var(--color-primary-700);
+    border-color: var(--color-primary-600);
+  }
+</style>
+
+<script>
   document.addEventListener('DOMContentLoaded', function() {
-    showForm('admission');
+    // Contact form type switching
+    const typeButtons = document.querySelectorAll('.contact-type-btn');
+    const forms = document.querySelectorAll('.contact-form');
     
-    // Add form submission handling with proper type safety
-    const forms = document.querySelectorAll('form[data-netlify="true"]') as NodeListOf<HTMLFormElement>;
-    forms.forEach(form => {
-      form.addEventListener('submit', function(e: SubmitEvent) {
-        const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-        if (!submitButton) return;
+    typeButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const formType = this.getAttribute('data-form');
         
-        const originalText = submitButton.textContent || 'Submit';
+        // Update active button
+        typeButtons.forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
         
-        submitButton.innerHTML = `
-          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          Submitting...
-        `;
-        submitButton.disabled = true;
-        
-        setTimeout(() => {
-          submitButton.textContent = originalText;
-          submitButton.disabled = false;
-        }, 3000);
+        // Show corresponding form
+        forms.forEach(form => {
+          if (form.id === `${formType}-form`) {
+            form.classList.remove('hidden');
+          } else {
+            form.classList.add('hidden');
+          }
+        });
       });
+    });
+
+    // Form submission handling
+    forms.forEach(form => {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get the submit button
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        
+        // Show loading state
+        submitBtn.innerHTML = `
+          <div class="flex items-center justify-center gap-3">
+            <svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+            Sending...
+          </div>
+        `;
+        submitBtn.disabled = true;
+        
+        // Simulate form submission (replace with actual submission logic)
+        setTimeout(() => {
+          // Reset button
+          submitBtn.innerHTML = originalText;
+          submitBtn.disabled = false;
+          
+          // Show success message (you would implement actual success handling)
+          alert('Thank you for your message! We will respond within 24 hours.');
+          
+          // Reset form
+          this.reset();
+        }, 2000);
+      });
+    });
+
+    // Enhanced animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Observe all cards for animation
+    document.querySelectorAll('.card').forEach((card, index) => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(30px)';
+      card.style.transition = `opacity 0.6s ease-out ${index * 0.1}s, transform 0.6s ease-out ${index * 0.1}s`;
+      observer.observe(card);
     });
   });
 </script>
